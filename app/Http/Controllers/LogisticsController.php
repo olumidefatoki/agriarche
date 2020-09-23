@@ -54,6 +54,7 @@ class LogisticsController extends Controller
             'order_id' => 'required',
             'aggregator_id' => 'required',
             'logistics_id' => 'required',
+            
         ]);
         $logistics = new Logistics();
         $logistics->driver_phone_number = $request->driver_phone_number;

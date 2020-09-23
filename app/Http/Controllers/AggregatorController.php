@@ -76,7 +76,11 @@ class AggregatorController extends Controller
      */
     public function edit(Aggregator $aggregator)
     {
-        //
+        $states= State::all();
+        $banks= Bank::all();
+        return view('aggregator.edit', ['states' => $states,
+        'banks' => $banks,
+        'aggregator'=>$aggregator]);
     }
 
     /**
@@ -88,7 +92,31 @@ class AggregatorController extends Controller
      */
     public function update(Request $request, Aggregator $aggregator)
     {
-        //
+        
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'contact_person_first_name' => 'required|max:255',
+            'contact_person_last_name' => 'required|max:255',
+            'contact_person_email' => 'required|email|max:255',
+            'contact_person_phone_number' => 'required|digits:11',
+            'state_id' => 'required|max:255',
+            'bank_id' => 'required|max:255',
+            'account_name' => 'required|max:255',
+            'account_number' =>  'required|digits:11',
+        ]);
+        $aggregator->name = $request->name;
+        $aggregator->address = $request->address;
+        $aggregator->contact_person_first_name = $request->contact_person_first_name;
+        $aggregator->contact_person_last_name = $request->contact_person_last_name;
+        $aggregator->contact_person_email = $request->contact_person_email;
+        $aggregator->contact_person_phone_number = $request->contact_person_phone_number;
+        $aggregator->state_id = $request->state_id;
+        $aggregator->bank_id = $request->bank_id;
+        $aggregator->account_name = $request->account_name;
+        $aggregator->account_number = $request->account_number;
+        $aggregator->save();
+        return redirect(route('aggregator.index'));
     }
 
     /**

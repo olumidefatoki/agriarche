@@ -64,7 +64,7 @@
 
         <!-- START TEMPLATE -->
 
-    <script type="text/javascript" src="{{ URL::to('js/plugins.js')}}"></script>
+        <script type="text/javascript" src="{{ URL::to('js/plugins.js')}}"></script>
         <script type="text/javascript" src="{{ URL::to('js/actions.js')}}"></script>
         @yield('dashboardscript')
         <!-- END TEMPLATE -->

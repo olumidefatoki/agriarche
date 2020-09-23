@@ -24,4 +24,8 @@ class Logistics extends Model
     {
         return $this->belongsTo('App\BuyerOrder');
     }
+    public function delivery()
+    {
+        return $this->hasOne('App\Delivery');
+    }
 }

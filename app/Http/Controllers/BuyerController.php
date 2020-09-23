@@ -71,7 +71,9 @@ class BuyerController extends Controller
      */
     public function edit(Buyer $buyer)
     {
-        //
+      
+        $states= State::all();
+        return view('buyer.edit', ['states' => $states],['buyer'=> $buyer]);
     }
 
     /**
@@ -83,7 +85,25 @@ class BuyerController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'contact_person_first_name' => 'required|max:255',
+            'contact_person_last_name' => 'required|max:255',
+            'contact_person_email' => 'required|email|max:255',
+            'contact_person_phone_number' => 'required|digits:11',
+            'state_id' => 'required|numeric',
+        ]);
+        $buyer->name = $request->name;
+        $buyer->address = $request->address;
+        $buyer->contact_person_first_name = $request->contact_person_first_name;
+        $buyer->contact_person_last_name = $request->contact_person_last_name;
+        $buyer->contact_person_email = $request->contact_person_email;
+        $buyer->contact_person_phone_number = $request->contact_person_phone_number;
+        $buyer->state_id = $request->state_id;
+        $buyer->save();   
+        return redirect(route('buyer.index'));
+
     }
 
     /**

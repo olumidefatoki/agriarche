@@ -25,7 +25,6 @@ Route::resource('/aggregator', 'AggregatorController');
 Route::resource('/delivery', 'DeliveryController');
 Route::resource('/mapping', 'OrderMappingController');
 Route::resource('/logisticsCompany', 'LogisticsCompanyController');
-//Route::resource('/logistics', 'LogisticsController');
 
 Route::group(['prefix' => '/logistics'], function () {
     Route::get('/', 'LogisticsController@index')->name('logistics.index');

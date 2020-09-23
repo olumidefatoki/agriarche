@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Create Logistics  | Agriarche
+Create Delivery | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="">Home</a></li>
-<li><a href="#">Logistics </a></li>
+<li><a href="#">Delivery </a></li>
 <li class="active">Create</li>
 @endsection
 
@@ -18,75 +18,60 @@ Create Logistics  | Agriarche
             <div class="block">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Logistics</strong></h3>
+                        <h3 class="panel-title"><strong>Delivery</strong></h3>
 
                     </div>
                     <div class="panel-body">
-                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('logistics.store')}}">
+                        <form  class="form-horizontal" method="post" action="{{ route('delivery.store')}}" enctype="multipart/form-data">
                             @csrf
                             @include('partials.error')
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Order Code:</label>
+                                <label class="col-md-3 control-label">Truck No</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="order_id" class ="form-control select">
-                                    @foreach ($buyerOrders as $buyerOrder)
-                                        <option value="{{ $buyerOrder->id }}">{{ $buyerOrder->id }}</option>
+                                    <select class="form-control select" name="truck_number">
+                                        @foreach ($logistics as $logistic)
+                                        <option value="{{ $logistic->id }}">{{ $logistic->truck_number }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Aggregator:</label>
-                                <div class="col-md-6">
-                                    <select id="formGender" name="aggregator_id" class ="form-control select">
-                                    @foreach ($aggregators as $aggregator)
-                                        <option value="{{ $aggregator->id }}">{{ $aggregator->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Logistics Company:</label>
-                                <div class="col-md-6">
-                                    <select id="formGender" name="logistics_company_id" class ="form-control select">
-                                    @foreach ($logisticsCompanies as $logisticsCompany)
-                                        <option value="{{ $logisticsCompany->id }}">{{ $logisticsCompany->name }}</option>
-                                        @endforeach   
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group @error('number_of_bags') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Number Of Bags:</label>
+                            <div class="form-group @error('discounted_price') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Discounted Price:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="number_of_bags" class="form-control" value= "{{ old('number_of_bags') }}"  />
+                                    <input type="text" name="discounted_price" class="form-control" value="{{ old('discounted_price') }}" />
                                 </div>
                             </div>
-                            <div class="form-group @error('quantity') has-error @enderror">
-                                <label class="col-md-3 control-label">Qty(kg):</label>
+                            <div class="form-group @error('number_of_bags_accepted') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Number Of Bags Accepted:</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" name="number_of_bags_accepted" class="form-control" value="{{ old('number_of_bags_accepted') }}" />
+                                </div>
+                            </div>
+                            <div class="form-group @error('quantity_of_bags_accepted') has-error @enderror">
+                                <label class="col-md-3 control-label">Qty Of Bags Accepted(kg):</label>
                                 <div class="col-md-6">
-                                <input type="text" name="quantity" class="form-control" value= "{{ old('quantity') }}"   />
+                                    <input type="text" name="quantity_of_bags_accepted" class="form-control" value="{{ old('quantity_of_bags_accepted') }}" />
                                 </div>
                             </div>
-                            <div class="form-group @error('truck_number') has-error @enderror">
-                                <label class="col-md-3 control-label">Truck Number:</label>
+                            <div class="form-group @error('number_of_bags_rejected') has-error @enderror">
+                                <label class="col-md-3 control-label">Number Of Bags Rejected:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="truck_number" class="form-control" value= "{{ old('truck_number') }}"   />
+                                    <input type="text" name="number_of_bags_rejected" class="form-control" value="{{ old('number_of_bags_rejected') }}" />
                                 </div>
                             </div>
-                            <div class="form-group @error('driver_name') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Truck Driver Name:</label>
+                            <div class="form-group @error('quantity_of_bags_rejected') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Qty Of Bags Rejected(kg):</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="driver_name" class="form-control" value= "{{ old('driver_name') }}"  />
+                                    <input type="text" name="quantity_of_bags_rejected" class="form-control" value="{{ old('quantity_of_bags_rejected') }}" />
                                 </div>
                             </div>
-                            
-                            <div class="form-group @error('driver_phone_number') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Truck Driver Phone Number:</label>
+
+                            <div class="form-group @error('waybill') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Waybill:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="driver_phone_number" class="form-control" value= "{{ old('driver_phone_number') }}"  />
+                                <input name = 'waybill' type="file" multiple id="file-simple" class="form-control"/>
                                 </div>
                             </div>
-                            
 
                             <div class="btn-group pull-right">
                                 <button class="btn btn-success" type="submit">Submit</button>
@@ -99,4 +84,20 @@ Create Logistics  | Agriarche
         </div>
 
     </div>
+    @endsection
+    
+    @section('script')
+    <script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
+    <script type="text/javascript" src="{{ URL::to('js/plugins/fileinput/fileinput.min.js')}}"></script>        
+
+    <script>
+            $(function(){
+                $("#file-simple").fileinput({
+                        showUpload: false,
+                        showCaption: false,
+                        browseClass: "btn btn-danger",
+                        fileType: "any"
+                });                
+            });            
+        </script>
     @endsection

@@ -11,12 +11,13 @@
                     <li>
                         <a href="/"><span class="fa fa-tachometer"></span> <span class="xn-text">Dashboard</span></a>
                     </li>
-                    <li>
-                        <a href="{{ route('buyer.index') }}"><span class="fa fa-users"></span> <span class="xn-text">Buyer</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('aggregator.index') }}"><span class="fa fa-users"></span> <span class="xn-text">Aggregator</span></a>
-                    </li>
+                    <li class="xn-openable">
+                        <a href="#"><span class="fa fa-users"></span> <span class="xn-text">Partner</span></a>
+                        <ul>                            
+                            <li><a href="{{ route('buyer.index') }}"><span class="fa fa-users"></span> <span class="xn-text">Buyer</span></a></li>
+                            <li><a href="{{ route('aggregator.index') }}"><span class="fa fa-users"></span> <span class="xn-text">Aggregator</span></a></li>
+                        </ul>
+                    </li>                    
                     <li class="xn-openable">
                         <a href="#"><span class="fa fa-shopping-cart"></span> <span class="xn-text">Order</span></a>
                         <ul>                            
