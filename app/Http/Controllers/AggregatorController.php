@@ -6,6 +6,7 @@ use App\Aggregator;
 use App\State;
 use App\Bank;
 use Illuminate\Http\Request;
+use \Illuminate\Database\QueryException;
 
 class AggregatorController extends Controller
 {
@@ -51,10 +52,22 @@ class AggregatorController extends Controller
             'state_id' => 'required|max:255',
             'bank_id' => 'required|max:255',
             'account_name' => 'required|max:255',
-            'account_number' =>  'required|digits:11|unique:aggregator',
+            'account_number' =>  'required|digits:11',
         ]);
-        Aggregator::create($request->all());
-        return redirect(route('aggregator.index'));
+        
+       
+         try { 
+            
+            if(!Aggregator::create($request->all())){
+                $request->session()->flash('error','An error occured');
+                return redirect()->back();
+            }
+             return redirect(route('aggregator.index'));
+    
+          } catch(QueryException $ex){ 
+            dd($ex); 
+            // Note any method of class PDOException can be called on $ex.
+          }
     }
 
     /**

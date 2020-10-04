@@ -40,6 +40,7 @@ Buyer | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
+                            @if(count($buyers) > 0)
                                 @foreach($buyers as $buyer)
                                 <tr>
                                     <td nowrap>{{$buyer->name}} </td>
@@ -54,6 +55,13 @@ Buyer | Agriarche
                                    
                                 </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">
+                                        No Records Found
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

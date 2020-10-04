@@ -5,7 +5,7 @@ Create Order | Agriarche
 
 @section('breadcrumb')
 <li><a href="">Home</a></li>
-<li><a href="#">Aggregator</a></li>
+<li><a href="#">Order</a></li>
 <li class="active">Create</li>
 @endsection
 
@@ -18,7 +18,7 @@ Create Order | Agriarche
             <div class="block">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Aggregator</strong></h3>
+                        <h3 class="panel-title"><strong>Order</strong></h3>
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('order.store')}}">
@@ -57,19 +57,19 @@ Create Order | Agriarche
                             <div class="form-group @error('delivery_location') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Delivery location:</label>
                                 <div class="col-md-6">
-                                    <textarea class="form-control" name="delivery_location" rows="2"></textarea>
+                                <input type="text" name="delivery_location" class="form-control" value = "{{ old('delivery_location')}}" />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Quantity:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="quantity" class="form-control" />
+                                    <input type="text" name="quantity" class="form-control" value = "{{ old('quantity')}}" />
                                 </div>
                             </div>
-                            <div class="form-group @error('price') has-error has-feedback @enderror">
+                            <div class="form-group @error('coupon_price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Price:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="price" class="form-control" />
+                                    <input type="text" name="coupon_price" class="form-control" value = "{{ old('coupon_price')}}" />
                                 </div>
                             </div>
                             <div class="form-group @error('start_date') has-error has-feedback @enderror">
@@ -77,7 +77,7 @@ Create Order | Agriarche
                                 <div class="col-md-6">
                                 <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <input type="text" name="start_date" class="form-control datepicker" value="">
+                                        <input type="text" name="start_date" class="form-control datepicker" value="{{ old('start_date')}}">
                                     </div>                                </div>
                             </div>
                             <div class="form-group @error('end_date') has-error has-feedback @enderror">
@@ -85,7 +85,7 @@ Create Order | Agriarche
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <input type="text" name="end_date" class="form-control datepicker" value="">
+                                        <input type="text" name="end_date" class="form-control datepicker" value="{{ old('end_date')}}">
                                     </div>
                                 </div>
                             </div>

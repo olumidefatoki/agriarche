@@ -25,31 +25,56 @@ Order | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                    <table class="table datatable">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Buyer</th>
-                                <th>Commodity</th>
-                                <th>Qty(MT)</th>
-                                <th>Status </th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($buyerOrders as $buyerOrder)
-                            <tr>
-                                <td>10000 </td>
-                                <td>{{$buyerOrder->buyer->name}} </td>
-                                <td>{{$buyerOrder->commodity->name}}</td>
-                                <td>{{$buyerOrder->quantity}}</td>
-                                <td>Active</td>
-                                <td><a href="{{ route('order.show',$buyerOrder) }}"><i class="fa fa-plus-circle"></i> VIEW MORE </a></td>
-                            </tr>
-                            @endforeach
+                    <div style="overflow-x:auto;">
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th nowrap>Code</th>
+                                    <th nowrap>Buyer</th>
+                                    <th nowrap>Commodity</th>
+                                    <th nowrap>Coupon Price </th>
+                                    <th nowrap>Order Qty(MT)</th>
+                                    <th nowrap>State</th>
+                                    <th nowrap>Delivery Location</th>                                   
+                                    <th nowrap>Start Date</th>
+                                    <th nowrap>End Date</th>
+                                    <th nowrap>Creation Date</th>
+                                    <th nowrap >Last Updated Date</th>
+                                    <th nowrap>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @if(count($buyerOrders) > 0)
+                                @foreach($buyerOrders as $buyerOrder)
+                                <tr>
+                                    <td nowrap>{{$buyerOrder->code}} </td>
+                                    <td nowrap>{{$buyerOrder->buyer->name}} </td>
+                                    <td nowrap>{{$buyerOrder->commodity->name}}</td>
+                                    <td nowrap>&#8358;{{number_format($buyerOrder->coupon_price)}}</td>
+                                    <td nowrap>{{number_format($buyerOrder->quantity,2)}}</td>
+                                    <td nowrap>{{$buyerOrder->state->name}}</td>
+                                    <td >{{$buyerOrder->delivery_location}}</td>
+                                    <td nowrap>{{$buyerOrder->start_date}}</td>
+                                    <td nowrap>{{$buyerOrder->end_date}}</td>
+                                    <td >{{$buyerOrder->created_at}}</td>
+                                    <td >{{$buyerOrder->updated_at}}</td>
+                                    <td nowrap><a href="{{ route('order.edit',$buyerOrder) }}" class="btn btn-sm btn-info" 
+                                        data-toggle="tooltip" data-placement="top" title="Edit Order">
+                                            <i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">
+                                        No Records Found
+                                    </td>
+                                </tr>
+                                @endif
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- END DEFAULT DATATABLE -->

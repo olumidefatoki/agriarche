@@ -16,7 +16,7 @@ class LogisticsCompanyController extends Controller
      */
     public function index()
     {
-        $logisticsCompanies= LogisticsCompany::orderBy('created_at', 'desc')->paginate(20);
+        $logisticsCompanies = LogisticsCompany::orderBy('created_at', 'desc')->paginate(20);
         return view('logistics_company.index', ['logisticsCompanies' => $logisticsCompanies]);
     }
 
@@ -27,7 +27,7 @@ class LogisticsCompanyController extends Controller
      */
     public function create()
     {
-        $states= State::all();
+        $states = State::all();
         return view('logistics_company.create', ['states' => $states]);
     }
 
@@ -70,7 +70,12 @@ class LogisticsCompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $logisticsCompany = $this->getLogisticsById($id);
+        $states = State::all();
+        return view('logistics_company.edit', [
+            'states' => $states,
+            'logisticsCompany' => $logisticsCompany
+        ]);
     }
 
     /**
@@ -82,7 +87,22 @@ class LogisticsCompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $logisticsCompany = $this->getLogisticsById($id);
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'contact_person_name' => 'required|max:255',
+            'contact_person_phone_number' => 'required|digits:11',
+            'state_id' => 'required',
+        ]);
+        $logisticsCompany->name = $request->name;
+        $logisticsCompany->address = $request->address;
+        $logisticsCompany->contact_person_name = $request->contact_person_name;
+        $logisticsCompany->contact_person_phone_number = $request->contact_person_phone_number;
+        $logisticsCompany->state_id = $request->state_id;
+        $logisticsCompany->save();
+        return redirect(route('logisticsCompany.index'));
+
     }
 
     /**
@@ -94,5 +114,12 @@ class LogisticsCompanyController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function getLogisticsById($id)
+    {
+        $logisticsCompany = LogisticsCompany::find($id);
+        if (!$logisticsCompany)
+            abort(404);
+            return $logisticsCompany ;
     }
 }

@@ -56,7 +56,7 @@ Aggregator index | Agriarche
                             <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Contact Person Phone Number:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_phone_number" class="form-control" value="{{ old('contact_person_email') }}" />
+                                    <input type="text" name="contact_person_phone_number" class="form-control" value="{{ old('contact_person_phone_number') }}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -82,13 +82,13 @@ Aggregator index | Agriarche
                             <div class="form-group @error('account_number') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Account Number:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="account_number" />
+                                    <input type="text" class="form-control" name="account_number"  value="{{ old('account_number')}}"/>
                                 </div>
                             </div>
                             <div class="form-group @error('account_name') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Account Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="account_name" />
+                                    <input type="text" class="form-control" name="account_name" value="{{ old('account_name') }}" />
                                 </div>
                             </div>
 

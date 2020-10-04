@@ -17,4 +17,8 @@ class Status extends Model
     {
         return $this->hasMany('App\Logistics');
     }
+    public function delivery()
+    {
+        return $this->hasMany('App\Delivery');
+    }
 }

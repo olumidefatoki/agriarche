@@ -56,6 +56,7 @@ Buyer index | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
+                            @if(count($aggregators) > 0)
                                 @foreach($aggregators as $aggregator)
                                 <tr>
                                     <td nowrap>{{$aggregator->name}} </td>
@@ -78,6 +79,13 @@ Buyer index | Agriarche
                                     </td>
                                 </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">
+                                        No Records Found
+                                    </td>
+                                </tr>
+                                @endif
 
                             </tbody>
                         </table>

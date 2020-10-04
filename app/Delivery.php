@@ -11,4 +11,8 @@ class Delivery extends Model
     {
         return $this->belongsTo('App\Logistics');
     }
+    public function status()
+    {
+        return $this->belongsTo('App\Status');
+    }
 }

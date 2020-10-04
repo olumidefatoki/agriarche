@@ -26,22 +26,23 @@ Create Logistics  | Agriarche
                             @csrf
                             @include('partials.error')
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Order Code:</label>
+                                <label class="col-md-3 control-label">Order </label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="order_id" class ="form-control select">
                                     @foreach ($buyerOrders as $buyerOrder)
-                                        <option value="{{ $buyerOrder->id }}">{{ $buyerOrder->id }}</option>
+                                        <option value="{{ $buyerOrder->id }}">
+                                            {{$buyerOrder->buyer->name }} >> {{$buyerOrder->state->name }} >> {{$buyerOrder->commodity->name }} 
+                                        </option>
+
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @error('aggregator_id') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Aggregator:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="aggregator_id" class ="form-control select">
-                                    @foreach ($aggregators as $aggregator)
-                                        <option value="{{ $aggregator->id }}">{{ $aggregator->name }}</option>
-                                        @endforeach
+                                
                                     </select>
                                 </div>
                             </div>
@@ -99,4 +100,28 @@ Create Logistics  | Agriarche
         </div>
 
     </div>
+    @endsection
+    @section('script')
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="order_id"]').on('change', function() {
+            var orderId = $(this).val();
+           if(orderId) {
+                $.ajax({
+                    url: '{{ url('/mapping/aggregator/') }}'+'/' + orderId,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {                        
+                        $('select[name="aggregator_id"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="aggregator_id"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                        });
+                    }
+                });
+            }else{
+                $('select[name="aggregator_id"]').empty();
+            }
+        });
+    });
+</script>
     @endsection

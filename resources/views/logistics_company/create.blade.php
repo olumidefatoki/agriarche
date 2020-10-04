@@ -34,7 +34,7 @@ Create Logistics company | Agriarche
                             <div class="form-group @error('address') has-error @enderror">
                                 <label class="col-md-3 control-label">Address:</label>
                                 <div class="col-md-6">
-                                    <textarea class="form-control" name="address" rows="3" value= "{{ old('address') }}"  ></textarea>
+                                    <input type="text" class="form-control" name="address" rows="3" value= "{{ old('address') }}" />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_name') has-error @enderror">

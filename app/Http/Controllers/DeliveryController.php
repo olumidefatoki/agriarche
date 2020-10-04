@@ -9,9 +9,8 @@ use App\Logistics;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-
-
+use App\Http\Requests\CreateDeliveryRequest;
+use App\Status;
 
 class DeliveryController extends Controller
 {
@@ -34,7 +33,8 @@ class DeliveryController extends Controller
     public function create()
     {
         $logistics = Logistics::all();
-        return view('delivery.create', ['logistics' => $logistics]);
+        $status = Status::find([8,9]);
+        return view('delivery.create', ['logistics' => $logistics,'status'=> $status]);
     }
 
     /**
@@ -43,40 +43,18 @@ class DeliveryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateDeliveryRequest $request)
     {
-        $validatedData = $request->validate([
-            // 'discounted_price' => 'required|regex:/^\d{1,13}(\.\d{1,2})?$/',
-            'discounted_price' => 'required',
-            'number_of_bags_accepted' => 'required|max:255|numeric',
-            'truck_number' => 'required',
-            'quantity_of_bags_accepted' => 'required',
-            'number_of_bags_rejected' => 'required|numeric|max:255',
-            'quantity_of_bags_rejected' => 'required',
-            'waybill' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
-        ]);
         
         $delivery = new Delivery();
-        $delivery->quantity_of_bags_rejected = $request->quantity_of_bags_rejected;
-        $delivery->number_of_bags_rejected = $request->number_of_bags_rejected;
-        $delivery->quantity_of_bags_accepted = $request->quantity_of_bags_accepted;
-        $delivery ->number_of_bags_accepted= $request->number_of_bags_accepted;
-        $delivery->logistics_id  = $request->truck_number;
-        $delivery->discounted_price =$request->discounted_price;
-        $delivery->waybill=$this->uploadImage($request);
+        $delivery= $this->populateDeliveryRequest( $request,  $delivery);
         $logistics = Logistics::find($delivery->logistics_id);
-        $delivery->coupon_price = $logistics->buyerOrder->price;
-        $delivery->aggregator_id = $logistics->aggregator_id;
-        $delivery->buyer_order_id = $logistics->buyerOrder->id;
+        $delivery->coupon_price = $logistics->buyerOrder->coupon_price;
         $orderMapping= OrderMapping::where('buyer_order_id',$logistics->buyerOrder->id)
-                        ->where('aggregator_id',$logistics->aggregator_id)->get();
-            
-        
-
-        $delivery->strike_price =  $logistics;//->buyerOrder; //->orderMapping[0]['price'];
-
-        dd($delivery);
-        //return redirect(route('delivery.index'));
+                        ->where('aggregator_id',$logistics->aggregator_id)->first();  
+        $delivery->strike_price =  $orderMapping->strike_price;
+        $delivery->save();
+        return redirect(route('delivery.index'));
     }
 
     /**
@@ -87,7 +65,8 @@ class DeliveryController extends Controller
      */
     public function show(Delivery $delivery)
     {
-        //
+        //dd($delivery);
+        return view('delivery.show', ['delivery'=> $delivery]);
     }
 
     /**
@@ -98,7 +77,9 @@ class DeliveryController extends Controller
      */
     public function edit(Delivery $delivery)
     {
-        //
+
+        $logistics = Logistics::all();
+        return view('delivery.edit', ['logistics' => $logistics,'delivery'=>$delivery]);
     }
 
     /**
@@ -110,7 +91,7 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, Delivery $delivery)
     {
-        //
+        
     }
 
     /**
@@ -145,9 +126,18 @@ class DeliveryController extends Controller
     public function uploadOne(UploadedFile $uploadedFile, $folder = null, $disk = 'public', $filename = null)
     {
         $name = !is_null($filename) ? $filename : Str::random(25);
-
         $file = $uploadedFile->storeAs($folder, $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
-
         return $file;
+    }
+    public function populateDeliveryRequest(Request $request, Delivery $delivery){
+        $delivery->quantity_of_bags_rejected = $request->quantity_of_bags_rejected;
+        $delivery->number_of_bags_rejected = $request->number_of_bags_rejected;
+        $delivery->quantity_of_bags_accepted = $request->quantity_of_bags_accepted;
+        $delivery ->number_of_bags_accepted= $request->number_of_bags_accepted;
+        $delivery->logistics_id  = $request->logistics;
+        $delivery->discounted_price =$request->discounted_price;
+        $delivery->waybill=$this->uploadImage($request);
+        $delivery->status_id   = $request->status;
+        return $delivery;
     }
 }

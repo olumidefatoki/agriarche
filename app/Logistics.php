@@ -28,4 +28,8 @@ class Logistics extends Model
     {
         return $this->hasOne('App\Delivery');
     }
+    public function logisticsCompany()
+    {
+        return $this->belongsTo('App\LogisticsCompany');
+    }
 }

@@ -13,4 +13,8 @@ class LogisticsCompany extends Model
     {
         return $this->belongsTo('App\State');
     }
+    public function logistics()
+    {
+        return $this->hasMany('App\LogisticsCompany');
+    }
 }

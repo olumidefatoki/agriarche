@@ -22,32 +22,36 @@ Aggregator index | Agriarche
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('mapping.store')}}">
-                            @csrf
+                        @csrf
                             @include('partials.error')
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="buyer_order_id" class ="form-control select">
                                     @foreach ($orders as $order)
-                                        <option value="{{ $order->id }}">{{ $order->id }}</option>
+                                        <option value="{{ $order->id }}">
+                                            {{$order->buyer->name }} >> {{$order->state->name }} >> {{$order->commodity->name }} >> {{$order->coupon_price }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">State:</label>
+                            <div class="form-group @error('aggregator_id') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Aggregator:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="aggregator_id" class ="form-control select">
                                         @foreach ($aggregators as $aggregator)
-                                        <option value="{{ $aggregator->id }}">{{ $aggregator->name }}</option>
+                                        <option value="{{ $aggregator->id }}">
+                                            {{ $aggregator->name }}
+                                        </option>                                      
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group @error('price') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Price(MT):</label>
+                            <div class="form-group @error('strike_price') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Strike Price(KG):</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="price" class="form-control" value="{{ old('price')}}" />
+                                    <input type="text" name="strike_price" class="form-control" value="{{ old('strike_price')}}" />
                                 </div>
                             </div>
                            

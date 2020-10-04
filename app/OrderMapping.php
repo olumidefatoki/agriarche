@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderMapping extends Model
 {
     protected $table = 'order_mapping';
-    protected $fillable = ['buyer_order_id','aggregator_id','price'];
+    protected $fillable = ['buyer_order_id','aggregator_id','strike_price'];
     public function aggregator()
     {
         return $this->belongsTo('App\Aggregator');
