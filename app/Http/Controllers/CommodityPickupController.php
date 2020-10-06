@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class CommodityPickupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,10 +18,9 @@ class CommodityPickupController extends Controller
      */
     public function index()
     {
-        
+
         $CommodityPickups = CommodityPickup::orderBy('created_at', 'desc')->paginate(20);
         return view('commodity_pickup.index', ['CommodityPickups' => $CommodityPickups]);
-    
     }
 
     /**

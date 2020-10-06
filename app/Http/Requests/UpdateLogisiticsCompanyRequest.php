@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-use App\Rules\AmountValidator;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateOrderMappingRequest extends FormRequest
+class UpdateLogisiticsCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,11 @@ class CreateOrderMappingRequest extends FormRequest
     public function rules()
     {
         return [
-            'strike_price' => ['required', new AmountValidator()],
-            'aggregator_id' => 'required|numeric',
-            'buyer_order_id' => 'required|numeric',
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'contact_person_name' => 'required|max:255',
+            'contact_person_phone_number' => 'required|digits:11',
+            'state' => 'required|numeric',
         ];
     }
 }

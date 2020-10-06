@@ -29,7 +29,7 @@ Create Delivery | Agriarche
                                 <label class="col-md-3 control-label">Code</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="logistics">
-                                    <option> Select an Code</option>
+                                    <option> Select an Order</option>
                                         @foreach ($logistics as $logistic)
                                         <option value="{{ $logistic->id }}">{{ $logistic->code }}</option>
                                         @endforeach

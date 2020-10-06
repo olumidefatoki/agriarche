@@ -14,6 +14,10 @@ use App\Status;
 
 class DeliveryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -33,8 +37,8 @@ class DeliveryController extends Controller
     public function create()
     {
         $logistics = Logistics::all();
-        $status = Status::find([8,9]);
-        return view('delivery.create', ['logistics' => $logistics,'status'=> $status]);
+        $status = Status::find([8, 9]);
+        return view('delivery.create', ['logistics' => $logistics, 'status' => $status]);
     }
 
     /**
@@ -45,13 +49,13 @@ class DeliveryController extends Controller
      */
     public function store(CreateDeliveryRequest $request)
     {
-        
+
         $delivery = new Delivery();
-        $delivery= $this->populateDeliveryRequest( $request,  $delivery);
+        $delivery = $this->populateDeliveryRequest($request,  $delivery);
         $logistics = Logistics::find($delivery->logistics_id);
         $delivery->coupon_price = $logistics->buyerOrder->coupon_price;
-        $orderMapping= OrderMapping::where('buyer_order_id',$logistics->buyerOrder->id)
-                        ->where('aggregator_id',$logistics->aggregator_id)->first();  
+        $orderMapping = OrderMapping::where('buyer_order_id', $logistics->buyerOrder->id)
+            ->where('aggregator_id', $logistics->aggregator_id)->first();
         $delivery->strike_price =  $orderMapping->strike_price;
         $delivery->save();
         return redirect(route('delivery.index'));
@@ -66,7 +70,7 @@ class DeliveryController extends Controller
     public function show(Delivery $delivery)
     {
         //dd($delivery);
-        return view('delivery.show', ['delivery'=> $delivery]);
+        return view('delivery.show', ['delivery' => $delivery]);
     }
 
     /**
@@ -79,7 +83,7 @@ class DeliveryController extends Controller
     {
 
         $logistics = Logistics::all();
-        return view('delivery.edit', ['logistics' => $logistics,'delivery'=>$delivery]);
+        return view('delivery.edit', ['logistics' => $logistics, 'delivery' => $delivery]);
     }
 
     /**
@@ -91,7 +95,6 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, Delivery $delivery)
     {
-        
     }
 
     /**
@@ -105,20 +108,20 @@ class DeliveryController extends Controller
         //
     }
 
-    public function uploadImage(Request $request){
+    public function uploadImage(Request $request)
+    {
 
         if ($request->has('waybill')) {
             // Get image file
             $image = $request->file('waybill');
             // Make a image name based on user name and current timestamp
-            $name = Str::slug($request->input('name')).'_'.time();
+            $name = Str::slug($request->input('name')) . '_' . time();
             // Define folder path
             $folder = '/uploads/images/';
             // Make a file path where image will be stored [ folder path + file name + file extension]
-            $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
+            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
             // Upload image
             $this->uploadOne($image, $folder, 'public', $name);
-
         }
         return $filePath;
     }
@@ -126,17 +129,18 @@ class DeliveryController extends Controller
     public function uploadOne(UploadedFile $uploadedFile, $folder = null, $disk = 'public', $filename = null)
     {
         $name = !is_null($filename) ? $filename : Str::random(25);
-        $file = $uploadedFile->storeAs($folder, $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
+        $file = $uploadedFile->storeAs($folder, $name . '.' . $uploadedFile->getClientOriginalExtension(), $disk);
         return $file;
     }
-    public function populateDeliveryRequest(Request $request, Delivery $delivery){
+    public function populateDeliveryRequest(Request $request, Delivery $delivery)
+    {
         $delivery->quantity_of_bags_rejected = $request->quantity_of_bags_rejected;
         $delivery->number_of_bags_rejected = $request->number_of_bags_rejected;
         $delivery->quantity_of_bags_accepted = $request->quantity_of_bags_accepted;
-        $delivery ->number_of_bags_accepted= $request->number_of_bags_accepted;
+        $delivery->number_of_bags_accepted = $request->number_of_bags_accepted;
         $delivery->logistics_id  = $request->logistics;
-        $delivery->discounted_price =$request->discounted_price;
-        $delivery->waybill=$this->uploadImage($request);
+        $delivery->discounted_price = $request->discounted_price;
+        $delivery->waybill = $this->uploadImage($request);
         $delivery->status_id   = $request->status;
         return $delivery;
     }

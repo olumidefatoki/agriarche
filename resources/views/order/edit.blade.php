@@ -22,13 +22,13 @@ Update Order | Agriarche
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('order.update',$buyerOrder)}}">
-                        @method('PATCH')   
-                        @csrf
+                            @method('PATCH')
+                            @csrf
                             @include('partials.error')
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Buyer:</label>
                                 <div class="col-md-6">
-                                    <select name="buyer_id" class ="form-control select">
+                                    <select name="buyer" class="form-control select">
                                         @foreach ($buyers as $buyer)
                                         <option @if($buyer->id == $buyerOrder->buyer_id) selected="selected" @endif value="{{ $buyer->id }}">
                                             {{ $buyer->name }}
@@ -40,7 +40,7 @@ Update Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Commodity:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="commodity_id" class ="form-control select">
+                                    <select id="formGender" name="commodity" class="form-control select">
                                         @foreach ($commodities as $commodity)
                                         <option @if($commodity->id == $buyerOrder->commodity_id) selected="selected" @endif value="{{ $commodity->id }}">
                                             {{ $commodity->name }}
@@ -52,9 +52,9 @@ Update Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="state_id" class ="form-control select">
+                                    <select id="formGender" name="state" class="form-control select">
                                         @foreach ($states as $state)
-                                        <option @if($state->id == $buyerOrder->state_id) selected="selected" @endif  value="{{ $state->id }}">
+                                        <option @if($state->id == $buyerOrder->state_id) selected="selected" @endif value="{{ $state->id }}">
                                             {{ $state->name }}
                                         </option>
                                         @endforeach
@@ -64,42 +64,43 @@ Update Order | Agriarche
                             <div class="form-group @error('delivery_location') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Delivery location:</label>
                                 <div class="col-md-6">
-                                <input type="text" name="delivery_location" class="form-control" value="{{ $buyerOrder->delivery_location}}" />
+                                    <input type="text" name="delivery_location" class="form-control" value="{{ $buyerOrder->delivery_location}}" />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Quantity:</label>
                                 <div class="col-md-6">
-                                <div class="input-group">
-                                                <span class="input-group-addon">MT</span>
-                                                <input type="text" name="quantity" class="form-control" value="{{ $buyerOrder->quantity}}" />
-                                            </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">MT</span>
+                                        <input type="text" name="quantity" class="form-control" value="{{ $buyerOrder->quantity}}" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group @error('price') has-error has-feedback @enderror">
+                            <div class="form-group @error('coupon_price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Price:</label>
                                 <div class="col-md-6">
-                                <div class="input-group">
-                                                <span class="input-group-addon">&#8358;</span>
-                                                <input type="text" name="price" class="form-control" value="{{ $buyerOrder->price}}" />
-                                            </div>
-                               
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#8358;</span>
+                                        <input type="text" name="coupon_price" class="form-control" value="{{ $buyerOrder->coupon_price}}" />
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="form-group @error('start_date') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Start Date:</label>
                                 <div class="col-md-6">
-                                <div class="input-group">
+                                    <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                         <input type="text" name="start_date" class="form-control datepicker" value="{{ $buyerOrder->start_date}}">
-                                    </div>                                </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group @error('end_date') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">End Date:</label>
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <input type="text" name="end_date" class="form-control datepicker"  value="{{ $buyerOrder->end_date}}">
+                                        <input type="text" name="end_date" class="form-control datepicker" value="{{ $buyerOrder->end_date}}">
                                     </div>
                                 </div>
                             </div>

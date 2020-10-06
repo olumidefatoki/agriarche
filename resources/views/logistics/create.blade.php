@@ -25,11 +25,12 @@ Create Logistics  | Agriarche
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('logistics.store')}}">
                             @csrf
                             @include('partials.error')
-                            <div class="form-group">
+                            <div class="form-group @error('order') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Order </label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="order_id" class ="form-control select">
-                                    @foreach ($buyerOrders as $buyerOrder)
+                                    <select id="formGender" name="order" class ="form-control select">
+                                    <option> Select an Code</option>
+                                    @foreach ($buyerOrders as $buyerOrder)                                    
                                         <option value="{{ $buyerOrder->id }}">
                                             {{$buyerOrder->buyer->name }} >> {{$buyerOrder->state->name }} >> {{$buyerOrder->commodity->name }} 
                                         </option>
@@ -37,19 +38,20 @@ Create Logistics  | Agriarche
                                         @endforeach
                                     </select>
                                 </div>
+                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt=""/> Loading </div>
                             </div>
-                            <div class="form-group @error('aggregator_id') has-error has-feedback @enderror">
+                            <div class="form-group @error('aggregator') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Aggregator:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="aggregator_id" class ="form-control select">
+                                    <select id="formGender" name="aggregator" class ="form-control select">
                                 
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @error('logistics_company') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Logistics Company:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="logistics_company_id" class ="form-control select">
+                                    <select id="formGender" name="logistics_company" class ="form-control select">
                                     @foreach ($logisticsCompanies as $logisticsCompany)
                                         <option value="{{ $logisticsCompany->id }}">{{ $logisticsCompany->name }}</option>
                                         @endforeach   
@@ -59,32 +61,32 @@ Create Logistics  | Agriarche
                             <div class="form-group @error('number_of_bags') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Number Of Bags:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="number_of_bags" class="form-control" value= "{{ old('number_of_bags') }}"  />
+                                    <input type="text" name="number_of_bags" class="form-control" value= "{{ old('number_of_bags') }}" required  />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error @enderror">
                                 <label class="col-md-3 control-label">Qty(kg):</label>
                                 <div class="col-md-6">
-                                <input type="text" name="quantity" class="form-control" value= "{{ old('quantity') }}"   />
+                                <input type="text" name="quantity" class="form-control" value= "{{ old('quantity') }}"   required/>
                                 </div>
                             </div>
                             <div class="form-group @error('truck_number') has-error @enderror">
                                 <label class="col-md-3 control-label">Truck Number:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="truck_number" class="form-control" value= "{{ old('truck_number') }}"   />
+                                    <input type="text" name="truck_number" class="form-control" value= "{{ old('truck_number') }}" required  />
                                 </div>
                             </div>
                             <div class="form-group @error('driver_name') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Truck Driver Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="driver_name" class="form-control" value= "{{ old('driver_name') }}"  />
+                                    <input type="text" name="driver_name" class="form-control" value= "{{ old('driver_name') }}"  required/>
                                 </div>
                             </div>
                             
                             <div class="form-group @error('driver_phone_number') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Truck Driver Phone Number:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="driver_phone_number" class="form-control" value= "{{ old('driver_phone_number') }}"  />
+                                    <input type="text" name="driver_phone_number" class="form-control" value= "{{ old('driver_phone_number') }}" required  />
                                 </div>
                             </div>
                             
@@ -104,7 +106,8 @@ Create Logistics  | Agriarche
     @section('script')
     <script type="text/javascript">
     $(document).ready(function() {
-        $('select[name="order_id"]').on('change', function() {
+        $('select[name="order"]').on('change', function() {
+            $("#loading").css("display","inline-block");
             var orderId = $(this).val();
            if(orderId) {
                 $.ajax({
@@ -112,14 +115,15 @@ Create Logistics  | Agriarche
                     type: "GET",
                     dataType: "json",
                     success:function(data) {                        
-                        $('select[name="aggregator_id"]').empty();
+                        $('select[name="aggregator"]').empty();
                         $.each(data, function(key, value) {
-                            $('select[name="aggregator_id"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                            $('select[name="aggregator"]').append('<option value="'+ value.id +'">'+ value.name +'</option>');
                         });
+                        $("#loading").css("display","none");
                     }
                 });
             }else{
-                $('select[name="aggregator_id"]').empty();
+                $('select[name="aggregator"]').empty();
             }
         });
     });

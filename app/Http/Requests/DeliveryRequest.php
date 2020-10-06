@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\DecimalValidator;
 use App\Rules\AmountValidator;
 
-class CreateDeliveryRequest extends FormRequest
+class DeliveryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

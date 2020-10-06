@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\DecimalValidator;
 use App\Rules\AmountValidator;
 
-class CreateBuyerOrderRequest extends FormRequest
+class LogisticsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +26,14 @@ class CreateBuyerOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'buyer_id' => 'required|numeric',
-            'delivery_location' => 'required|max:255',
+            'order' => 'required|numeric',
+            'aggregator' => 'required|numeric',
+            'logistics_company' => 'required|numeric',
+            'number_of_bags' => 'required|numeric',
             'quantity' => ['required', new DecimalValidator()],
-            'coupon_price' => ['required', new AmountValidator()],
-            'commodity_id' => 'required',
-            'state_id' => 'required|numeric',
-            'start_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d',
+            'truck_number' => 'required|max:8',
+            'driver_name' => 'required|max:255',
+            'driver_phone_number' => 'required|digits:11',
         ];
     }
 }

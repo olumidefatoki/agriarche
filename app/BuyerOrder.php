@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BuyerOrder extends Model
 {
-    protected $fillable = ['code','buyer_id','quantity','price','commodity_id','state_id','start_date','end_date','delivery_location'];
+    protected $fillable = ['code','buyer_id','quantity','coupon_price','commodity_id'
+                            ,'updated_by','state_id','start_date','end_date','delivery_location'];
     protected $table = 'buyer_order';
     public function state()
     {

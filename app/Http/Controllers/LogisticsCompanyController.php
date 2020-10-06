@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\LogisticsCompany;
 use App\State;
-
+use App\Http\Requests\{CreateLogisiticsCompanyRequest,UpdateLogisiticsCompanyRequest};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class LogisticsCompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,18 +44,23 @@ class LogisticsCompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateLogisiticsCompanyRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
-            'contact_person_name' => 'required|max:255',
-            'contact_person_phone_number' => 'required|digits:11|unique:buyer',
-            'state_id' => 'required',
-        ]);
 
-        LogisticsCompany::create($request->all());
-        return redirect(route('logisticsCompany.index'));
+        try {
+            LogisticsCompany::create(array(
+                'name' => $request->name, 'address' => $request->address,
+                'contact_person_name' => $request->contact_person_name,
+                'contact_person_phone_number' => $request->contact_person_phone_number,
+                'state_id' => $request->state,
+                'created_by' => Auth::id(),
+                'updated_by' => Auth::id()
+            ));
+            return redirect(route('logisticsCompany.index'));
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -85,24 +97,22 @@ class LogisticsCompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateLogisiticsCompanyRequest $request, $id)
     {
-        $logisticsCompany = $this->getLogisticsById($id);
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
-            'contact_person_name' => 'required|max:255',
-            'contact_person_phone_number' => 'required|digits:11',
-            'state_id' => 'required',
-        ]);
-        $logisticsCompany->name = $request->name;
-        $logisticsCompany->address = $request->address;
-        $logisticsCompany->contact_person_name = $request->contact_person_name;
-        $logisticsCompany->contact_person_phone_number = $request->contact_person_phone_number;
-        $logisticsCompany->state_id = $request->state_id;
-        $logisticsCompany->save();
-        return redirect(route('logisticsCompany.index'));
-
+     
+        try{
+            $logisticsCompany = $this->getLogisticsById($id);
+            LogisticsCompany::updateOrCreate(array('id'=>$logisticsCompany->id),
+            array('name'=> $request->name,'address'=> $request->address,
+            'contact_person_name'=> $request->contact_person_name,
+            'contact_person_phone_number'=> $request->contact_person_phone_number,
+            'state_id'=> $request->state,'updated_by' => Auth::id(), 'created_by' => $logisticsCompany->created_by,));
+            return redirect(route('logisticsCompany.index'));
+        }
+        catch (Exception $ex) {
+            Log::error($ex->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }        
     }
 
     /**
@@ -120,6 +130,6 @@ class LogisticsCompanyController extends Controller
         $logisticsCompany = LogisticsCompany::find($id);
         if (!$logisticsCompany)
             abort(404);
-            return $logisticsCompany ;
+        return $logisticsCompany;
     }
 }

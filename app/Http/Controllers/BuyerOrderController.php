@@ -7,15 +7,19 @@ use App\Buyer;
 use App\Commodity;
 use App\CodeGeneration;
 use Illuminate\Support\Facades\Log;
-use  App\Http\Requests\CreateBuyerOrderRequest;
-use \Illuminate\Database\QueryException;
-
+use  App\Http\Requests\BuyerOrderRequest;
+use Exception;
 use App\State;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class BuyerOrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,17 +50,17 @@ class BuyerOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateBuyerOrderRequest $request)
+    public function store(BuyerOrderRequest $request)
     {
         if (!$this->isValidEndDate($request))
-            return redirect()->back()->withInput()->withErrors(array('end_date' => 'End date must be greater than start date'));
+            return redirect()->back()->withInput()->withErrors(array('end_date' => 'End date must be greater than Start date'));
         try {
             $buyerOrder = $this->populateBuyerOrderObject($request, new BuyerOrder());
             $codeGeneration = new CodeGeneration();
             $buyerOrder->code = $codeGeneration->genCode(1);
             $buyerOrder->save();
             return redirect(route('order.index'));
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
@@ -79,21 +83,17 @@ class BuyerOrderController extends Controller
      * @param  \App\BuyerOrder  $buyerOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(BuyerOrder $order)
+    public function edit($id)
     {
-
-        $buyerOrder = BuyerOrder::find($order->id);
-        if (!$buyerOrder) {
-            abort(404);
-        }
-
+        
+        $buyerOrder = $this->getBuyerOrderById($id);
         $states = State::all();
-        $buyers = Buyer::all();
         $commodities = Commodity::all();
-        return view('order.edit', [
-            'states' => $states, 'buyers' => $buyers,
-            'commodities' => $commodities, 'buyerOrder' => $buyerOrder
-        ]);
+        $buyers=Buyer::all();
+        return view('order.edit', ['states' => $states, 
+                    'buyerOrder'=>$buyerOrder,
+                    'buyers' => $buyers, 
+                    'commodities' => $commodities]);
     }
 
     /**
@@ -103,34 +103,32 @@ class BuyerOrderController extends Controller
      * @param  \App\BuyerOrder  $buyerOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BuyerOrder $order)
+    public function update(BuyerOrderRequest $request, BuyerOrder $order)
     {
-        $buyerOrder = BuyerOrder::find($order->id);
-        if (!$buyerOrder) {
-            abort(404);
-        }
-        $validatedData = $request->validate([
-            'buyer_id' => 'required|numeric',
-            'delivery_location' => 'required|max:255',
-            'quantity' => 'required|numeric',
-            'price' => 'required',
-            'commodity_id' => 'required',
-            'state_id' => 'required|numeric',
-            'start_date' => 'required',
-            'end_date' => 'required',
-        ]);
+        try{  
+             $buyerOrder = $this->getBuyerOrderById($order->id);
+            BuyerOrder::updateOrCreate(
+                ['id' => $buyerOrder->id],
+                array(
+                    'buyer_id' => $request->buyer,
+                    'delivery_location' => $request->delivery_location,
+                    'quantity' => $request->quantity,
+                    'coupon_price' => $request->coupon_price,
+                    'commodity_id' => $request->commodity,
+                    'state_id' => $request->state,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                    'updated_by' => Auth::id()
+                )
+            );
+            return redirect(route('order.index'));
+    } 
+    catch (Exception $e) {
+        Log::error($e->getMessage());
+        return redirect()->back()->withInput()->withErrors($e->getMessage());
+    }
 
-
-        $buyerOrder->buyer_id = $request->buyer_id;
-        $buyerOrder->delivery_location = $request->delivery_location;
-        $buyerOrder->quantity = $request->quantity;
-        $buyerOrder->coupon_price = $request->coupon_price;
-        $buyerOrder->commodity_id = $request->commodity_id;
-        $buyerOrder->state_id = $request->state_id;
-        $buyerOrder->start_date = $request->start_date;
-        $buyerOrder->end_date = $request->end_date;
-        $buyerOrder->save();
-        return redirect(route('order.index'));
+     
     }
 
     /**
@@ -154,15 +152,25 @@ class BuyerOrderController extends Controller
 
     public function populateBuyerOrderObject(Request $request, BuyerOrder $buyerOrder)
     {
-        $buyerOrder->buyer_id = $request->buyer_id;
+        $buyerOrder->buyer_id = $request->buyer;
         $buyerOrder->delivery_location = $request->delivery_location;
         $buyerOrder->quantity = $request->quantity;
         $buyerOrder->coupon_price = $request->coupon_price;
-        $buyerOrder->commodity_id = $request->commodity_id;
-        $buyerOrder->state_id = $request->state_id;
+        $buyerOrder->commodity_id = $request->commodity;
+        $buyerOrder->state_id = $request->state;
         $buyerOrder->start_date = $request->start_date;
         $buyerOrder->end_date = $request->end_date;
+        $buyerOrder->created_by  =  Auth::id();
+        $buyerOrder->updated_by = Auth::id();
         return $buyerOrder;
     }
-    
+
+    public function getBuyerOrderById($id)
+    {
+        $buyerOrder = BuyerOrder::find($id);
+        if (!$buyerOrder) {
+            abort(404);
+        }
+        return $buyerOrder;
+    }
 }

@@ -47,7 +47,7 @@ Create Buyer | Agriarche
                             <div class="form-group @error('contact_person_last_name') has-error @enderror">
                                 <label class="col-md-3 control-label">Contact Person Last Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ $buyer->contact_person_last_name }}" required />
+                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ $buyer->contact_person_last_name }}"  />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_email') has-error @enderror">
@@ -62,10 +62,10 @@ Create Buyer | Agriarche
                                     <input type="text" name="contact_person_phone_number" class="form-control" value="{{ $buyer->contact_person_phone_number }}" required />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @error('state') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="state_id" class="form-control select">
+                                    <select id="formGender" name="state" class="form-control select">
                                         @foreach ($states as $state)
                                         <option @if($state->id == $buyer->state_id) selected="selected" @endif value="{{ $state->id }}">
                                             {{ $state->name }}

@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('auth.login');
+});
 Route::get('/welcome', function () {
     return view('welcome');
 });
-Route::get('/', 'BuyerController@index')->name('dashboard');
+Auth::routes();
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 Route::resource('/buyer', 'BuyerController');
 Route::resource('/aggregator', 'AggregatorController');
@@ -27,10 +33,6 @@ Route::resource('/order', 'BuyerOrderController');
 Route::get('/mapping/aggregator/{id}', 'OrderMappingController@getAggregatorByOrder');
 Route::resource('/logistics', 'LogisticsController');
 Route::get('/logistics/order/{id}', 'LogisticsController@getLogisticsDetail');
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

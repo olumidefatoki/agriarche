@@ -28,12 +28,12 @@ Update  Mapping | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="buyer_order_id" class ="form-control select">
+                                    <select id="formGender" name="order" class ="form-control select">
                                         <option value="{{ $orderMapping->buyerOrder->id }}">
                                             {{$orderMapping->buyerOrder->buyer->name }} >> 
                                             {{$orderMapping->buyerOrder->state->name }} >> 
                                             {{$orderMapping->buyerOrder->commodity->name }} >>
-                                             {{$orderMapping->buyerOrder->price }}
+                                             &#8358; {{$orderMapping->buyerOrder->coupon_price }}
                                         </option>
                                     </select>
                                 </div>
@@ -41,7 +41,7 @@ Update  Mapping | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Aggregator:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="aggregator_id" class ="form-control select">
+                                    <select id="formGender" name="aggregator" class ="form-control select">
                                         <option value="{{ $orderMapping->aggregator_id }}">{{$orderMapping->aggregator->name }}</option>
                                     </select>
                                 </div>
@@ -49,7 +49,20 @@ Update  Mapping | Agriarche
                             <div class="form-group @error('strike_price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Price(KG):</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="strike_price" class="form-control" value="{{$orderMapping->strike_price}}" />
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#8358;</span>
+                                        <input type="text" name="strike_price" class="form-control" value="{{ $orderMapping->strike_price}}" required />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group @error('logistics_price') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Logistics Price(KG):</label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#8358;</span>
+                                        <input type="text" name="logistics_price" class="form-control" value="{{ $orderMapping->logistics_price}}" required />
+                                    </div>
                                 </div>
                             </div>
                            

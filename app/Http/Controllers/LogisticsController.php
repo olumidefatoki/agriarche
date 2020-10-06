@@ -7,16 +7,21 @@ use App\Aggregator;
 use App\LogisticsCompany;
 use App\BuyerOrder;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateLogisticsRequest;
+use App\Http\Requests\LogisticsRequest;
 use App\CodeGeneration;
-use \Illuminate\Database\QueryException;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 
 class LogisticsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,13 +40,15 @@ class LogisticsController extends Controller
      */
     public function create()
     {
-        $aggregators= Aggregator::all();
-        $logisticsCompanies =LogisticsCompany::all();
+        $aggregators = Aggregator::all();
+        $logisticsCompanies = LogisticsCompany::all();
         $buyerOrders = BuyerOrder::all();
 
-        return view('logistics.create',['aggregators'=>$aggregators,
-                                        'logisticsCompanies' => $logisticsCompanies,
-                                        'buyerOrders' => $buyerOrders]);
+        return view('logistics.create', [
+            'aggregators' => $aggregators,
+            'logisticsCompanies' => $logisticsCompanies,
+            'buyerOrders' => $buyerOrders
+        ]);
     }
 
     /**
@@ -50,19 +57,16 @@ class LogisticsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateLogisticsRequest $request)
+    public function store(LogisticsRequest $request)
     {
-        $logistics = new Logistics();
-        $logistics  = $this->populateLogisitics( $request, $logistics);
-        $codeGeneration = new CodeGeneration();
-        $logistics->code = $codeGeneration->genCode(2);
-        try{
-        $logistics->save();
-        return redirect(route('logistics.index'));
-    } catch (QueryException $e) {
-        Log::error($e->getMessage());
-        return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
-    }
+        try {
+            $logistics  = $this->populateLogisitics($request);
+            $logistics->save();
+            return redirect(route('logistics.index'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -73,7 +77,7 @@ class LogisticsController extends Controller
      */
     public function show(Logistics $logistics)
     {
-        return view('logistics.show', ['logistics'=> $logistics]);
+        return view('logistics.show', ['logistics' => $logistics]);
     }
 
     /**
@@ -84,15 +88,17 @@ class LogisticsController extends Controller
      */
     public function edit($id)
     {
-        
+
         $logistics = $this->getLogisticsById($id);
-        $aggregators= Aggregator::all();
-        $logisticsCompanies =LogisticsCompany::all();
+        $aggregators = Aggregator::all();
+        $logisticsCompanies = LogisticsCompany::all();
         $buyerOrders = BuyerOrder::all();
 
-        return view('logistics.edit',['aggregators'=>$aggregators,
-                    'logisticsCompanies' => $logisticsCompanies,'logistics'=> $logistics,
-                                        'buyerOrders' => $buyerOrders]);
+        return view('logistics.edit', [
+            'aggregators' => $aggregators,
+            'logisticsCompanies' => $logisticsCompanies, 'logistics' => $logistics,
+            'buyerOrders' => $buyerOrders
+        ]);
     }
 
     /**
@@ -113,10 +119,10 @@ class LogisticsController extends Controller
             'truck_number' => 'required|max:8',
             'driver_name' => 'required|max:255',
             'driver_phone_number' => 'required|digits:11',
-            
+
         ]);
-               
-        $logistics = $this->getLogisticsById($id); 
+
+        $logistics = $this->getLogisticsById($id);
         $logistics->driver_phone_number = $request->driver_phone_number;
         $logistics->buyer_order_id = $request->order_id;
         $logistics->aggregator_id = $request->aggregator_id;
@@ -127,7 +133,6 @@ class LogisticsController extends Controller
         $logistics->driver_name = $request->driver_name;
         $logistics->save();
         return redirect(route('logistics.index'));
-
     }
 
     /**
@@ -144,24 +149,31 @@ class LogisticsController extends Controller
     public function getLogisticsById($id)
     {
         $logistics = Logistics::find($id);
-        if(!$logistics)
-        abort(404);
+        if (!$logistics)
+            abort(404);
         return $logistics;
     }
-    public function populateLogisitics(Request $request, Logistics $logistics)
+    public function populateLogisitics(Request $request)
     {
+        $logistics = new Logistics();
+
         $logistics->driver_phone_number = $request->driver_phone_number;
-        $logistics->status_id =3;
+        $logistics->status_id = 3;
         $logistics->driver_name = $request->driver_name;
         $logistics->truck_number = $request->truck_number;
         $logistics->quantity = $request->quantity;
         $logistics->no_of_bags = $request->number_of_bags;
-        $logistics->buyer_order_id = $request->order_id;
-        $logistics->aggregator_id = $request->aggregator_id;
-        $logistics->logistics_company_id = $request->logistics_company_id;
+        $logistics->buyer_order_id = $request->order;
+        $logistics->aggregator_id = $request->aggregator;
+        $logistics->logistics_company_id = $request->logistics_company;
+        $logistics->created_by= Auth::id();
+        $logistics->updated_by = Auth::id();
+        $codeGeneration = new CodeGeneration();
+        $logistics->code = $codeGeneration->genCode(2);
         return $logistics;
     }
-    public function getLogisticsDetail($id){
+    public function getLogisticsDetail($id)
+    {
         $logisticDetails = DB::select('SELECT log.id, b.name buyer,agg.name aggregator, log.truck_number, c.name commodity,
                                  log.quantity truck_quantity, st.name state,lc.name logistics_company
                                 FROM logistics  log inner join buyer_order byo on  log.buyer_order_id=byo.id 
@@ -170,8 +182,7 @@ class LogisticsController extends Controller
                                 inner join commodity c on c.id = byo.commodity_id
                                 inner join state  st on st.id=byo.state_id
                                 inner join logistics_company lc on lc.id = log.logistics_company_id
-                                WHERE log.id=?',[$id]);
-          return json_encode($logisticDetails[0]);
-      }
-
+                                WHERE log.id=?', [$id]);
+        return json_encode($logisticDetails[0]);
+    }
 }

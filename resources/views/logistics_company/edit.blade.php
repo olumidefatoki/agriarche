@@ -29,31 +29,31 @@ Update Logistics company | Agriarche
                             <div class="form-group @error('name') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Company Name:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="name" class="form-control" value= "{{ $logisticsCompany->name }}"  />
+                                    <input type="text" name="name" class="form-control" value= "{{ $logisticsCompany->name }}"  required/>
                                 </div>
                             </div>
                             <div class="form-group @error('address') has-error @enderror">
                                 <label class="col-md-3 control-label">Address:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="address" rows="3" value= "{{ $logisticsCompany->address }}" />
+                                    <input type="text" class="form-control" name="address" rows="3" value= "{{ $logisticsCompany->address }}" required />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_name') has-error @enderror">
                                 <label class="col-md-3 control-label">Contact Person  Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_name" class="form-control" value= "{{ $logisticsCompany->contact_person_name }}"   />
+                                    <input type="text" name="contact_person_name" class="form-control" value= "{{ $logisticsCompany->contact_person_name }}"  required />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Contact Person Phone Number:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_phone_number" class="form-control" value= "{{ $logisticsCompany->contact_person_phone_number }}"  />
+                                    <input type="text" name="contact_person_phone_number" class="form-control" value= "{{ $logisticsCompany->contact_person_phone_number }}" required />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="state_id" class ="form-control select">
+                                    <select id="formGender" name="state" class ="form-control select">
                                         @foreach ($states as $state)
                                         <option @if($state->id == $logisticsCompany->state_id) selected="selected" @endif  value="{{ $state->id }}">
                                             {{ $state->name }}

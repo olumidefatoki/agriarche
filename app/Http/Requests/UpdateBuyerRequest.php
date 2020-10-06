@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAggregatorRequest extends FormRequest
+class UpdateBuyerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,8 @@ class CreateAggregatorRequest extends FormRequest
             'address' => 'required|max:255',
             'contact_person_first_name' => 'required|max:255',
             'contact_person_email' => 'required|email|max:255',
-            'contact_person_phone_number' => 'required|digits:11|unique:aggregator',
-            'state' => 'required|max:255',
-            'bank' => 'required|max:255',
-            'account_name' => 'required|max:255',
-            'account_number' =>  'required|digits:11',
+            'contact_person_phone_number' => 'required|digits:11',
+            'state' => 'required|numeric',
         ];
     }
 }

@@ -28,7 +28,7 @@
                         </ul>
                     </li>
                     <li>
-                            <li><a href="{{route('logistics.index') }}"><span class="fa fa-road"></span>Commodity Pickup </a></li>
+                            <li><a href="{{route('logistics.index') }}"><span class="fa fa-road"></span>Logistics </a></li>
                         
                     </li>
                     <li>
