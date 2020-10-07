@@ -4,8 +4,8 @@ Create Buyer | Agriarche
 @endsection
 
 @section('breadcrumb')
-<li><a href="">Home</a></li>
-<li><a href="#">Buyer</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="/buyer">Buyer</a></li>
 <li class="active">Update</li>
 @endsection
 

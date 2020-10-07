@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Logistics | Agriarche
+Delivery | Agriarche
 @endsection
 
 @section('breadcrumb')
-<li><a href="{{route('dashboard')}}">Home</a></li>
-<li><a href=active>Logistics</a></li>
+<li><a href="/">Home</a></li>
+<li class = "active"><a href="#">Delivery</a></li>
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@ Logistics | Agriarche
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Logistics</h3>
+                    <h3 class="panel-title">Delivery</h3>
                     <ul class="panel-controls">
                         <a href="{{ route('delivery.create') }}">
                             <button class="m-0 btn btn-success" style="float:right;">Add New Delivery </button>

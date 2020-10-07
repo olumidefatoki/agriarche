@@ -4,8 +4,8 @@ Delivery details | Agriarche
 @endsection
 
 @section('breadcrumb')
-<li><a href="">Home</a></li>
-<li><a href="#">Delivery</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="/delivery">Delivery</a></li>
 <li class="active">Details</li>
 @endsection
 
@@ -29,52 +29,58 @@ Delivery details | Agriarche
                                     <td>{{$delivery->logistics->buyerOrder->buyer->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Delivery State</td>
+                                    <td>Delivery State</td>
                                     <td>{{$delivery->logistics->buyerOrder->state->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Aggregator</td>
+                                    <td>Aggregator</td>
                                     <td>{{$delivery->logistics->aggregator->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Commodity</td>
+                                    <td>Commodity</td>
                                     <td>{{$delivery->logistics->buyerOrder->commodity->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Logistics Company</td>
+                                    <td>Logistics Company</td>
                                     <td>{{$delivery->logistics->logisticsCompany->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Total Amount</td>
+                                    <td>Total Amount</td>
                                     <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * $delivery->strike_price,2)}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Payable Amount</td>
+                                    <td>Payable Amount</td>
                                     <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->strike_price - $delivery->discounted_price),2)}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Payable Amount</td>
+                                    <td>Payable Amount</td>
                                     <td>&#8358; {{number_format($delivery->quantity_of_bags_rejected * $delivery->strike_price,2)}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Quantity Delivered(KG)</td>
+                                    <td>Quantity Delivered(KG)</td>
                                     <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
-                                </tr>                               
+                                </tr>
                                 <tr>
-                                    <td >Numbers of Bags Rejected</td>
+                                    <td>Numbers of Bags Rejected</td>
                                     <td>{{number_format($delivery->number_of_bags_rejected)}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Status</td>
+                                    <td>Status</td>
                                     <td>{{$delivery->status->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td >Waybill</td>
-                                    <td><img src="{{ asset('/storage'.$delivery->waybill)}}" width="400" height="400"/></td>
+                                    <td>Waybill</td>
+                                    <td><img src="{{ asset('/storage'.$delivery->waybill)}}"  /></td>
                                 </tr>
 
                             </tbody>
                         </table>
+                        <form>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-danger" style="margin:2px" type="submit">Decline</button>
+                                <button class="btn btn-success" style="margin:2px" type="submit">Approve</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

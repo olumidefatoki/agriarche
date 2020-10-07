@@ -75,7 +75,7 @@ Create Order | Agriarche
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">&#8358;</span>
-                                        <input type="text" name="coupon_price" class="form-control" value="{{ old('coupon_price'}}" />
+                                        <input type="text" name="coupon_price" class="form-control" value="{{ old('coupon_price')}}" />
                                     </div>
 
                                 </div>

@@ -32,9 +32,10 @@ Create Logistics  | Agriarche
                                     <option> Select an Code</option>
                                     @foreach ($buyerOrders as $buyerOrder)                                    
                                         <option value="{{ $buyerOrder->id }}">
-                                            {{$buyerOrder->buyer->name }} >> {{$buyerOrder->state->name }} >> {{$buyerOrder->commodity->name }} 
+                                            {{$buyerOrder->buyer->name }} >> 
+                                            {{$buyerOrder->state->name }} >>
+                                             {{$buyerOrder->commodity->name }} 
                                         </option>
-
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,11 +66,33 @@ Create Logistics  | Agriarche
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error @enderror">
-                                <label class="col-md-3 control-label">Qty(kg):</label>
+                                <label class="col-md-3 control-label">Qty:</label>
                                 <div class="col-md-6">
-                                <input type="text" name="quantity" class="form-control" value= "{{ old('quantity') }}"   required/>
+                                <div class="input-group">
+                                        <span class="input-group-addon">KG</span>
+                                        <input type="text" name="quantity" class="form-control" value="{{ old('quantity')}}" required />
+                                    </div>
                                 </div>
                             </div>
+                            <div class="form-group @error('payment_type') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Payment Type:</label>
+                                <div class="col-md-6">
+                                    <select id="formGender" name="payment_type" class ="form-control select">                                    
+                                        <option value="Aggregator">Aggregator</option>
+                                        <option value="Platform">Platform</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group @error('logistics_amount') has-error @enderror">
+                                <label class="col-md-3 control-label">logistics Amount:</label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#8358;</span>
+                                        <input type="text" name="logistics_amount" class="form-control" value="{{ old('logistics_amount')}}" required />
+                                    </div>
+                                </div>
+                                
+                            </div>                            
                             <div class="form-group @error('truck_number') has-error @enderror">
                                 <label class="col-md-3 control-label">Truck Number:</label>
                                 <div class="col-md-6">

@@ -9,8 +9,11 @@ use App\Logistics;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
-use App\Http\Requests\CreateDeliveryRequest;
+use App\Http\Requests\DeliveryRequest;
 use App\Status;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
@@ -36,7 +39,7 @@ class DeliveryController extends Controller
      */
     public function create()
     {
-        $logistics = Logistics::all();
+        $logistics = Logistics::where('status_id', 3)->get();
         $status = Status::find([8, 9]);
         return view('delivery.create', ['logistics' => $logistics, 'status' => $status]);
     }
@@ -47,18 +50,24 @@ class DeliveryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateDeliveryRequest $request)
+    public function store(DeliveryRequest $request)
     {
-
-        $delivery = new Delivery();
-        $delivery = $this->populateDeliveryRequest($request,  $delivery);
-        $logistics = Logistics::find($delivery->logistics_id);
-        $delivery->coupon_price = $logistics->buyerOrder->coupon_price;
-        $orderMapping = OrderMapping::where('buyer_order_id', $logistics->buyerOrder->id)
-            ->where('aggregator_id', $logistics->aggregator_id)->first();
-        $delivery->strike_price =  $orderMapping->strike_price;
-        $delivery->save();
-        return redirect(route('delivery.index'));
+        try {
+            $delivery = new Delivery();
+            $delivery->created_by =  Auth::id();
+            $delivery = $this->populateDeliveryRequest($request,  $delivery);
+            if ($delivery->save()) {
+                $logistics = Logistics::find($request->logistics);
+                $logistics->status_id = 5;
+                $logistics->save();
+                return redirect(route('delivery.index'));
+            }
+            return redirect()->back()->withInput()->withErrors('unable to submit record. kindly contact IT.');
+          
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -69,7 +78,6 @@ class DeliveryController extends Controller
      */
     public function show(Delivery $delivery)
     {
-        //dd($delivery);
         return view('delivery.show', ['delivery' => $delivery]);
     }
 
@@ -83,7 +91,9 @@ class DeliveryController extends Controller
     {
 
         $logistics = Logistics::all();
-        return view('delivery.edit', ['logistics' => $logistics, 'delivery' => $delivery]);
+        $status = Status::find([8, 9]);
+        return view('delivery.edit', ['logistics' => $logistics, 'delivery' => $delivery,
+                    'status' => $status]);
     }
 
     /**
@@ -93,8 +103,16 @@ class DeliveryController extends Controller
      * @param  \App\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Delivery $delivery)
+    public function update(DeliveryRequest $request, Delivery $delivery)
     {
+       
+        try{
+            $this->populateDeliveryRequest($request,  $delivery);
+            $delivery->save();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -115,7 +133,7 @@ class DeliveryController extends Controller
             // Get image file
             $image = $request->file('waybill');
             // Make a image name based on user name and current timestamp
-            $name = Str::slug($request->input('name')) . '_' . time();
+            $name =date("Ymdhis");
             // Define folder path
             $folder = '/uploads/images/';
             // Make a file path where image will be stored [ folder path + file name + file extension]
@@ -142,6 +160,12 @@ class DeliveryController extends Controller
         $delivery->discounted_price = $request->discounted_price;
         $delivery->waybill = $this->uploadImage($request);
         $delivery->status_id   = $request->status;
+        $logistics = Logistics::find($delivery->logistics_id);
+        $delivery->coupon_price = $logistics->buyerOrder->coupon_price;
+        $orderMapping = OrderMapping::where('buyer_order_id', $logistics->buyerOrder->id)
+                        ->where('aggregator_id', $logistics->aggregator_id)->first();
+        $delivery->strike_price =  $orderMapping->strike_price;
+        $delivery->updated_by =  Auth::id();
         return $delivery;
     }
 }

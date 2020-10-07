@@ -29,7 +29,7 @@ Update Logistics | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="order_id" class="form-control select">
+                                    <select id="formGender" name="order" class="form-control select">
                                         @foreach ($buyerOrders as $buyerOrder)
                                         <option  @if($buyerOrder->id == $logistics->buyer_order_id) selected="selected" @endif value="{{ $buyerOrder->id }}">
                                             {{$logistics->buyerOrder->buyer->name }} >> 
@@ -44,7 +44,7 @@ Update Logistics | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Aggregator:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="aggregator_id" class="form-control select">
+                                    <select id="formGender" name="aggregator" class="form-control select">
                                         @foreach ($aggregators as $aggregator)
                                         <option @if($aggregator->id == $logistics->aggregator_id) selected="selected" @endif  value="{{ $aggregator->id }}">
                                             {{ $aggregator->name }}
@@ -56,7 +56,7 @@ Update Logistics | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Logistics Company:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="logistics_company_id" class="form-control select">
+                                    <select id="formGender" name="logistics_company" class="form-control select">
                                         @foreach ($logisticsCompanies as $logisticsCompany)
                                         <option @if($logisticsCompany->id == $logistics->logistics_company_id) selected="selected" @endif  value="{{ $logisticsCompany->id }}">
                                             {{ $logisticsCompany->name }}
@@ -77,6 +77,25 @@ Update Logistics | Agriarche
                                     <input type="text" name="quantity" class="form-control" value="{{ $logistics->quantity }}" />
                                 </div>
                             </div>
+                            <div class="form-group @error('payment_type') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Payment Type:</label>
+                                <div class="col-md-6">
+                                    <select id="formGender" name="payment_type" class ="form-control select">                                    
+                                        <option value="Aggregator">Aggregator</option>
+                                        <option value="Platform">Platform</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group @error('logistics_amount') has-error @enderror">
+                                <label class="col-md-3 control-label">logistics Amount:</label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#8358;</span>
+                                        <input type="text" name="logistics_amount" class="form-control" value="{{  $logistics->logistics_amount}}" required />
+                                    </div>
+                                </div>
+                                
+                            </div> 
                             <div class="form-group @error('truck_number') has-error @enderror">
                                 <label class="col-md-3 control-label">Truck Number:</label>
                                 <div class="col-md-6">

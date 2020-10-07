@@ -108,31 +108,28 @@ class LogisticsController extends Controller
      * @param  \App\Logistics  $logistics
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(LogisticsRequest $request,  $id)
     {
-        $validatedData = $request->validate([
-            'order_id' => 'required',
-            'aggregator_id' => 'required',
-            'logistics_company_id' => 'required',
-            'number_of_bags' => 'required',
-            'quantity' => 'required',
-            'truck_number' => 'required|max:8',
-            'driver_name' => 'required|max:255',
-            'driver_phone_number' => 'required|digits:11',
-
-        ]);
-
-        $logistics = $this->getLogisticsById($id);
-        $logistics->driver_phone_number = $request->driver_phone_number;
-        $logistics->buyer_order_id = $request->order_id;
-        $logistics->aggregator_id = $request->aggregator_id;
-        $logistics->logistics_company_id = $request->logistics_company_id;
-        $logistics->no_of_bags = $request->number_of_bags;
-        $logistics->quantity = $request->quantity;
-        $logistics->truck_number = $request->truck_number;
-        $logistics->driver_name = $request->driver_name;
-        $logistics->save();
-        return redirect(route('logistics.index'));
+        
+try{ $logistics = $this->getLogisticsById($id);
+    $logistics->driver_phone_number = $request->driver_phone_number;
+    $logistics->buyer_order_id = $request->order;
+    $logistics->aggregator_id = $request->aggregator;
+    $logistics->logistics_company_id = $request->logistics_company;
+    $logistics->no_of_bags = $request->number_of_bags;
+    $logistics->quantity = $request->quantity;
+    $logistics->truck_number = $request->truck_number;
+    $logistics->driver_name = $request->driver_name;
+    $logistics->logistics_amount = $request->logistics_amount;
+    $logistics->payment_type = $request->payment_type;
+    $logistics->updated_by = Auth::id();
+    $logistics->save();
+    return redirect(route('logistics.index'));}
+catch (Exception $e) {
+    Log::error($e->getMessage());
+    return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+}
+       
     }
 
     /**
@@ -170,6 +167,8 @@ class LogisticsController extends Controller
         $logistics->updated_by = Auth::id();
         $codeGeneration = new CodeGeneration();
         $logistics->code = $codeGeneration->genCode(2);
+        $logistics->logistics_amount =  $request->logistics_amount;
+        $logistics->payment_type =  $request->payment_type;
         return $logistics;
     }
     public function getLogisticsDetail($id)

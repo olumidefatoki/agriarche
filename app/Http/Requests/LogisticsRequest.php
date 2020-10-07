@@ -34,6 +34,8 @@ class LogisticsRequest extends FormRequest
             'truck_number' => 'required|max:8',
             'driver_name' => 'required|max:255',
             'driver_phone_number' => 'required|digits:11',
+            'logistics_amount'=> ['required', new DecimalValidator()],
+            'payment_type'=>'required|max:255',
         ];
     }
 }

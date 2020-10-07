@@ -29,12 +29,14 @@ Create Delivery | Agriarche
                                 <label class="col-md-3 control-label">Code</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="logistics">
-                                    <option> Select an Order</option>
+                                    <option> Select an Code</option>
                                         @foreach ($logistics as $logistic)
                                         <option value="{{ $logistic->id }}">{{ $logistic->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt=""/> Loading </div>
+
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Buyer:</label>
@@ -157,6 +159,7 @@ Create Delivery | Agriarche
     <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="logistics"]').on('change', function() {
+                $("#loading").css("display","inline-block");
                 var logisticsId = $(this).val();
                 if (logisticsId) {
                     $.ajax({
@@ -174,9 +177,11 @@ Create Delivery | Agriarche
                             $('input[name="truck_quantity"]').val(data.truck_quantity);
                             $('input[name="delivery_state"]').val(data.state);
                             $('input[name="logistics_company"]').val(data.logistics_company);
+                            $("#loading").css("display","none");
                         }
                     });
                 } 
+                
             });
         });
     </script>
