@@ -20,9 +20,9 @@ class Logistics extends Model
     {
         return $this->belongsTo('App\Aggregator');
     }
-    public function buyerOrder()
+    public function processorOrder()
     {
-        return $this->belongsTo('App\BuyerOrder');
+        return $this->belongsTo('App\ProcessorOrder');
     }
     public function delivery()
     {

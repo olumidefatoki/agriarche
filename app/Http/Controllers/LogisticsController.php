@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Logistics;
 use App\Aggregator;
 use App\LogisticsCompany;
-use App\BuyerOrder;
+use App\ProcessorOrder;
 use Illuminate\Http\Request;
 use App\Http\Requests\LogisticsRequest;
 use App\CodeGeneration;
@@ -42,12 +42,12 @@ class LogisticsController extends Controller
     {
         $aggregators = Aggregator::all();
         $logisticsCompanies = LogisticsCompany::all();
-        $buyerOrders = BuyerOrder::all();
+        $processorOrders = ProcessorOrder::all();
 
         return view('logistics.create', [
             'aggregators' => $aggregators,
             'logisticsCompanies' => $logisticsCompanies,
-            'buyerOrders' => $buyerOrders
+            'processorOrders' => $processorOrders
         ]);
     }
 
@@ -60,7 +60,7 @@ class LogisticsController extends Controller
     public function store(LogisticsRequest $request)
     {
         try {
-            $logistics  = $this->populateLogisitics($request);
+            $logistics  = $this->populateLogisitics($request);            
             $logistics->save();
             return redirect(route('logistics.index'));
         } catch (Exception $e) {
@@ -92,12 +92,12 @@ class LogisticsController extends Controller
         $logistics = $this->getLogisticsById($id);
         $aggregators = Aggregator::all();
         $logisticsCompanies = LogisticsCompany::all();
-        $buyerOrders = BuyerOrder::all();
-
+        $processorOrders = ProcessorOrder::all();
+        
         return view('logistics.edit', [
             'aggregators' => $aggregators,
             'logisticsCompanies' => $logisticsCompanies, 'logistics' => $logistics,
-            'buyerOrders' => $buyerOrders
+            'processorOrders' => $processorOrders
         ]);
     }
 
@@ -113,15 +113,12 @@ class LogisticsController extends Controller
         
 try{ $logistics = $this->getLogisticsById($id);
     $logistics->driver_phone_number = $request->driver_phone_number;
-    $logistics->buyer_order_id = $request->order;
+    $logistics->processor_order_id = $request->order;
     $logistics->aggregator_id = $request->aggregator;
     $logistics->logistics_company_id = $request->logistics_company;
     $logistics->no_of_bags = $request->number_of_bags;
-    $logistics->quantity = $request->quantity;
     $logistics->truck_number = $request->truck_number;
     $logistics->driver_name = $request->driver_name;
-    $logistics->logistics_amount = $request->logistics_amount;
-    $logistics->payment_type = $request->payment_type;
     $logistics->updated_by = Auth::id();
     $logistics->save();
     return redirect(route('logistics.index'));}
@@ -153,33 +150,29 @@ catch (Exception $e) {
     public function populateLogisitics(Request $request)
     {
         $logistics = new Logistics();
-
         $logistics->driver_phone_number = $request->driver_phone_number;
         $logistics->status_id = 3;
         $logistics->driver_name = $request->driver_name;
         $logistics->truck_number = $request->truck_number;
-        $logistics->quantity = $request->quantity;
         $logistics->no_of_bags = $request->number_of_bags;
-        $logistics->buyer_order_id = $request->order;
+        $logistics->processor_order_id = $request->order;
         $logistics->aggregator_id = $request->aggregator;
         $logistics->logistics_company_id = $request->logistics_company;
         $logistics->created_by= Auth::id();
         $logistics->updated_by = Auth::id();
         $codeGeneration = new CodeGeneration();
         $logistics->code = $codeGeneration->genCode(2);
-        $logistics->logistics_amount =  $request->logistics_amount;
-        $logistics->payment_type =  $request->payment_type;
         return $logistics;
     }
     public function getLogisticsDetail($id)
     {
-        $logisticDetails = DB::select('SELECT log.id, b.name buyer,agg.name aggregator, log.truck_number, c.name commodity,
-                                 log.quantity truck_quantity, st.name state,lc.name logistics_company
-                                FROM logistics  log inner join buyer_order byo on  log.buyer_order_id=byo.id 
-                                inner join buyer b on b.id = byo.buyer_id 
+        $logisticDetails = DB::select('SELECT log.id, p.name processor,agg.name aggregator, log.truck_number, c.name commodity,
+                                 st.name state,lc.name logistics_company
+                                FROM logistics  log inner join processor_order po on  log.processor_order_id=po.id 
+                                inner join processor p on p.id = po.processor_id 
                                 inner join aggregator agg on agg.id = log.aggregator_id 
-                                inner join commodity c on c.id = byo.commodity_id
-                                inner join state  st on st.id=byo.state_id
+                                inner join commodity c on c.id = po.commodity_id
+                                inner join state  st on st.id=po.state_id
                                 inner join logistics_company lc on lc.id = log.logistics_company_id
                                 WHERE log.id=?', [$id]);
         return json_encode($logisticDetails[0]);

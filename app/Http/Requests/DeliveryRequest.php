@@ -28,11 +28,9 @@ class DeliveryRequest extends FormRequest
         return [            
             'logistics' => 'required|numeric',
             'discounted_price' => ['required', new AmountValidator()],
-            'number_of_bags_accepted' => 'required|numeric',
             'truck_number' => 'required!max:255',
             'quantity_of_bags_accepted' => ['required', new DecimalValidator()],
             'number_of_bags_rejected' => 'required|numeric',
-            'quantity_of_bags_rejected' => ['required', new DecimalValidator()],
             'waybill' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
         ];
     }

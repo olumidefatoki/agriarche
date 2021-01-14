@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Logistics | Agriarche
+Pickup | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="{{route('dashboard')}}">Home</a></li>
-<li><a href=active>Logistics</a></li>
+<li><a href=active>Pickup</a></li>
 @endsection
 
 @section('content')
@@ -16,10 +16,10 @@ Logistics | Agriarche
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Logistics</h3>
+                    <h3 class="panel-title">Pickup</h3>
                     <ul class="panel-controls">
                         <a href="{{ route('logistics.create') }}">
-                            <button class="m-0 btn btn-success" style="float:right;">Add New Logistics </button>
+                            <button class="m-0 btn btn-success" style="float:right;">Add New Pickup </button>
                         </a>
                     </ul>
                 </div>
@@ -45,7 +45,6 @@ Logistics | Agriarche
                                     <th nowrap>Delivery state</th>
                                     <th nowrap>Aggregator</th>
                                     <th>Commodity</th>
-                                    <th nowrap>Quantity</th>
                                     <th nowrap>No of Bags</th>
                                     <th nowrap>Logisitics Company</th>
                                     <th nowrap>Truck No</th>
@@ -60,11 +59,10 @@ Logistics | Agriarche
                                 @foreach($Logistics as $logistics)
                                 <tr>
                                     <td>{{ $logistics->code}}</td>
-                                    <td>{{$logistics->buyerOrder->buyer->name}} </td>
-                                    <td>{{$logistics->buyerOrder->state->name}} </td>
+                                    <td>{{$logistics->processorOrder->processor->name}} </td>
+                                    <td>{{$logistics->processorOrder->state->name}} </td>
                                     <td>{{ $logistics->aggregator->name}}</td>
-                                    <td>{{ $logistics->buyerOrder->commodity->name}}</td>
-                                    <td>{{ number_format($logistics->quantity,2)}}</td>
+                                    <td>{{ $logistics->processorOrder->commodity->name}}</td>
                                     <td>{{ number_format($logistics->no_of_bags)}}</td>
                                     <td>{{ $logistics->logisticsCompany->name}}</td>
                                     <td>{{ $logistics->truck_number}}</td>
@@ -73,7 +71,7 @@ Logistics | Agriarche
                                     <td>{{$logistics->status->name}}</td>
                                     <td>
                                         <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" 
-                                        data-toggle="tooltip" data-placement="top" title="Edit Aggregator">
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fa fa-edit"></i>
                                     </td>
                                 </tr>

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Buyer index | Agriarche 
+Processor index | Agriarche 
 @endsection
 
 @section('breadcrumb')
 <li><a href="">Home</a></li>                    
-                    <li><a href="#">Buyer</a></li>
+                    <li><a href="#">Processor</a></li>
                     <li class="active">Create</li>
 @endsection
 
@@ -18,7 +18,7 @@ Buyer index | Agriarche
                             <!-- START DEFAULT DATATABLE -->
                             <div class="panel panel-default">
                                 <div class="panel-heading">                                
-                                    <h2 class="panel-title">Buyer</h2>                                                                   
+                                    <h2 class="panel-title">Processor</h2>                                                                   
                                 </div>
                                 <div class="col-md-2"></div>
                                 <div class="col-md-6">
@@ -26,32 +26,40 @@ Buyer index | Agriarche
                                     <table class="table table-bordered table-striped">
                                         <tbody>
                                             <tr>
-                                                <td width="50%">Buyer Name</td>
-                                                <td>{{$buyer->name}}</td>
+                                                <td width="50%">Processor Name</td>
+                                                <td>{{$processor->name}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>Address</td>
-                                                <td>{{$buyer->address}}</td>
+                                                <td>{{$processor->address}}</td>
+                                            </tr> 
+                                            <tr>
+                                                <td>Category</td>
+                                                <td>{{$processor->category}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>Contact Person First Name</td>
-                                                <td>{{$buyer->contact_person_first_name}}</td>
+                                                <td>{{$processor->contact_person_first_name}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>Contact Person Last Name</td>
-                                                <td>{{$buyer->contact_person_last_name}}</td>
+                                                <td>{{$processor->contact_person_last_name}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>Contact Person Email</td>
-                                                <td>{{$buyer->contact_person_email}}</td>
+                                                <td>{{$processor->contact_person_email}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>Contact Person Phone Number</td>
-                                                <td>{{$buyer->contact_person_phone_number}}</td>
+                                                <td>{{$processor->contact_person_phone_number}}</td>
                                             </tr> 
                                             <tr>
                                                 <td>State</td>
-                                                <td>{{$buyer->state->name}}</td>
+                                                <td>{{$processor->state->name}}</td>
+                                            </tr> 
+                                            <tr>
+                                                <td>KYC CAC</td>
+                                                <td></td>
                                             </tr> 
                                                                                     
                                         </tbody>

@@ -26,7 +26,7 @@ class CreateAggregatorRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'address' => 'required|max:255',
-            'contact_person_first_name' => 'required|max:255',
+            'contact_person_name' => 'required|max:255',
             'contact_person_email' => 'required|email|max:255',
             'contact_person_phone_number' => 'required|digits:11|unique:aggregator',
             'state' => 'required|max:255',

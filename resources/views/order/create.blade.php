@@ -25,11 +25,11 @@ Create Order | Agriarche
                             @csrf
                             @include('partials.error')
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Buyer:</label>
+                                <label class="col-md-3 control-label">Processor:</label>
                                 <div class="col-md-6">
-                                    <select name="buyer" class ="form-control select">
-                                        @foreach ($buyers as $buyer)
-                                        <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
+                                    <select name="processor" class ="form-control select">
+                                        @foreach ($processors as $processor)
+                                        <option value="{{ $processor->id }}">{{ $processor->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -69,13 +69,22 @@ Create Order | Agriarche
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group @error('coupon_price') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Price:</label>
-                                
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Payment Term:</label>
+                                <div class="col-md-6">
+                                    <select id="formGender" name="payment_term" class ="form-control select">
+                                    @foreach ($paymentTerms as $paymentTerm)
+                                        <option value="{{ $paymentTerm->id }}">{{ $paymentTerm->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group @error('price') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Price:</label>                                
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">&#8358;</span>
-                                        <input type="text" name="coupon_price" class="form-control" value="{{ old('coupon_price')}}" />
+                                        <input type="text" name="price" class="form-control" value="{{ old('price')}}" />
                                     </div>
 
                                 </div>

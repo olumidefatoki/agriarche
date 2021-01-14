@@ -26,10 +26,9 @@ Delivery | Agriarche
                 </div>
                 <div class="panel-body">
                 <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Aggregator" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Contact Name" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
-
+                <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Processor" /></div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Farmer Influencer" /></div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Commodity" /></div>
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
@@ -42,8 +41,8 @@ Delivery | Agriarche
                             <thead>
                                 <tr>
                                 <th nowrap>Logistics Code</th>
-                                    <th nowrap>Buyer</th>
-                                    <th nowrap>Aggregator</th>
+                                    <th nowrap>Processor</th>
+                                    <th nowrap>Farmer Influencer</th>
                                     <th nowrap>Delivery Point</th>
                                     <th nowrap>Commodity</th>
                                     <th nowrap>Total Amount</th>
@@ -58,12 +57,12 @@ Delivery | Agriarche
                                 @foreach($deliveries as $delivery)
                                 <tr>
                                     <td>{{$delivery->logistics->code}}</td>
-                                    <td>{{$delivery->logistics->buyerOrder->buyer->name}}</td>
+                                    <td>{{$delivery->logistics->processorOrder->processor->name}}</td>
                                     <td>{{$delivery->logistics->aggregator->name}}</td>
-                                    <td>{{$delivery->logistics->buyerOrder->state->name}}</td>
-                                    <td>{{$delivery->logistics->buyerOrder->commodity->name}}</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * $delivery->strike_price,2)}}</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->strike_price - $delivery->discounted_price),2)}}</td>
+                                    <td>{{$delivery->logistics->processorOrder->state->name}}</td>
+                                    <td>{{$delivery->logistics->processorOrder->commodity->name}}</td>
+                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * $delivery->order_price,2)}}</td>
+                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
                                     <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
                                     
                                     <td>{{$delivery->status->name}}</td>

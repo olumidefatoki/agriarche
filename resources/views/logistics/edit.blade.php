@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Update Logistics | Agriarche
+Update Pickup | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="">Home</a></li>
-<li><a href="#">Logistics </a></li>
+<li><a href="#">Pickup </a></li>
 <li class="active">Update</li>
 @endsection
 
@@ -18,7 +18,7 @@ Update Logistics | Agriarche
             <div class="block">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Logistics</strong></h3>
+                        <h3 class="panel-title"><strong>Pickup</strong></h3>
 
                     </div>
                     <div class="panel-body">
@@ -30,12 +30,11 @@ Update Logistics | Agriarche
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="order" class="form-control select">
-                                        @foreach ($buyerOrders as $buyerOrder)
-                                        <option  @if($buyerOrder->id == $logistics->buyer_order_id) selected="selected" @endif value="{{ $buyerOrder->id }}">
-                                            {{$logistics->buyerOrder->buyer->name }} >> 
-                                            {{$logistics->buyerOrder->state->name}} >>
-                                            {{$logistics->buyerOrder->commodity->name}} 
-
+                                        @foreach ($processorOrders as $processorOrder)
+                                        <option  @if($processorOrder->id == $logistics->processor_order_id) selected="selected" @endif value="{{ $processorOrder->id }}">
+                                        {{$processorOrder->processor->name }} >> 
+                                            {{$processorOrder->state->name }} >>
+                                             {{$processorOrder->commodity->name }} 
                                         </option>
                                         @endforeach
                                     </select>
@@ -71,31 +70,6 @@ Update Logistics | Agriarche
                                     <input type="text" name="number_of_bags" class="form-control" value="{{ $logistics->no_of_bags }}" />
                                 </div>
                             </div>
-                            <div class="form-group @error('quantity') has-error @enderror">
-                                <label class="col-md-3 control-label">Qty(kg):</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="quantity" class="form-control" value="{{ $logistics->quantity }}" />
-                                </div>
-                            </div>
-                            <div class="form-group @error('payment_type') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Payment Type:</label>
-                                <div class="col-md-6">
-                                    <select id="formGender" name="payment_type" class ="form-control select">                                    
-                                        <option value="Aggregator">Aggregator</option>
-                                        <option value="Platform">Platform</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group @error('logistics_amount') has-error @enderror">
-                                <label class="col-md-3 control-label">logistics Amount:</label>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">&#8358;</span>
-                                        <input type="text" name="logistics_amount" class="form-control" value="{{  $logistics->logistics_amount}}" required />
-                                    </div>
-                                </div>
-                                
-                            </div> 
                             <div class="form-group @error('truck_number') has-error @enderror">
                                 <label class="col-md-3 control-label">Truck Number:</label>
                                 <div class="col-md-6">

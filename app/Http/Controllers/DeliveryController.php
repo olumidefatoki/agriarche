@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Delivery;
-use App\OrderMapping;
+use App\Pricing;
 use Illuminate\Http\Request;
 use App\Logistics;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +19,7 @@ class DeliveryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+      //  $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -130,17 +130,20 @@ class DeliveryController extends Controller
     {
 
         if ($request->has('waybill')) {
+            $filePath = base64_encode(file_get_contents($request->file('waybill')));
+            //dd($filePath);
             // Get image file
-            $image = $request->file('waybill');
-            // Make a image name based on user name and current timestamp
-            $name =date("Ymdhis");
-            // Define folder path
-            $folder = '/uploads/images/';
-            // Make a file path where image will be stored [ folder path + file name + file extension]
-            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
-            // Upload image
-            $this->uploadOne($image, $folder, 'public', $name);
+            // $image = $request->file('waybill');
+            // // Make a image name based on user name and current timestamp
+            // $name =date("Ymdhis");
+            // // Define folder path
+            // $folder = '/uploads/images/';
+            // // Make a file path where image will be stored [ folder path + file name + file extension]
+            // $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
+            // // Upload image
+            // $this->uploadOne($image, $folder, 'public', $name);
         }
+
         return $filePath;
     }
 
@@ -152,19 +155,18 @@ class DeliveryController extends Controller
     }
     public function populateDeliveryRequest(Request $request, Delivery $delivery)
     {
-        $delivery->quantity_of_bags_rejected = $request->quantity_of_bags_rejected;
         $delivery->number_of_bags_rejected = $request->number_of_bags_rejected;
         $delivery->quantity_of_bags_accepted = $request->quantity_of_bags_accepted;
-        $delivery->number_of_bags_accepted = $request->number_of_bags_accepted;
         $delivery->logistics_id  = $request->logistics;
         $delivery->discounted_price = $request->discounted_price;
         $delivery->waybill = $this->uploadImage($request);
         $delivery->status_id   = $request->status;
         $logistics = Logistics::find($delivery->logistics_id);
-        $delivery->coupon_price = $logistics->buyerOrder->coupon_price;
-        $orderMapping = OrderMapping::where('buyer_order_id', $logistics->buyerOrder->id)
+        $delivery->order_price = $logistics->processorOrder->price;
+        $pricing = Pricing::where('processor_order_id', $logistics->processorOrder->id)
                         ->where('aggregator_id', $logistics->aggregator_id)->first();
-        $delivery->strike_price =  $orderMapping->strike_price;
+        $delivery->aggregator_price =  $pricing->price;
+        $delivery->order_commission =  $pricing->commission;
         $delivery->updated_by =  Auth::id();
         return $delivery;
     }

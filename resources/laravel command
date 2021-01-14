@@ -1,0 +1,14 @@
+php artisan make:controller FarmerController --resource --model=Farmer
+php artisan make:migration logistics_company_table --table=logistics_company
+php artisan migrate
+php artisan make:seeder PaymentTermSeeder
+php artisan db:seed --class=PaymentTermSeeder
+php artisan make:model PaymentTerm
+
+
+
+
+==============================================================================================
+ALTER TABLE `farmer_influencer` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+create pricing_History

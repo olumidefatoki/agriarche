@@ -24,15 +24,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('/buyer', 'BuyerController');
-Route::resource('/aggregator', 'AggregatorController');
+Route::resource('/processor', 'ProcessorController');
+Route::resource('/farmer_influencer', 'AggregatorController')->names('aggregator');
 Route::resource('/delivery', 'DeliveryController');
-Route::resource('/mapping', 'OrderMappingController');
+Route::resource('/pricing', 'PricingController');
 Route::resource('/logisticsCompany', 'LogisticsCompanyController');
-Route::resource('/order', 'BuyerOrderController');
-Route::get('/mapping/aggregator/{id}', 'OrderMappingController@getAggregatorByOrder');
+Route::resource('/order', 'ProcessorOrderController');
+Route::get('/pricing/aggregator/{id}', 'PricingController@getAggregatorByOrder');
 Route::resource('/logistics', 'LogisticsController');
 Route::get('/logistics/order/{id}', 'LogisticsController@getLogisticsDetail');
-
-
+Route::resource('/farmer', 'FarmerController');
+Route::resource('/aggregatorPayment', 'AggregatorPaymentController');
 Route::get('/home', 'HomeController@index')->name('home');

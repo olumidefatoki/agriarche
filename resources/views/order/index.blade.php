@@ -26,8 +26,8 @@ Order | Agriarche
                 </div>
                 <div class="panel-body">
                 <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Aggregator" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Contact Name" /></div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Processor" /></div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Commodity" /></div>
                         <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
 
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
@@ -42,7 +42,7 @@ Order | Agriarche
                             <thead>
                                 <tr>
                                     <th nowrap>Code</th>
-                                    <th nowrap>Buyer</th>
+                                    <th nowrap>Processor</th>
                                     <th nowrap>Commodity</th>
                                     <th nowrap>Coupon Price </th>
                                     <th nowrap>Order Qty(MT)</th>
@@ -56,21 +56,21 @@ Order | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($buyerOrders) > 0)
-                                @foreach($buyerOrders as $buyerOrder)
+                            @if(count($processorOrders) > 0)
+                                @foreach($processorOrders as $processorOrder)
                                 <tr>
-                                    <td nowrap>{{$buyerOrder->code}} </td>
-                                    <td nowrap>{{$buyerOrder->buyer->name}} </td>
-                                    <td nowrap>{{$buyerOrder->commodity->name}}</td>
-                                    <td nowrap>&#8358;{{number_format($buyerOrder->coupon_price)}}</td>
-                                    <td nowrap>{{number_format($buyerOrder->quantity,2)}}</td>
-                                    <td nowrap>{{$buyerOrder->state->name}}</td>
-                                    <td >{{$buyerOrder->delivery_location}}</td>
-                                    <td nowrap>{{$buyerOrder->start_date}}</td>
-                                    <td nowrap>{{$buyerOrder->end_date}}</td>
-                                    <td >{{$buyerOrder->created_at}}</td>
-                                    <td >{{$buyerOrder->updated_at}}</td>
-                                    <td nowrap><a href="{{ route('order.edit',$buyerOrder) }}" class="btn btn-sm btn-info" 
+                                    <td nowrap>{{$processorOrder->code}} </td>
+                                    <td nowrap>{{$processorOrder->processor->name}} </td>
+                                    <td nowrap>{{$processorOrder->commodity->name}}</td>
+                                    <td nowrap>&#8358;{{number_format($processorOrder->price)}}</td>
+                                    <td nowrap>{{number_format($processorOrder->quantity,2)}}</td>
+                                    <td nowrap>{{$processorOrder->state->name}}</td>
+                                    <td >{{$processorOrder->delivery_location}}</td>
+                                    <td nowrap>{{$processorOrder->start_date}}</td>
+                                    <td nowrap>{{$processorOrder->end_date}}</td>
+                                    <td >{{$processorOrder->created_at}}</td>
+                                    <td >{{$processorOrder->updated_at}}</td>
+                                    <td nowrap><a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" 
                                         data-toggle="tooltip" data-placement="top" title="Edit Order">
                                             <i class="fa fa-edit"></i></a>
                                     </td>

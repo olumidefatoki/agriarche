@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Create Buyer | Agriarche
+Create Farmer | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="">Home</a></li>
-<li><a href="#">Buyer</a></li>
+<li><a href="#">Farmer</a></li>
 <li class="active">Create</li>
 @endsection
 
@@ -18,17 +18,30 @@ Create Buyer | Agriarche
             <div class="block">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Buyer</strong></h3>
+                        <h3 class="panel-title"><strong>Farmer</strong></h3>
 
                     </div>
                     <div class="panel-body">
-                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('buyer.store')}}">
+                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('farmer.store')}}">
                             @csrf
                             @include('partials.error')
                             <div class="form-group @error('name') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Name:</label>
+                                <label class="col-md-3 control-label">First Name:</label>
                                 <div class="col-md-6 ">
                                     <input type="text" name="name" class="form-control" value="{{ old('name') }}" required />
+                                </div>
+                            </div>
+                            <div class="form-group @error('name') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Last Name:</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" required />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Phone Number:</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="contact_person_phone_number" class="form-control" value="{{ old('contact_person_phone_number') }}" required />
                                 </div>
                             </div>
                             <div class="form-group @error('address') has-error @enderror">
@@ -37,30 +50,18 @@ Create Buyer | Agriarche
                                 <input type="text" name="address" class="form-control" value="{{ old('address') }}" required />
                                 </div>
                             </div>
-                            <div class="form-group @error('contact_person_first_name') has-error @enderror">
-                                <label class="col-md-3 control-label">Contact Person First Name:</label>
+                            
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Commodity:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_first_name" class="form-control" value="{{ old('contact_person_first_name') }}" required />
+                                    <select id="formGender" name="commodity" class ="form-control select">
+                                        @foreach ($commodities as $commodity)
+                                        <option value="{{ $commodity->id }}">{{ $commodity->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="form-group @error('contact_person_last_name') has-error @enderror">
-                                <label class="col-md-3 control-label">Contact Person Last Name:</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ old('contact_person_last_name') }}" />
-                                </div>
-                            </div>
-                            <div class="form-group @error('contact_person_email') has-error @enderror">
-                                <label class="col-md-3 control-label">Contact Person Email:</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="contact_person_email" class="form-control" value="{{ old('contact_person_email') }}" required />
-                                </div>
-                            </div>
-                            <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Contact Person Phone Number:</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="contact_person_phone_number" class="form-control" value="{{ old('contact_person_phone_number') }}" required />
-                                </div>
-                            </div>
+                            
                             <div class="form-group @error('state') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
@@ -69,6 +70,12 @@ Create Buyer | Agriarche
                                         <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group @error('waybill') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Picture:</label>
+                                <div class="col-md-6">
+                                    <input name='picture' type="file" multiple id="file-simple" class="form-control" />
                                 </div>
                             </div>
 

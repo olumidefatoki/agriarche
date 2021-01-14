@@ -21,17 +21,17 @@ Update Order | Agriarche
                         <h3 class="panel-title"><strong>Aggregator</strong></h3>
                     </div>
                     <div class="panel-body">
-                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('order.update',$buyerOrder)}}">
+                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('order.update',$processorOrder)}}">
                             @method('PATCH')
                             @csrf
                             @include('partials.error')
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Buyer:</label>
+                                <label class="col-md-3 control-label">Processor:</label>
                                 <div class="col-md-6">
-                                    <select name="buyer" class="form-control select">
-                                        @foreach ($buyers as $buyer)
-                                        <option @if($buyer->id == $buyerOrder->buyer_id) selected="selected" @endif value="{{ $buyer->id }}">
-                                            {{ $buyer->name }}
+                                    <select name="processor" class="form-control select">
+                                        @foreach ($processors as $processor)
+                                        <option @if($processor->id == $processorOrder->processor_id) selected="selected" @endif value="{{ $processor->id }}">
+                                            {{ $processor->name }}
                                         </option>
                                         @endforeach
                                     </select>
@@ -42,7 +42,7 @@ Update Order | Agriarche
                                 <div class="col-md-6">
                                     <select id="formGender" name="commodity" class="form-control select">
                                         @foreach ($commodities as $commodity)
-                                        <option @if($commodity->id == $buyerOrder->commodity_id) selected="selected" @endif value="{{ $commodity->id }}">
+                                        <option @if($commodity->id == $processorOrder->commodity_id) selected="selected" @endif value="{{ $commodity->id }}">
                                             {{ $commodity->name }}
                                         </option>
                                         @endforeach
@@ -54,7 +54,7 @@ Update Order | Agriarche
                                 <div class="col-md-6">
                                     <select id="formGender" name="state" class="form-control select">
                                         @foreach ($states as $state)
-                                        <option @if($state->id == $buyerOrder->state_id) selected="selected" @endif value="{{ $state->id }}">
+                                        <option @if($state->id == $processorOrder->state_id) selected="selected" @endif value="{{ $state->id }}">
                                             {{ $state->name }}
                                         </option>
                                         @endforeach
@@ -64,7 +64,7 @@ Update Order | Agriarche
                             <div class="form-group @error('delivery_location') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Delivery location:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="delivery_location" class="form-control" value="{{ $buyerOrder->delivery_location}}" />
+                                    <input type="text" name="delivery_location" class="form-control" value="{{ $processorOrder->delivery_location}}" />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error has-feedback @enderror">
@@ -72,16 +72,16 @@ Update Order | Agriarche
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">MT</span>
-                                        <input type="text" name="quantity" class="form-control" value="{{ $buyerOrder->quantity}}" />
+                                        <input type="text" name="quantity" class="form-control" value="{{ $processorOrder->quantity}}" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group @error('coupon_price') has-error has-feedback @enderror">
+                            <div class="form-group @error('price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Price:</label>
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">&#8358;</span>
-                                        <input type="text" name="coupon_price" class="form-control" value="{{ $buyerOrder->coupon_price}}" />
+                                        <input type="text" name="price" class="form-control" value="{{ $processorOrder->price}}" />
                                     </div>
 
                                 </div>
@@ -91,7 +91,7 @@ Update Order | Agriarche
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <input type="text" name="start_date" class="form-control datepicker" value="{{ $buyerOrder->start_date}}">
+                                        <input type="text" name="start_date" class="form-control datepicker" value="{{ $processorOrder->start_date}}">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@ Update Order | Agriarche
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <input type="text" name="end_date" class="form-control datepicker" value="{{ $buyerOrder->end_date}}">
+                                        <input type="text" name="end_date" class="form-control datepicker" value="{{ $processorOrder->end_date}}">
                                     </div>
                                 </div>
                             </div>

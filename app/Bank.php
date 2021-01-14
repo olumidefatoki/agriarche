@@ -8,9 +8,9 @@ class Bank extends Model
 {
     protected $table = 'bank';
 
-    public function buyer()
+    public function processor()
     {
-        return $this->hasMany('App\Buyer');
+        return $this->hasMany('App\Processor');
     }
     public function aggregator()
     {

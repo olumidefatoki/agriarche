@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Buyer index | Agriarche
+Farmer Influencer index | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="{{route('dashboard')}}">Home</a></li>
-<li><a href=active>Aggregator</a></li>
+<li><a href=active>Farmer Influencer</a></li>
 @endsection
 
 @section('content')
@@ -17,16 +17,16 @@ Buyer index | Agriarche
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Aggregator</h3>
+                    <h3 class="panel-title">Farmer Influencer</h3>
                     <ul class="panel-controls">
                         <a href="{{ route('aggregator.create') }}">
-                            <button class="m-0 btn  btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Add Aggregator" style="float:right;">Add Aggregator</button>
+                            <button class="m-0 btn  btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Add Farmer Influencer" style="float:right;">Add Farmer Influencer</button>
                         </a>
                     </ul>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Aggregator" /></div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Farmer Influencer" /></div>
                         <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Contact Name" /></div>
                         <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
 
@@ -41,8 +41,8 @@ Buyer index | Agriarche
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th nowrap>Aggregator Name</th>
-                                    <th nowrap>Aggregator Address</th>
+                                    <th nowrap>Farmer Influencer Name</th>
+                                    <th nowrap>Farmer Influencer Address</th>
                                     <th nowrap>Contact Person Name</th>
                                     <th nowrap>Contact Person Phone</th>
                                     <th nowrap>Contact Person Email</th>
@@ -61,7 +61,7 @@ Buyer index | Agriarche
                                 <tr>
                                     <td nowrap>{{$aggregator->name}} </td>
                                     <td nowrap>{{$aggregator->address}} </td>
-                                    <td nowrap>{{$aggregator->contact_person_first_name}} , {{$aggregator->contact_person_last_name }}</td>
+                                    <td nowrap>{{$aggregator->contact_person_name}} </td>
                                     <td nowrap>{{$aggregator->contact_person_phone_number}}</td>
                                     <td nowrap>{{$aggregator->contact_person_email}}</td>
                                     <td nowrap>{{$aggregator->state->name}}</td>

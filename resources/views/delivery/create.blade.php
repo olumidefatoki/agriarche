@@ -36,12 +36,11 @@ Create Delivery | Agriarche
                                     </select>
                                 </div>
                                 <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt=""/> Loading </div>
-
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Buyer:</label>
+                                <label class="col-md-3 control-label">Processor:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="buyer" class="form-control" id="buyer" disabled/>
+                                    <input type="text" name="processor" class="form-control" id="processor" disabled/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -73,24 +72,11 @@ Create Delivery | Agriarche
                                 <div class="col-md-6 ">
                                     <input type="text" name="truck_number" class="form-control" disabled />
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Truck Quantity</label>
-                                <div class="col-md-6 ">
-                                    <input type="text" name="truck_quantity" class="form-control" disabled />
-                                </div>
-                            </div>
-                            
+                            </div>                            
                             <div class="form-group @error('discounted_price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Discounted Price:</label>
                                 <div class="col-md-6 ">
                                     <input type="text" name="discounted_price" class="form-control" value="{{ old('discounted_price') }}" />
-                                </div>
-                            </div>
-                            <div class="form-group @error('number_of_bags_accepted') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Number Of Bags Accepted:</label>
-                                <div class="col-md-6 ">
-                                    <input type="text" name="number_of_bags_accepted" class="form-control" value="{{ old('number_of_bags_accepted') }}" />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity_of_bags_accepted') has-error @enderror">
@@ -103,12 +89,6 @@ Create Delivery | Agriarche
                                 <label class="col-md-3 control-label">Number Of Bags Rejected:</label>
                                 <div class="col-md-6">
                                     <input type="text" name="number_of_bags_rejected" class="form-control" value="{{ old('number_of_bags_rejected') }}" />
-                                </div>
-                            </div>
-                            <div class="form-group @error('quantity_of_bags_rejected') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Qty Of Bags Rejected(kg):</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="quantity_of_bags_rejected" class="form-control" value="{{ old('quantity_of_bags_rejected') }}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -170,7 +150,7 @@ Create Delivery | Agriarche
                             $('select[name="aggregator_id"]').empty();
                             console.log(data);
                             console.log(data.buyer);
-                            $('input[name="buyer"]').val(data.buyer);
+                            $('input[name="processor"]').val(data.processor);
                             $('input[name="commodity"]').val(data.commodity);
                             $('input[name="aggregator"]').val(data.aggregator);
                             $('input[name="truck_number"]').val(data.truck_number);

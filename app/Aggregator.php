@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Aggregator extends Model
 {
     protected $fillable = [
-        'name', 'address', 'contact_person_first_name', 'contact_person_last_name',
+        'name', 'address', 'contact_person_name', 'contact_person_last_name',
         'contact_person_email', 'contact_person_phone_number', 'state_id','bank_id', 
         'account_name', 'account_number','created_by','updated_by'
     ];

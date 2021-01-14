@@ -19,6 +19,7 @@ class StatusSeeder extends Seeder
         DB::table('status')->insert(['name' => 'Delivered']);
         DB::table('status')->insert(['name' => 'Pending']);
         DB::table('status')->insert(['name' => 'Approved']);
-
+        DB::table('status')->insert(['name' => 'Accepted']);
+        DB::table('status')->insert(['name' => 'Rejected']);
     }
 }

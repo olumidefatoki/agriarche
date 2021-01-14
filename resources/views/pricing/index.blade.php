@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-Mapping | Agriarche
+Farmer Influencer Pricing | Agriarche
 @endsection
 
 @section('breadcrumb')
 <li><a href="{{route('dashboard')}}">Home</a></li>
-<li><a href=active>Mapping</a></li>
+<li><a href=active>Farmer Influencer Pricing</a></li>
 @endsection
 
 @section('content')
@@ -17,10 +17,10 @@ Mapping | Agriarche
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Mapping</h3>
+                    <h3 class="panel-title">Farmer Influencer Pricing</h3>
                     <ul class="panel-controls">
-                        <a href="{{ route('mapping.create') }}">
-                            <button class="m-0 btn btn-success" style="float:right;">Add New Mapping </button>
+                        <a href="{{ route('pricing.create') }}">
+                            <button class="m-0 btn btn-success" style="float:right;">Add New Pricing </button>
                         </a>
                     </ul>
                 </div>
@@ -29,31 +29,29 @@ Mapping | Agriarche
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>Buyer Name</th>
+                                    <th>Processor</th>
                                     <th>Delivery State</th>
                                     <th>Commodity</th>
-                                    <th>Aggregator Name</th>
-                                    <th>Coupon Price</th>
-                                    <th>Strike Price(NGN)</th>
+                                    <th>Farmer Influencer</th>
+                                    <th>Price</th>
+                                    <th>Commission</th>
                                     <th>Creation Date</th>
-                                    <th>Last Updated Date</th>
                                     <th nowrap>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($orderMappings) > 0)
-                                @foreach($orderMappings as $orderMapping)
+                            @if(count($pricingList) > 0)
+                                @foreach($pricingList as $pricing)
                                 <tr>
-                                    <td>{{$orderMapping->buyerOrder->buyer->name }}</td>
-                                    <td>{{$orderMapping->buyerOrder->state->name }}</td>
-                                    <td>{{$orderMapping->buyerOrder->commodity->name }}</td>
-                                    <td>{{$orderMapping->aggregator->name}} </td>
-                                    <td>&#8358;{{$orderMapping->buyerOrder->coupon_price}}</td>
-                                    <td>&#8358;{{$orderMapping->strike_price}}</td>
-                                    <td>{{$orderMapping->created_at}}</td>
-                                    <td>{{$orderMapping->updated_at}}</td>
+                                    <td>{{$pricing->processorOrder->processor->name }}</td>
+                                    <td>{{$pricing->processorOrder->state->name }}</td>
+                                    <td>{{$pricing->processorOrder->commodity->name }}</td>
+                                    <td>{{$pricing->aggregator->name}} </td>
+                                    <td>&#8358;{{$pricing->price}}</td>
+                                    <td>&#8358;{{$pricing->commission}}</td>
+                                    <td>{{$pricing->created_at}}</td>
                                     <td nowrap>
-                                        <a href="{{ route('mapping.edit',$orderMapping) }}"
+                                        <a href="{{ route('pricing.edit',$pricing) }}"
                                         class="btn btn-sm btn-info" 
                                         data-toggle="tooltip" data-placement="top" title="Edit Order">
                                             <i class="fa fa-edit"></i>

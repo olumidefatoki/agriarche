@@ -23,7 +23,14 @@
                     <!-- END MESSAGES -->
                     <!-- TASKS -->
                     <li class="xn-icon-button pull-right">
-                        <a href="#"> {{ Auth::user()->name }}</a>                        
+                        <a href="#"> 
+                        @if(Auth::check())                        
+                            {{Auth::user()->name}}    
+                        
+                        @endif                    
+                              
+                       
+                             </a>                        
                     </li>
                     <!-- END TASKS -->
                 </ul>

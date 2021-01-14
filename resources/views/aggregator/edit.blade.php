@@ -17,7 +17,7 @@ Aggregator index | Agriarche
             <div class="block">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Aggregator</strong></h3>
+                        <h3 class="panel-title"><strong>Farmer Influencer</strong></h3>
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('aggregator.update',$aggregator)}}">                            

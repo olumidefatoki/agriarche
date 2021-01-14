@@ -15,7 +15,7 @@ class AggregatorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
 
     /**
@@ -55,8 +55,7 @@ class AggregatorController extends Controller
         try {
             Aggregator::create(array(
                 'name' => $request->name, 'address' => $request->address,
-                'contact_person_first_name' => $request->contact_person_first_name,
-                'contact_person_last_name' => $request->contact_person_last_name,
+                'contact_person_name' => $request->contact_person_name,
                 'state_id' => $request->state,
                 'bank_id' => $request->bank,
                 'account_name' => $request->account_name,
@@ -114,8 +113,7 @@ class AggregatorController extends Controller
         try {
             Aggregator::updateOrCreate(array('id' => $aggregator->id), array(
                 'name' => $request->name, 'address' => $request->address,
-                'contact_person_first_name' => $request->contact_person_first_name,
-                'contact_person_last_name' => $request->contact_person_last_name,
+                'contact_person_name' => $request->contact_person_name,
                 'state_id' => $request->state,
                 'bank_id' => $request->bank,
                 'account_name' => $request->account_name,
