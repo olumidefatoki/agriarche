@@ -25,6 +25,39 @@ Farmer Influencer Pricing | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select id="processor" name="processor" class="form-control select">
+                                <option selected disabled>Select a processor</option>
+                                @foreach ($processors as $processor)
+                                <option value="{{ $processor->id }}">{{strtoupper($processor->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="commodity" name="commodity" class="form-control select">
+                                <option selected disabled>Select a Commodity</option>
+                                @foreach ($commodities as $commodity)
+                                <option value="{{ $commodity->id }}">{{ strtoupper($commodity->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="aggregator" name="aggregator" class="form-control select">
+                                <option selected disabled>Select a Influencer</option>
+                                @foreach ($aggregators as $aggregator)
+                                <option value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
+                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
+                        </br>
+                    </div>
                     <div style="overflow-x:auto;">
                         <table class="table datatable">
                             <thead>
@@ -40,7 +73,7 @@ Farmer Influencer Pricing | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($pricingList) > 0)
+                                @if(count($pricingList) > 0)
                                 @foreach($pricingList as $pricing)
                                 <tr>
                                     <td>{{$pricing->processorOrder->processor->name }}</td>
@@ -51,10 +84,11 @@ Farmer Influencer Pricing | Agriarche
                                     <td>&#8358;{{$pricing->commission}}</td>
                                     <td>{{$pricing->created_at}}</td>
                                     <td nowrap>
-                                        <a href="{{ route('pricing.edit',$pricing) }}"
-                                        class="btn btn-sm btn-info" 
-                                        data-toggle="tooltip" data-placement="top" title="Edit Order">
+                                        <a href="{{ route('pricing.edit',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit pricing">
                                             <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('pricing.show',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open pricing">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
                                         </a>
                                     </td>
                                 </tr>

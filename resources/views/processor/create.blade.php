@@ -32,7 +32,7 @@ Create Processor | Agriarche
                                 </div>
                             </div>
                             <div class="form-group @error('address') has-error @enderror">
-                                <label class="col-md-3 control-label">Address:</label>
+                            <label class="col-md-3 control-label">Address:</label>
                                 <div class="col-md-6">
                                 <input type="text" name="address" class="form-control" value="{{ old('address') }}" required />
                                 </div>

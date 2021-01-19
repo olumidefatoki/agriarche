@@ -27,12 +27,12 @@ class CreateAggregatorRequest extends FormRequest
             'name' => 'required|max:255',
             'address' => 'required|max:255',
             'contact_person_name' => 'required|max:255',
-            'contact_person_email' => 'required|email|max:255',
+            'contact_person_email' => 'nullable|email|max:255',
             'contact_person_phone_number' => 'required|digits:11|unique:aggregator',
             'state' => 'required|max:255',
             'bank' => 'required|max:255',
             'account_name' => 'required|max:255',
-            'account_number' =>  'required|digits:11',
+            'account_number' => 'required|digits:11|unique:aggregator',
         ];
     }
 }

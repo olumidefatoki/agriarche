@@ -54,10 +54,11 @@ Aggregator index | Agriarche
                                     <input type="text" name="contact_person_phone_number" class="form-control" value="{{ old('contact_person_phone_number') }}" required autocomplete="contact_person_phone_number" autofocus/>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @error('state') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="state" class="form-control select">
+                                        <option selected disabled>Select a  State</option>
                                         @foreach ($states as $state)
                                         <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach

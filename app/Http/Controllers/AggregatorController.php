@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Aggregator;
-use App\State;
 use App\Bank;
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateAggregatorRequest;
+use App\Http\Requests\UpdateAggregatorRequest;
+use App\State;
 use Exception;
-use App\Http\Requests\{CreateAggregatorRequest, UpdateAggregatorRequest};
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AggregatorController extends Controller
 {
     public function __construct()
     {
-       // $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -26,7 +26,9 @@ class AggregatorController extends Controller
     public function index()
     {
         $aggregators = Aggregator::orderBy('created_at', 'desc')->paginate(20);
-        return view('aggregator.index', ['aggregators' => $aggregators]);
+        $states = State::all();
+
+        return view('aggregator.index', ['aggregators' => $aggregators, 'states' => $states]);
     }
 
     /**
@@ -38,6 +40,7 @@ class AggregatorController extends Controller
     {
         $states = State::all();
         $banks = Bank::all();
+
         return view('aggregator.create', [
             'states' => $states,
             'banks' => $banks,
@@ -47,28 +50,30 @@ class AggregatorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CreateAggregatorRequest $request)
     {
         try {
-            Aggregator::create(array(
+            Aggregator::create([
                 'name' => $request->name, 'address' => $request->address,
                 'contact_person_name' => $request->contact_person_name,
                 'state_id' => $request->state,
                 'bank_id' => $request->bank,
                 'account_name' => $request->account_name,
-                'account_number' =>  $request->account_number,
+                'account_number' => $request->account_number,
                 'contact_person_phone_number' => $request->contact_person_phone_number,
                 'contact_person_email' => $request->contact_person_email,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
-            ));
+            ]);
 
             return redirect(route('aggregator.index'));
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
+
             return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
         }
     }
@@ -76,7 +81,6 @@ class AggregatorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Aggregator  $aggregator
      * @return \Illuminate\Http\Response
      */
     public function show(Aggregator $aggregator)
@@ -87,45 +91,47 @@ class AggregatorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Aggregator  $aggregator
      * @return \Illuminate\Http\Response
      */
     public function edit(Aggregator $aggregator)
     {
         $states = State::all();
         $banks = Bank::all();
+
         return view('aggregator.edit', [
             'states' => $states,
             'banks' => $banks,
-            'aggregator' => $aggregator
+            'aggregator' => $aggregator,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Aggregator  $aggregator
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateAggregatorRequest $request, Aggregator $aggregator)
     {
         try {
-            Aggregator::updateOrCreate(array('id' => $aggregator->id), array(
+            Aggregator::updateOrCreate(['id' => $aggregator->id], [
                 'name' => $request->name, 'address' => $request->address,
                 'contact_person_name' => $request->contact_person_name,
                 'state_id' => $request->state,
                 'bank_id' => $request->bank,
                 'account_name' => $request->account_name,
-                'account_number' =>  $request->account_number,
+                'account_number' => $request->account_number,
                 'contact_person_phone_number' => $request->contact_person_phone_number,
                 'contact_person_email' => $request->contact_person_email,
                 'created_by' => $aggregator->created_by,
                 'updated_by' => Auth::id(),
-            ));
+            ]);
+
             return redirect(route('aggregator.index'));
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
+
             return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
         }
     }
@@ -133,11 +139,9 @@ class AggregatorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Aggregator  $aggregator
      * @return \Illuminate\Http\Response
      */
     public function destroy(Aggregator $aggregator)
     {
-        //
     }
 }

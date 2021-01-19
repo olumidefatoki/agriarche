@@ -25,10 +25,31 @@ Order | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Processor" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Commodity" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select id="processor" name="processor" class="form-control select">
+                                <option selected disabled>Select a processor</option>
+                                @foreach ($processors as $processor)
+                                <option value="{{ $processor->id }}">{{ $processor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="commodity" name="commodity" class="form-control select">
+                                <option selected disabled>Select a Commodity</option>
+                                @foreach ($commodities as $commodity)
+                                <option value="{{ $commodity->id }}">{{ $commodity->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="state" name="state" class="form-control select">
+                                <option selected disabled>Select a State</option>
+                                @foreach ($states as $state)
+                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
@@ -47,32 +68,36 @@ Order | Agriarche
                                     <th nowrap>Coupon Price </th>
                                     <th nowrap>Order Qty(MT)</th>
                                     <th nowrap>State</th>
-                                    <th nowrap>Delivery Location</th>                                   
+                                    <th nowrap>Delivery Location</th>
                                     <th nowrap>Start Date</th>
                                     <th nowrap>End Date</th>
                                     <th nowrap>Creation Date</th>
-                                    <th nowrap >Last Updated Date</th>
+                                    <th nowrap>Last Updated Date</th>
                                     <th nowrap>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($processorOrders) > 0)
+                                @if(count($processorOrders) > 0)
                                 @foreach($processorOrders as $processorOrder)
                                 <tr>
-                                    <td nowrap>{{$processorOrder->code}} </td>
-                                    <td nowrap>{{$processorOrder->processor->name}} </td>
-                                    <td nowrap>{{$processorOrder->commodity->name}}</td>
+                                    <td nowrap>{{ strtoupper($processorOrder->code)}} </td>
+                                    <td nowrap>{{strtoupper($processorOrder->processor->name)}} </td>
+                                    <td nowrap>{{strtoupper($processorOrder->commodity->name)}}</td>
                                     <td nowrap>&#8358;{{number_format($processorOrder->price)}}</td>
                                     <td nowrap>{{number_format($processorOrder->quantity,2)}}</td>
                                     <td nowrap>{{$processorOrder->state->name}}</td>
-                                    <td >{{$processorOrder->delivery_location}}</td>
+                                    <td>{{$processorOrder->delivery_location}}</td>
                                     <td nowrap>{{$processorOrder->start_date}}</td>
                                     <td nowrap>{{$processorOrder->end_date}}</td>
-                                    <td >{{$processorOrder->created_at}}</td>
-                                    <td >{{$processorOrder->updated_at}}</td>
-                                    <td nowrap><a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" 
-                                        data-toggle="tooltip" data-placement="top" title="Edit Order">
-                                            <i class="fa fa-edit"></i></a>
+                                    <td>{{$processorOrder->created_at}}</td>
+                                    <td>{{$processorOrder->updated_at}}</td>
+                                    <td nowrap>
+                                        <a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Order">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('order.show',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Order">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -90,11 +115,8 @@ Order | Agriarche
                 </div>
             </div>
             <!-- END DEFAULT DATATABLE -->
-
-
         </div>
     </div>
-
 </div>
 @endsection
 

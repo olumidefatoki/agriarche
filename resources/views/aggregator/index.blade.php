@@ -27,8 +27,14 @@ Farmer Influencer index | Agriarche
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Farmer Influencer" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Contact Name" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
+                        <div class="col-md-3">
+                            <select id="state" name="state" class="form-control select">
+                                <option selected disabled>Select a  State</option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->

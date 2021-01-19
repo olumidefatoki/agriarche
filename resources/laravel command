@@ -1,5 +1,5 @@
-php artisan make:controller FarmerController --resource --model=Farmer
-php artisan make:migration logistics_company_table --table=logistics_company
+php artisan make:controller ProcessorOrderHistoryController --resource --model=ProcessorOrderHistory
+php artisan make:migration pricing_history_table --table=PricingHistory
 php artisan migrate
 php artisan make:seeder PaymentTermSeeder
 php artisan db:seed --class=PaymentTermSeeder

@@ -24,11 +24,17 @@ Pickup | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Aggregator" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Contact Name" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="State" /></div>
-
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select id="aggregator" name="aggregator" class="form-control select">
+                                <option selected disabled>Select a Farmer Influ
+                                    encer</option>
+                                @foreach ($aggregators as $aggregator)
+                                <option value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Truck number" /></div>
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
                         <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
@@ -55,7 +61,7 @@ Pickup | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($Logistics) > 0)
+                                @if(count($Logistics) > 0)
                                 @foreach($Logistics as $logistics)
                                 <tr>
                                     <td>{{ $logistics->code}}</td>
@@ -70,8 +76,7 @@ Pickup | Agriarche
                                     <td>{{ $logistics->driver_phone_number}}</td>
                                     <td>{{$logistics->status->name}}</td>
                                     <td>
-                                        <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" 
-                                        data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fa fa-edit"></i>
                                     </td>
                                 </tr>

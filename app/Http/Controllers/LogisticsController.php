@@ -27,10 +27,11 @@ class LogisticsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $Logistics = Logistics::orderBy('created_at', 'desc')->paginate(20);
-        return view('logistics.index', ['Logistics' => $Logistics]);
+        $aggregators = Aggregator::all();
+        return view('logistics.index', ['Logistics' => $Logistics, 'aggregators' => $aggregators]);
     }
 
     /**
@@ -60,7 +61,7 @@ class LogisticsController extends Controller
     public function store(LogisticsRequest $request)
     {
         try {
-            $logistics  = $this->populateLogisitics($request);            
+            $logistics  = $this->populateLogisitics($request);
             $logistics->save();
             return redirect(route('logistics.index'));
         } catch (Exception $e) {
@@ -93,7 +94,7 @@ class LogisticsController extends Controller
         $aggregators = Aggregator::all();
         $logisticsCompanies = LogisticsCompany::all();
         $processorOrders = ProcessorOrder::all();
-        
+
         return view('logistics.edit', [
             'aggregators' => $aggregators,
             'logisticsCompanies' => $logisticsCompanies, 'logistics' => $logistics,
@@ -110,23 +111,23 @@ class LogisticsController extends Controller
      */
     public function update(LogisticsRequest $request,  $id)
     {
-        
-try{ $logistics = $this->getLogisticsById($id);
-    $logistics->driver_phone_number = $request->driver_phone_number;
-    $logistics->processor_order_id = $request->order;
-    $logistics->aggregator_id = $request->aggregator;
-    $logistics->logistics_company_id = $request->logistics_company;
-    $logistics->no_of_bags = $request->number_of_bags;
-    $logistics->truck_number = $request->truck_number;
-    $logistics->driver_name = $request->driver_name;
-    $logistics->updated_by = Auth::id();
-    $logistics->save();
-    return redirect(route('logistics.index'));}
-catch (Exception $e) {
-    Log::error($e->getMessage());
-    return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
-}
-       
+
+        try {
+            $logistics = $this->getLogisticsById($id);
+            $logistics->driver_phone_number = $request->driver_phone_number;
+            $logistics->processor_order_id = $request->order;
+            $logistics->aggregator_id = $request->aggregator;
+            $logistics->logistics_company_id = $request->logistics_company;
+            $logistics->no_of_bags = $request->number_of_bags;
+            $logistics->truck_number = $request->truck_number;
+            $logistics->driver_name = $request->driver_name;
+            $logistics->updated_by = Auth::id();
+            $logistics->save();
+            return redirect(route('logistics.index'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -158,7 +159,7 @@ catch (Exception $e) {
         $logistics->processor_order_id = $request->order;
         $logistics->aggregator_id = $request->aggregator;
         $logistics->logistics_company_id = $request->logistics_company;
-        $logistics->created_by= Auth::id();
+        $logistics->created_by = Auth::id();
         $logistics->updated_by = Auth::id();
         $codeGeneration = new CodeGeneration();
         $logistics->code = $codeGeneration->genCode(2);

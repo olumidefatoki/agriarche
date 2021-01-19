@@ -5,7 +5,7 @@ Infuencer Payment | Agriarche
 
 @section('breadcrumb')
 <li><a href="/">Home</a></li>
-<li class = "active"><a href="#">Infuencer Payment</a></li>
+<li class="active"><a href="#">Infuencer Payment</a></li>
 @endsection
 
 @section('content')
@@ -25,14 +25,8 @@ Infuencer Payment | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Processor" /></div>
+                    <div class="row">
                         <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Farmer Influencer" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Commodity" /></div>
-
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
                         <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
                         <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
                     </div>
@@ -41,17 +35,13 @@ Infuencer Payment | Agriarche
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                <th nowrap>Logistics Code</th>
                                     <th nowrap>Processor</th>
                                     <th nowrap>Aggregator</th>
-                                    <th nowrap>Delivery Point</th>
-                                    <th nowrap>Commodity</th>
                                     <th nowrap>Amount</th>
-                                    <th nowrap>Quantity Delivered(KG)</th>
-                                    <th nowrap>Action</th>
+                                    <th nowrap>Date</th>
                                 </tr>
                             </thead>
-                            <tbody>                             
+                            <tbody>
                                 <tr>
                                     <td colspan="9" style="text-align: center;">
                                         No Records Found
@@ -60,7 +50,7 @@ Infuencer Payment | Agriarche
                             </tbody>
                         </table>
                     </div>
-                   
+
                 </div>
             </div>
             <!-- END DEFAULT DATATABLE -->
