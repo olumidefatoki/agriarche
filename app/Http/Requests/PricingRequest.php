@@ -28,7 +28,6 @@ class PricingRequest extends FormRequest
             'price' => ['required', new AmountValidator()],
             'aggregator' => 'required|numeric',
             'order' => 'required|numeric',
-            'commission'=>['required', new AmountValidator()],
         ];
     }
 }

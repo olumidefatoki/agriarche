@@ -8,6 +8,7 @@ use App\Pricing;
 use App\ProcessorOrder;
 use App\Processor;
 use App\Commodity;
+use App\PricingHistory;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,20 +61,26 @@ class PricingController extends Controller
     public function store(PricingRequest $request)
     {
         try {
+
+            $processorPrice = $this->getProcesorOrderPrice($request->order);
+
             if ($this->isAggregatorOrderExist($request)) {
                 return redirect()->back()->withInput()->withErrors(['aggregator' => 'Farmer Influencer has already be mapped to this Order for this commodity.']);
             }
-            if (!$this->isPriceValid($request)) {
-                return redirect()->back()->withInput()->withErrors(['strike_price' => 'Strike price can not be greater than Order price.']);
+            if (!$this->isPriceValid($processorPrice, $request->price)) {
+                return redirect()->back()->withInput()->withErrors(['price' => 'Farmer Influencer price can not be greater than Order price.']);
             }
-            Pricing::create([
+            $commission = $processorPrice - $request->price;
+            $pricing = Pricing::create([
                 'processor_order_id' => $request->order,
                 'price' => $request->price,
                 'aggregator_id' => $request->aggregator,
-                'commission' => $request->commission,
+                'commission' => $commission,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
             ]);
+
+            $this->savePricingHistory($pricing, $request);
 
             return redirect(route('pricing.index'));
         } catch (Exception $ex) {
@@ -90,7 +97,11 @@ class PricingController extends Controller
      */
     public function show(Pricing $pricing)
     {
-        return view('pricing.show', ['pricing' => $pricing]);
+        $pricingHistories = PricingHistory::where('pricing_id', $pricing->id)->get();
+        return view('pricing.show', [
+            'pricing' => $pricing,
+            'pricingHistories' => $pricingHistories
+        ]);
     }
 
     /**
@@ -113,19 +124,22 @@ class PricingController extends Controller
     public function update(PricingRequest $request, Pricing $pricing)
     {
         try {
-            if (!$this->isPriceValid($request)) {
+            $processorPrice = $this->getProcesorOrderPrice($request->order);
+
+            if (!$this->isPriceValid($processorPrice, $request->price)) {
                 return redirect()->back()->withInput()->withErrors(['price' => 'Price can not be greater than Order price.']);
             }
-
-            pricing::updateOrCreate(
+            $commission = $processorPrice - $request->price;
+            $pricingResponse = pricing::updateOrCreate(
                 ['id' => $pricing->id],
                 [
                     'processor_order_id' => $request->order,
                     'price' => $request->price,
                     'aggregator_id' => $request->aggregator,
-                    'commission' => $request->commission,
+                    'commission' => $commission,
                 ]
             );
+            $this->savePricingHistory($pricingResponse, $request);
 
             return redirect(route('pricing.index'));
         } catch (Exception $ex) {
@@ -156,14 +170,14 @@ class PricingController extends Controller
         return false;
     }
 
-    public function isPriceValid(Request $request)
+    private function isPriceValid($influencerPricePrice, $processorPrice)
     {
-        $processorOrder = ProcessorOrder::find($request->order);
-        if ($request->strike_price > $processorOrder->price) {
-            return false;
-        }
-
-        return true;
+        return $influencerPricePrice > $processorPrice;
+    }
+    private function getProcesorOrderPrice($orderId)
+    {
+        $processorOrder = ProcessorOrder::find($orderId);
+        return $processorOrder->price;
     }
 
     public function getAggregatorByOrder($id)
@@ -171,5 +185,16 @@ class PricingController extends Controller
         $aggregators = DB::select('SELECT agg.id, agg.name FROM aggregator agg INNER JOIN pricing p ON agg.id = p.aggregator_id WHERE p.processor_order_id=?', [$id]);
 
         return json_encode($aggregators);
+    }
+    private function savePricingHistory(Pricing $pricing, Request $request)
+    {
+        PricingHistory::create([
+            'pricing_id' => $pricing->id,
+            'processor_order_id' => $request->order,
+            'price' => $request->price,
+            'aggregator_id' => $request->aggregator,
+            'commission' => $pricing->commission,
+            'updated_by' => Auth::id(),
+        ]);
     }
 }

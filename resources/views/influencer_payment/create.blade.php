@@ -38,30 +38,41 @@ Create Infuencer Payment | Agriarche
                                 <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt="" /> Loading </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-3 control-label">Commodity:</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" name="amount" class="form-control" id="amount" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Quanity:</label>
+                                <div class="col-md-6 ">
+                                    <input type="text" name="quantity" class="form-control" id="amount" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">Amount:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="amount" class="form-control" id="amount" />
+                                    <input type="text" name="amount" class="form-control" id="amount" disabled />
                                 </div>
                             </div>
 
 
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-success" type="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="btn-group pull-right">
-                        <button class="btn btn-success" type="submit">Submit</button>
-                    </div>
-                    </form>
                 </div>
+
             </div>
-
         </div>
+
     </div>
+    @endsection
 
-</div>
-@endsection
-
-@section('script')
-<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
-<script type="text/javascript" src="{{ URL::to('js/plugins/fileinput/fileinput.min.js')}}"></script>
+    @section('script')
+    <script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
+    <script type="text/javascript" src="{{ URL::to('js/plugins/fileinput/fileinput.min.js')}}"></script>
 
 
-@endsection
+    @endsection

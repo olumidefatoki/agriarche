@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +37,5 @@ Route::resource('/logistics', 'LogisticsController');
 Route::get('/logistics/order/{id}', 'LogisticsController@getLogisticsDetail');
 Route::resource('/farmer', 'FarmerController');
 Route::resource('/aggregatorPayment', 'AggregatorPaymentController');
+Route::get('/report', 'ReportController@getFarmerInfluencerPricingReport');
 Route::get('/home', 'HomeController@index')->name('home');
