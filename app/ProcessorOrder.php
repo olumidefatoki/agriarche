@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProcessorOrder extends Model
 {
-    protected $fillable = ['code','processor_id','quantity','price','commodity_id'
-                            ,'updated_by','state_id','start_date','end_date','delivery_location'];
+    protected $fillable = [
+        'code', 'processor_id', 'quantity', 'price', 'commodity_id', 'updated_by', 'state_id', 'start_date', 'end_date', 'delivery_location'
+    ];
     protected $table = 'processor_order';
     public function state()
     {
@@ -25,5 +26,8 @@ class ProcessorOrder extends Model
     {
         return $this->belongsTo('App\Status');
     }
-   
+    public function logistics()
+    {
+        return $this->hasMany('App\Logistics');
+    }
 }

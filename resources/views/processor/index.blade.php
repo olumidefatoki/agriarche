@@ -25,21 +25,20 @@ Processor | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                <div class="row">
-                    <form action="{{ route('processor.index') }}">
-                    @csrf      
-                        <div class="col-md-3"><input class="form-control input-sm" name="name" type="text" placeholder="Processor Name" value="@if(isset($data['name'])) {{ $data['name'] }} @endif" /></div>
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                    </form>
-                    
-
+                    <div class="row">
+                        <form action="{{ route('processor.index') }}">
+                            @csrf
+                            <div class="col-md-3"><input class="form-control input-sm" name="name" type="text" placeholder="Processor Name" value="@if(isset($data['name'])) {{ $data['name'] }} @endif" /></div>
+                            <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                            <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        </form>
                         <div class="col-md-2">
                             <a href="{{ route('processor.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> CLear Filter</button></div>
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> CLear Filter</button>
                             </a>
                         </div>
+                    </div>
                     <br />
                     <div style="overflow-x:auto;">
                         <table class="table table-striped table-hover">
@@ -56,19 +55,19 @@ Processor | Agriarche
                                 </tr>
                             </thead>
                             <tbody>
-                            @if(count($processors) > 0)
+                                @if(count($processors) > 0)
                                 @foreach($processors as $processor)
                                 <tr>
                                     <td nowrap>{{$processor->name}} </td>
                                     <td nowrap>{{$processor->address}} </td>
-                                    <td>{{$processor->contact_person_first_name}}  {{$processor->contact_person_last_name }}</td>
+                                    <td>{{$processor->contact_person_first_name}} {{$processor->contact_person_last_name }}</td>
                                     <td nowrap>{{$processor->contact_person_phone_number}}</td>
                                     <td nowrap>{{$processor->contact_person_email}}</td>
                                     <td nowrap>{{$processor->state->name}}</td>
                                     <td nowrap>
-                                        <a href="{{ route('processor.edit',$processor->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit"></i> </a> 
+                                        <a href="{{ route('processor.edit',$processor->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit"></i> </a>
                                         <a href="{{ route('processor.show',$processor) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="bottom" title="View"><i class="glyphicon glyphicon-eye-open"></i></a>
-                                    </td>                                   
+                                    </td>
                                 </tr>
                                 @endforeach
                                 @else

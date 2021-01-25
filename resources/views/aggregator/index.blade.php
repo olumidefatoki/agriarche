@@ -26,22 +26,28 @@ Farmer Influencer index | Agriarche
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Farmer Influencer" /></div>
-                        <div class="col-md-3">
-                            <select id="state" name="state" class="form-control select">
-                                <option selected disabled>Select a  State</option>
-                                @foreach ($states as $state)
-                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <form action="{{ route('aggregator.index') }}">
+                            @csrf
+                            <div class="col-md-3"><input class="form-control input-sm" name="name" type="text" placeholder="Farmer Influencer" value="@if(isset($data['name'])) {{ $data['name'] }} @endif" /></div>
+                            <div class="col-md-3">
+                                <select id="state" name="state" class="form-control select">
+                                    <option selected disabled>Select a State</option>
+                                    @foreach ($states as $state)
+                                    <?php $stateId = (isset($data['state']) ? $data['state'] : ""); ?>
+                                    <option @if($state->id == $stateId ) selected="selected" @endif value="{{ $state->id }}">{{ $state->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
+                            <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                            <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
+                            <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                            <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
+                        </form>
+
                     </div>
+
                     <br />
                     <div style="overflow-x:auto;">
                         <table class="table table-striped table-hover">
@@ -93,6 +99,9 @@ Farmer Influencer index | Agriarche
 
                             </tbody>
                         </table>
+                    </div>
+                    <div>
+                        {{$aggregators->appends($data)->links()}}
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ Route::resource('/pricing', 'PricingController');
 Route::resource('/logisticsCompany', 'LogisticsCompanyController');
 Route::resource('/order', 'ProcessorOrderController');
 Route::get('/pricing/aggregator/{id}', 'PricingController@getAggregatorByOrder');
-Route::resource('/logistics', 'LogisticsController');
+Route::resource('/pickup', 'LogisticsController')->names('logistics');
 Route::get('/logistics/order/{id}', 'LogisticsController@getLogisticsDetail');
 Route::resource('/farmer', 'FarmerController');
 Route::resource('/aggregatorPayment', 'AggregatorPaymentController');

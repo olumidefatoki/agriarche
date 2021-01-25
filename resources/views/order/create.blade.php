@@ -27,7 +27,8 @@ Create Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Processor:</label>
                                 <div class="col-md-6">
-                                    <select name="processor" class ="form-control select">
+                                    <select name="processor" class="form-control select">
+                                        <option selected disabled>Select a Processor</option>
                                         @foreach ($processors as $processor)
                                         <option value="{{ $processor->id }}">{{ $processor->name }}</option>
                                         @endforeach
@@ -37,7 +38,8 @@ Create Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Commodity:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="commodity" class ="form-control select">
+                                    <select id="formGender" name="commodity" class="form-control select">
+                                        <option selected disabled>Select a Commodity</option>
                                         @foreach ($commodities as $commodity)
                                         <option value="{{ $commodity->id }}">{{ $commodity->name }}</option>
                                         @endforeach
@@ -47,7 +49,8 @@ Create Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="state" class ="form-control select">
+                                    <select id="formGender" name="state" class="form-control select">
+                                        <option selected disabled>Select a State</option>
                                         @foreach ($states as $state)
                                         <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach
@@ -57,7 +60,7 @@ Create Order | Agriarche
                             <div class="form-group @error('delivery_location') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Delivery location:</label>
                                 <div class="col-md-6">
-                                <input type="text" name="delivery_location" class="form-control" value = "{{ old('delivery_location')}}" required/>
+                                    <input type="text" name="delivery_location" class="form-control" value="{{ old('delivery_location')}}" required />
                                 </div>
                             </div>
                             <div class="form-group @error('quantity') has-error has-feedback @enderror">
@@ -72,15 +75,15 @@ Create Order | Agriarche
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Payment Term:</label>
                                 <div class="col-md-6">
-                                    <select id="formGender" name="payment_term" class ="form-control select">
-                                    @foreach ($paymentTerms as $paymentTerm)
+                                    <select id="formGender" name="payment_term" class="form-control select">
+                                        @foreach ($paymentTerms as $paymentTerm)
                                         <option value="{{ $paymentTerm->id }}">{{ $paymentTerm->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group @error('price') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Price:</label>                                
+                                <label class="col-md-3 control-label">Price:</label>
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">&#8358;</span>
@@ -92,10 +95,11 @@ Create Order | Agriarche
                             <div class="form-group @error('start_date') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Start Date:</label>
                                 <div class="col-md-6">
-                                <div class="input-group">
+                                    <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                         <input type="text" name="start_date" class="form-control datepicker" value="{{ old('start_date')}}" required>
-                                    </div>                                </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group @error('end_date') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">End Date:</label>

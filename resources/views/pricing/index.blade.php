@@ -26,38 +26,44 @@ Farmer Influencer Pricing | Agriarche
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <select id="processor" name="processor" class="form-control select">
-                                <option selected disabled>Select a processor</option>
-                                @foreach ($processors as $processor)
-                                <option value="{{ $processor->id }}">{{strtoupper($processor->name) }}</option>
-                                @endforeach
-                            </select>
+                        <form action="{{ route('pricing.index') }}">
+                            @csrf
+                            <div class="col-md-3">
+                                <select id="processor" name="processor" class="form-control select">
+                                    <option selected disabled>Select a processor</option>
+                                    <?php $processorId = (isset($data['processor']) ? $data['processor'] : ""); ?>
+                                    @foreach ($processors as $processor)
+                                    <option @if($processor->id == $processorId ) selected="selected" @endif value="{{ $processor->id }}">{{strtoupper($processor->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="commodity" name="commodity" class="form-control select">
+                                    <?php $commodityId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
+                                    <option selected disabled>Select a Commodity</option>
+                                    @foreach ($commodities as $commodity)
+                                    <option @if($commodity->id == $commodityId ) selected="selected" @endif value="{{ $commodity->id }}">{{ strtoupper($commodity->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="aggregator" name="aggregator" class="form-control select">
+                                    <?php $aggregatorId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
+                                    <option selected disabled>Select an Influencer</option>
+                                    @foreach ($aggregators as $aggregator)
+                                    <option @if($aggregator->id == $aggregatorId ) selected="selected" @endif value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        </form>
+                        <div class="col-md-2">
+                            <a href="{{ route('pricing.index') }}">
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                            </a>
                         </div>
-                        <div class="col-md-3">
-                            <select id="commodity" name="commodity" class="form-control select">
-                                <option selected disabled>Select a Commodity</option>
-                                @foreach ($commodities as $commodity)
-                                <option value="{{ $commodity->id }}">{{ strtoupper($commodity->name) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select id="aggregator" name="aggregator" class="form-control select">
-                                <option selected disabled>Select a Influencer</option>
-                                @foreach ($aggregators as $aggregator)
-                                <option value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
-                        </br>
                     </div>
+                    <br />
                     <div style="overflow-x:auto;">
                         <table class="table datatable">
                             <thead>
@@ -102,6 +108,7 @@ Farmer Influencer Pricing | Agriarche
                             </tbody>
                         </table>
                     </div>
+                    {{$pricingList->appends($data)->links()}}
                 </div>
             </div>
             <!-- END DEFAULT DATATABLE -->

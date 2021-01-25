@@ -25,39 +25,51 @@ Pickup | Agriarche
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <select id="aggregator" name="aggregator" class="form-control select">
-                                <option selected disabled>Select a Farmer Influ
-                                    encer</option>
-                                @foreach ($aggregators as $aggregator)
-                                <option value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
-                                @endforeach
-                            </select>
+                        <form action="{{ route('logistics.index') }}">
+                            @csrf
+                            <div class="col-md-3">
+                                <select id="aggregator" name="aggregator" class="form-control select">
+                                    <option selected disabled>Select a Farmer Influencer</option>
+                                    <?php $aggregatorId = (isset($data['aggregator']) ? $data['aggregator'] : ""); ?>
+                                    @foreach ($aggregators as $aggregator)
+                                    <option @if($aggregator->id == $aggregatorId ) selected="selected" @endif value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2"><input class="form-control input-sm" name="truck_no" type="text" placeholder="Truck number" value="{{ (isset($data['truck_no']) ? $data['truck_no'] : '')}}" /></div>
+                            <div class="col-md-2">
+                                <select id="status" name="status" class="form-control select">
+                                    <option selected disabled>Select a Status</option>
+                                    <?php $statusId = (isset($data['status']) ? $data['status'] : ""); ?>
+                                    @foreach ($status as $stat)
+                                    <option @if($stat->id == $statusId ) selected="selected" @endif value="{{ $stat->id }}">{{ strtoupper($stat->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        </form>
+                        <div class="col-md-2">
+                            <a href="{{ route('logistics.index') }}">
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                            </a>
                         </div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Truck number" /></div>
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
                     </div>
+
                     <br />
                     <div style="overflow-x:auto;">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th nowrap>Code</th>
-                                    <th nowrap>Buyer</th>
+                                    <th nowrap>Farmer Influencer</th>
                                     <th nowrap>Delivery state</th>
                                     <th nowrap>Aggregator</th>
                                     <th>Commodity</th>
-                                    <th nowrap>No of Bags</th>
                                     <th nowrap>Logisitics Company</th>
                                     <th nowrap>Truck No</th>
-                                    <th nowrap>Driver Name</th>
-                                    <th nowrap>Driver Phone</th>
                                     <th nowrap>Status</th>
-                                    <th>Action</th>
+                                    <th>Creaton Date</th>
+                                    <th nowrap style="text-align:center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,15 +81,18 @@ Pickup | Agriarche
                                     <td>{{$logistics->processorOrder->state->name}} </td>
                                     <td>{{ $logistics->aggregator->name}}</td>
                                     <td>{{ $logistics->processorOrder->commodity->name}}</td>
-                                    <td>{{ number_format($logistics->no_of_bags)}}</td>
                                     <td>{{ $logistics->logisticsCompany->name}}</td>
                                     <td>{{ $logistics->truck_number}}</td>
-                                    <td>{{ $logistics->driver_name}}</td>
-                                    <td>{{ $logistics->driver_phone_number}}</td>
                                     <td>{{$logistics->status->name}}</td>
-                                    <td>
+                                    <td>{{$logistics->created_at}}</td>
+                                    <td nowrap>
                                         <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('logistics.show',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </a>
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -92,7 +107,7 @@ Pickup | Agriarche
                         </table>
                     </div>
                     <div>
-                        {{$Logistics->links()}}
+                        {{$Logistics->appends($data)->links()}}
                     </div>
                 </div>
             </div>

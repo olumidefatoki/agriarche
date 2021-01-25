@@ -25,13 +25,13 @@ class DeliveryRequest extends FormRequest
      */
     public function rules()
     {
-        return [            
+        return [
             'logistics' => 'required|numeric',
             'discounted_price' => ['required', new AmountValidator()],
             'truck_number' => 'required!max:255',
             'quantity_of_bags_accepted' => ['required', new DecimalValidator()],
             'number_of_bags_rejected' => 'required|numeric',
-            'waybill' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
+            //     'waybill' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
         ];
     }
 }

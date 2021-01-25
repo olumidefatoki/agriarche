@@ -29,18 +29,18 @@ Create Delivery | Agriarche
                                 <label class="col-md-3 control-label">Code</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="logistics">
-                                    <option> Select an Code</option>
+                                        <option selected disabled>Select a Code</option>
                                         @foreach ($logistics as $logistic)
                                         <option value="{{ $logistic->id }}">{{ $logistic->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt=""/> Loading </div>
+                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt="" /> Loading </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Processor:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="processor" class="form-control" id="processor" disabled/>
+                                    <input type="text" name="processor" class="form-control" id="processor" disabled />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -72,7 +72,7 @@ Create Delivery | Agriarche
                                 <div class="col-md-6 ">
                                     <input type="text" name="truck_number" class="form-control" disabled />
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="form-group @error('discounted_price') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Discounted Price:</label>
                                 <div class="col-md-6 ">
@@ -95,6 +95,7 @@ Create Delivery | Agriarche
                                 <label class="col-md-3 control-label">status</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="status">
+                                        <option selected disabled>Select a Status</option>
                                         @foreach ($status as $sta)
                                         <option value="{{ $sta->id }}">{{ $sta->name}}</option>
                                         @endforeach
@@ -139,11 +140,11 @@ Create Delivery | Agriarche
     <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="logistics"]').on('change', function() {
-                $("#loading").css("display","inline-block");
+                $("#loading").css("display", "inline-block");
                 var logisticsId = $(this).val();
                 if (logisticsId) {
                     $.ajax({
-                        url: '{{ url('/logistics/order/') }}' + '/' + logisticsId,
+                        url: "{{ url('/logistics/order/') }}" + '/' + logisticsId,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
@@ -157,11 +158,11 @@ Create Delivery | Agriarche
                             $('input[name="truck_quantity"]').val(data.truck_quantity);
                             $('input[name="delivery_state"]').val(data.state);
                             $('input[name="logistics_company"]').val(data.logistics_company);
-                            $("#loading").css("display","none");
+                            $("#loading").css("display", "none");
                         }
                     });
-                } 
-                
+                }
+
             });
         });
     </script>

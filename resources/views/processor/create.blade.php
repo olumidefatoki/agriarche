@@ -32,17 +32,17 @@ Create Processor | Agriarche
                                 </div>
                             </div>
                             <div class="form-group @error('address') has-error @enderror">
-                            <label class="col-md-3 control-label">Address:</label>
+                                <label class="col-md-3 control-label">Address:</label>
                                 <div class="col-md-6">
-                                <input type="text" name="address" class="form-control" value="{{ old('address') }}" required />
+                                    <input type="text" name="address" class="form-control" value="{{ old('address') }}" required />
                                 </div>
                             </div>
                             <div class="form-group @error('category') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Category:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="category" class="form-control select">
-                                       <option value="Industrial Processor">Industrial Processor</option>  
-                                       <option value="Coperate Buyer">Coperate Buyer</option>                                      
+                                        <option value="Industrial Processor">Industrial Processor</option>
+                                        <option value="Coperate Buyer">Coperate Buyer</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,6 +74,7 @@ Create Processor | Agriarche
                                 <label class="col-md-3 control-label">State:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="state" class="form-control select">
+                                        <option selected disabled>Select a State</option>
                                         @foreach ($states as $state)
                                         <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach

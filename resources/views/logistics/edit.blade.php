@@ -23,18 +23,18 @@ Update Pickup | Agriarche
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('logistics.update',$logistics)}}">
-                        @method('PATCH')   
-                        @csrf
+                            @method('PATCH')
+                            @csrf
                             @include('partials.error')
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="order" class="form-control select">
                                         @foreach ($processorOrders as $processorOrder)
-                                        <option  @if($processorOrder->id == $logistics->processor_order_id) selected="selected" @endif value="{{ $processorOrder->id }}">
-                                        {{$processorOrder->processor->name }} >> 
+                                        <option @if($processorOrder->id == $logistics->processor_order_id) selected="selected" @endif value="{{ $processorOrder->id }}">
+                                            {{$processorOrder->processor->name }} >>
                                             {{$processorOrder->state->name }} >>
-                                             {{$processorOrder->commodity->name }} 
+                                            {{$processorOrder->commodity->name }}
                                         </option>
                                         @endforeach
                                     </select>
@@ -45,9 +45,22 @@ Update Pickup | Agriarche
                                 <div class="col-md-6">
                                     <select id="formGender" name="aggregator" class="form-control select">
                                         @foreach ($aggregators as $aggregator)
-                                        <option @if($aggregator->id == $logistics->aggregator_id) selected="selected" @endif  value="{{ $aggregator->id }}">
+                                        <option @if($aggregator->id == $logistics->aggregator_id) selected="selected" @endif value="{{ $aggregator->id }}">
                                             {{ $aggregator->name }}
                                         </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Pickup State:</label>
+                                <div class="col-md-6">
+                                    <select id="formGender" name="state" class="form-control select">
+                                        @foreach ($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -57,7 +70,7 @@ Update Pickup | Agriarche
                                 <div class="col-md-6">
                                     <select id="formGender" name="logistics_company" class="form-control select">
                                         @foreach ($logisticsCompanies as $logisticsCompany)
-                                        <option @if($logisticsCompany->id == $logistics->logistics_company_id) selected="selected" @endif  value="{{ $logisticsCompany->id }}">
+                                        <option @if($logisticsCompany->id == $logistics->logistics_company_id) selected="selected" @endif value="{{ $logisticsCompany->id }}">
                                             {{ $logisticsCompany->name }}
                                         </option>
                                         @endforeach

@@ -10,12 +10,14 @@ use App\State;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
 
 class AggregatorController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -23,12 +25,24 @@ class AggregatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $aggregators = Aggregator::orderBy('created_at', 'desc')->paginate(20);
+        $data = $request->all();
+        // dd($data);
         $states = State::all();
-
-        return view('aggregator.index', ['aggregators' => $aggregators, 'states' => $states]);
+        if (($request->has('name') && !empty($request->name)) && ($request->has('state') && !empty($request->name)))
+            $aggregators = Aggregator::where('name', $request->name)->where('state_id', $request->state)->orderBy('created_at', 'desc')->paginate(20);
+        else if ($request->has('name') && !empty($request->name))
+            $aggregators = Aggregator::where('name', $request->name)->orderBy('created_at', 'desc')->paginate(20);
+        else if ($request->has('state') && !empty($request->state))
+            $aggregators = Aggregator::where('state_id', $request->state)->orderBy('created_at', 'desc')->paginate(20);
+        else
+            $aggregators = Aggregator::orderBy('created_at', 'desc')->paginate(20);
+        return view('aggregator.index', [
+            'aggregators' => $aggregators,
+            'states' => $states,
+            'data' => $data
+        ]);
     }
 
     /**

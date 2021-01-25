@@ -10,10 +10,8 @@ Order | Agriarche
 
 @section('content')
 <div class="page-content-wrap">
-
     <div class="row">
         <div class="col-md-12">
-
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -26,36 +24,42 @@ Order | Agriarche
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <select id="processor" name="processor" class="form-control select">
-                                <option selected disabled>Select a processor</option>
-                                @foreach ($processors as $processor)
-                                <option value="{{ $processor->id }}">{{ $processor->name }}</option>
-                                @endforeach
-                            </select>
+                        <form action="{{ route('order.index') }}">
+                            @csrf
+                            <div class="col-md-3">
+                                <select id="processor" name="processor" class="form-control select">
+                                    <?php $processorId = (isset($data['processor']) ? $data['processor'] : ""); ?>
+                                    <option selected disabled>Select a processor</option>
+                                    @foreach ($processors as $processor)
+                                    <option @if($processor->id == $processorId ) selected="selected" @endif value="{{ $processor->id }}">{{ $processor->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="commodity" name="commodity" class="form-control select">
+                                    <?php $commodityId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
+                                    <option selected disabled>Select a Commodity</option>
+                                    @foreach ($commodities as $commodity)
+                                    <option @if($commodity->id == $commodityId ) selected="selected" @endif value="{{ $commodity->id }}">{{ $commodity->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="state" name="state" class="form-control select">
+                                    <?php $stateId = (isset($data['state']) ? $data['state'] : ""); ?>
+                                    <option selected disabled>Select a State</option>
+                                    @foreach ($states as $state)
+                                    <option @if($state->id == $stateId ) selected="selected" @endif value="{{ $state->id }}">{{ $state->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        </form>
+                        <div class="col-md-2">
+                            <a href="{{ route('order.index') }}">
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                            </a>
                         </div>
-                        <div class="col-md-3">
-                            <select id="commodity" name="commodity" class="form-control select">
-                                <option selected disabled>Select a Commodity</option>
-                                @foreach ($commodities as $commodity)
-                                <option value="{{ $commodity->id }}">{{ $commodity->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select id="state" name="state" class="form-control select">
-                                <option selected disabled>Select a State</option>
-                                @foreach ($states as $state)
-                                <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
                     </div>
                     <br />
                     <div style="overflow-x:auto;">
@@ -69,10 +73,7 @@ Order | Agriarche
                                     <th nowrap>Order Qty(MT)</th>
                                     <th nowrap>State</th>
                                     <th nowrap>Delivery Location</th>
-                                    <th nowrap>Start Date</th>
-                                    <th nowrap>End Date</th>
                                     <th nowrap>Creation Date</th>
-                                    <th nowrap>Last Updated Date</th>
                                     <th nowrap>Action</th>
                                 </tr>
                             </thead>
@@ -87,10 +88,7 @@ Order | Agriarche
                                     <td nowrap>{{number_format($processorOrder->quantity,2)}}</td>
                                     <td nowrap>{{$processorOrder->state->name}}</td>
                                     <td>{{$processorOrder->delivery_location}}</td>
-                                    <td nowrap>{{$processorOrder->start_date}}</td>
-                                    <td nowrap>{{$processorOrder->end_date}}</td>
                                     <td>{{$processorOrder->created_at}}</td>
-                                    <td>{{$processorOrder->updated_at}}</td>
                                     <td nowrap>
                                         <a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Order">
                                             <i class="fa fa-edit"></i>
@@ -103,7 +101,7 @@ Order | Agriarche
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="10" style="text-align: center;">
+                                    <td colspan="9" style="text-align: center;">
                                         No Records Found
                                     </td>
                                 </tr>
@@ -111,6 +109,9 @@ Order | Agriarche
 
                             </tbody>
                         </table>
+                    </div>
+                    <div>
+                        {{$processorOrders->appends($data)->links()}}
                     </div>
                 </div>
             </div>

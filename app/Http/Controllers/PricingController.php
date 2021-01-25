@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Aggregator;
 use App\Http\Requests\PricingRequest;
 use App\Pricing;
-use App\ProcessorOrder;
 use App\Processor;
 use App\Commodity;
 use App\PricingHistory;
@@ -14,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\ProcessorOrder;
+
 
 class PricingController extends Controller
 {
@@ -22,19 +23,51 @@ class PricingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
         $processors = Processor::all();
         $commodities = Commodity::all();
         $aggregators = Aggregator::all();
-        $pricing = Pricing::orderBy('created_at', 'desc')->paginate(20);
+        $pricingQuery = Pricing::query();
+        $pricingQuery->orderBy('created_at', 'desc');
+        if (!is_null($request['processor'])) {
+            $processorId = $request['processor'];
+            $pricingQuery->whereIn(
+                'processor_order_id',
+                function ($pricingQuery) use ($processorId) {
+                    $pricingQuery->from('processor_order')
+                        ->selectRaw('id')
+                        ->where('processor_id', '=', $processorId);
+                }
+            );
+        }
+        if (!is_null($request['commodity'])) {
+            $commodityId = $request['commodity'];
+            $pricingQuery->whereIn(
+                'processor_order_id',
+                function ($pricingQuery) use ($commodityId) {
+                    $pricingQuery->from('processor_order')
+                        ->selectRaw('id')
+                        ->where('commodity_id', '=', $commodityId);
+                }
+            );
+        }
+        if (!is_null($request['aggregator'])) {
+            $pricingQuery->where('aggregator_id', '=', $request['aggregator']);
+        }
+        //DB::enableQueryLog();
+        $pricing = $pricingQuery->paginate(20);
+        // dd(DB::getQueryLog()); // Show results of log
+
         return view(
             'pricing.index',
             [
                 'pricingList' => $pricing,
                 'processors' => $processors,
                 'commodities' => $commodities,
-                'aggregators' => $aggregators
+                'aggregators' => $aggregators,
+                'data' => $data
             ]
         );
     }
@@ -46,7 +79,7 @@ class PricingController extends Controller
      */
     public function create()
     {
-        $orders = ProcessorOrder::all();
+        $orders = Pricing::all();
         $aggregators = Aggregator::all();
         return view('pricing.create', ['aggregators' => $aggregators, 'orders' => $orders]);
     }
@@ -176,8 +209,8 @@ class PricingController extends Controller
     }
     private function getProcesorOrderPrice($orderId)
     {
-        $processorOrder = ProcessorOrder::find($orderId);
-        return $processorOrder->price;
+        $Pricing = Pricing::find($orderId);
+        return $Pricing->price;
     }
 
     public function getAggregatorByOrder($id)

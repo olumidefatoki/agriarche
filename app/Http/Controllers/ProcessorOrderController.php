@@ -29,12 +29,24 @@ class ProcessorOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
         $states = State::all();
         $processors = Processor::all();
         $commodities = Commodity::all();
-        $processorOrders = ProcessorOrder::orderBy('created_at', 'desc')->paginate(20);
+        $processorOrdersQuery = ProcessorOrder::query();
+        $processorOrdersQuery->orderBy('created_at', 'desc');
+        if (!is_null($request['processor'])) {
+            $processorOrdersQuery->where('processor_id', '=', $request['processor']);
+        }
+        if (!is_null($request['commodity'])) {
+            $processorOrdersQuery->where('commodity_id', '=', $request['commodity']);
+        }
+        if (!is_null($request['state'])) {
+            $processorOrdersQuery->where('state_id', '=', $request['state']);
+        }
+        $processorOrders = $processorOrdersQuery->paginate(20);
 
         return view(
             'order.index',
@@ -43,6 +55,7 @@ class ProcessorOrderController extends Controller
                 'states' => $states,
                 'commodities' => $commodities,
                 'processors' => $processors,
+                'data' => $data
             ]
         );
     }

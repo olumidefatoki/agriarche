@@ -5,7 +5,7 @@ Delivery | Agriarche
 
 @section('breadcrumb')
 <li><a href="/">Home</a></li>
-<li class = "active"><a href="#">Delivery</a></li>
+<li class="active"><a href="#">Delivery</a></li>
 @endsection
 
 @section('content')
@@ -25,31 +25,58 @@ Delivery | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                <div class="row">
-                <div class="col-md-3"><input class="form-control input-sm" id="Name" type="text" placeholder="Processor" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Farmer Influencer" /></div>
-                        <div class="col-md-3"><input class="form-control input-sm" id="phone_number" type="text" placeholder="Commodity" /></div>
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-from-sch" type="text" placeholder="Start Date(yyyy-mm-dd)"  onclick="javascript:NewCssCal('date-from-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2 "><input class="form-control input-sm datepicker" id="date-to-sch" type="text" placeholder="End Date(yyyy-mm-dd)" onclick="javascript:NewCssCal('date-to-sch','yyyyMMdd','dropdown',true,'24',true)" /></div> -->
-                        <!-- <div class="col-md-2"><select id="reg_type" name="reg_type" class="form-control"><option value="">Select</option></select></div> -->
-                        <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
+                    <div class="row">
+                        <form action="{{ route('delivery.index') }}">
+                            @csrf
+                            <div class="col-md-2">
+                                <select id="processor" name="processor" class="form-control select">
+                                    <option selected disabled>Select a processor</option>
+                                    <?php $processorId = (isset($data['processor']) ? $data['processor'] : ""); ?>
+                                    @foreach ($processors as $processor)
+                                    <option @if($processor->id == $processorId ) selected="selected" @endif value="{{ $processor->id }}">{{strtoupper($processor->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="commodity" name="commodity" class="form-control select">
+                                    <?php $commodityId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
+                                    <option selected disabled>Select a Commodity</option>
+                                    @foreach ($commodities as $commodity)
+                                    <option @if($commodity->id == $commodityId ) selected="selected" @endif value="{{ $commodity->id }}">{{ strtoupper($commodity->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="aggregator" name="aggregator" class="form-control select">
+                                    <?php $aggregatorId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
+                                    <option selected disabled>Select an Influencer</option>
+                                    @foreach ($aggregators as $aggregator)
+                                    <option @if($aggregator->id == $aggregatorId ) selected="selected" @endif value="{{ $aggregator->id }}">{{ strtoupper($aggregator->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                        </form>
+                        <div class="col-md-2">
+                            <a href="{{ route('delivery.index') }}">
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                            </a>
+                        </div>
                     </div>
                     <br />
                     <div style="overflow-x:auto;">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                <th nowrap>Logistics Code</th>
+                                    <th nowrap>Logistics Code</th>
                                     <th nowrap>Processor</th>
                                     <th nowrap>Farmer Influencer</th>
                                     <th nowrap>Delivery Point</th>
                                     <th nowrap>Commodity</th>
-                                    <th nowrap>Total Amount</th>
                                     <th nowrap>Payable Amount</th>
                                     <th nowrap>Quantity Delivered(KG)</th>
                                     <th nowrap>Status</th>
-                                    <th  nowrap>Action</th>
+                                    <th nowrap>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,12 +88,11 @@ Delivery | Agriarche
                                     <td>{{$delivery->logistics->aggregator->name}}</td>
                                     <td>{{$delivery->logistics->processorOrder->state->name}}</td>
                                     <td>{{$delivery->logistics->processorOrder->commodity->name}}</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * $delivery->order_price,2)}}</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
+                                    <td nowrap>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
                                     <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
-                                    
+
                                     <td>{{$delivery->status->name}}</td>
-                                    <td   nowrap><a href="{{ route('delivery.edit',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Delivery">
+                                    <td nowrap><a href="{{ route('delivery.edit',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Delivery">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="{{ route('delivery.show',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Delivery">

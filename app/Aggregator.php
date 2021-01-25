@@ -8,8 +8,8 @@ class Aggregator extends Model
 {
     protected $fillable = [
         'name', 'address', 'contact_person_name', 'contact_person_last_name',
-        'contact_person_email', 'contact_person_phone_number', 'state_id','bank_id', 
-        'account_name', 'account_number','created_by','updated_by'
+        'contact_person_email', 'contact_person_phone_number', 'state_id', 'bank_id',
+        'account_name', 'account_number', 'created_by', 'updated_by'
     ];
     protected $table = 'aggregator';
 
@@ -28,5 +28,9 @@ class Aggregator extends Model
     public function aggregator()
     {
         return $this->hasMany('App\Aggregator');
+    }
+    public function logistics()
+    {
+        return $this->hasMany('App\Logistics');
     }
 }

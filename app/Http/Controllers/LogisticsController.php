@@ -9,6 +9,8 @@ use App\ProcessorOrder;
 use Illuminate\Http\Request;
 use App\Http\Requests\LogisticsRequest;
 use App\CodeGeneration;
+use App\State;
+use App\Status;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +31,30 @@ class LogisticsController extends Controller
      */
     public function index(Request $request)
     {
-        $Logistics = Logistics::orderBy('created_at', 'desc')->paginate(20);
+        $data = $request->all();
         $aggregators = Aggregator::all();
-        return view('logistics.index', ['Logistics' => $Logistics, 'aggregators' => $aggregators]);
+        $status = Status::find([3, 5]);
+        $logisticsQuery = Logistics::query();
+        $logisticsQuery->orderBy('created_at', 'desc');
+
+        if (!is_null($request['status'])) {
+            $logisticsQuery->where('status_id', '=', $request['status']);
+        }
+
+        if (!is_null($request['truck_no'])) {
+            $logisticsQuery->where('truck_number', '=', $request['truck_no']);
+        }
+        if (!is_null($request['aggregator'])) {
+            $logisticsQuery->where('aggregator_id', '=', $request['aggregator']);
+        }
+
+        $logistics = $logisticsQuery->paginate(20);
+        return view('logistics.index', [
+            'Logistics' => $logistics,
+            'aggregators' => $aggregators,
+            'status' => $status,
+            'data' => $data
+        ]);
     }
 
     /**
@@ -44,11 +67,12 @@ class LogisticsController extends Controller
         $aggregators = Aggregator::all();
         $logisticsCompanies = LogisticsCompany::all();
         $processorOrders = ProcessorOrder::all();
-
+        $states = State::all();
         return view('logistics.create', [
             'aggregators' => $aggregators,
             'logisticsCompanies' => $logisticsCompanies,
-            'processorOrders' => $processorOrders
+            'processorOrders' => $processorOrders,
+            'states' => $states
         ]);
     }
 
@@ -76,8 +100,9 @@ class LogisticsController extends Controller
      * @param  \App\Logistics  $logistics
      * @return \Illuminate\Http\Response
      */
-    public function show(Logistics $logistics)
+    public function show($id)
     {
+        $logistics = Logistics::FindOrFail($id);
         return view('logistics.show', ['logistics' => $logistics]);
     }
 

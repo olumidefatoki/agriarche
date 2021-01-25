@@ -28,6 +28,7 @@ Create Pricing | Agriarche
                                 <label class="col-md-3 control-label">Order:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="order" class="form-control select">
+                                        <option selected disabled>Select an Order</option>
                                         @foreach ($orders as $order)
                                         <option value="{{ $order->id }}">
                                             {{$order->processor->name }} >> {{$order->state->name }} >>
@@ -41,6 +42,7 @@ Create Pricing | Agriarche
                                 <label class="col-md-3 control-label">Farmer Influencer :</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="aggregator" class="form-control select">
+                                        <option selected disabled>Select a Farmer Influencer</option>
                                         @foreach ($aggregators as $aggregator)
                                         <option value="{{ $aggregator->id }}">
                                             {{ $aggregator->name }}
