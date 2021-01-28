@@ -32,4 +32,8 @@ class Logistics extends Model
     {
         return $this->belongsTo('App\LogisticsCompany');
     }
+    public function pickupState()
+    {
+        return $this->belongsTo('App\State');
+    }
 }

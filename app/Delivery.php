@@ -15,4 +15,8 @@ class Delivery extends Model
     {
         return $this->belongsTo('App\Status');
     }
+    public function approvalStatus()
+    {
+        return $this->belongsTo('App\Status');
+    }
 }

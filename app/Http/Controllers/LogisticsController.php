@@ -184,6 +184,8 @@ class LogisticsController extends Controller
         $logistics->processor_order_id = $request->order;
         $logistics->aggregator_id = $request->aggregator;
         $logistics->logistics_company_id = $request->logistics_company;
+        $logistics->pickup_state_id = $request->state;
+        $logistics->pickup_location = $request->location;
         $logistics->created_by = Auth::id();
         $logistics->updated_by = Auth::id();
         $codeGeneration = new CodeGeneration();

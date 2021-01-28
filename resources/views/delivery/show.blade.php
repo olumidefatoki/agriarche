@@ -46,15 +46,15 @@ Delivery details | Agriarche
                                 </tr>
                                 <tr>
                                     <td>Total Amount</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_accepted * $delivery->aggregator_price,2)}}</td>
+                                    <td>&#8358; {{number_format(($delivery->quantity_of_bags_accepted * $delivery->aggregator_price),2)}}</td>
                                 </tr>
                                 <tr>
                                     <td>Discounted Amount</td>
-                                    <td>&#8358; {{number_format(($delivery->discounted_price),2)}}</td>
+                                    <td>&#8358; {{number_format(( $delivery->quantity_of_bags_accepted* $delivery->discounted_price),2)}}</td>
                                 </tr>
                                 <tr>
                                     <td>Payable Amount</td>
-                                    <td>&#8358; {{number_format($delivery->quantity_of_bags_rejected * $delivery->strike_price,2)}}</td>
+                                    <td>&#8358; {{number_format(($delivery->quantity_of_bags_accepted * $delivery->aggregator_price) - ($delivery->discounted_price * $delivery->quantity_of_bags_accepted),2)}}</td>
                                 </tr>
                                 <tr>
                                     <td>Quantity Delivered(KG)</td>
@@ -69,16 +69,22 @@ Delivery details | Agriarche
                                     <td>{{$delivery->status->name}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Waybill</td>
-                                    <td><img src="data:image/jpeg;base64,{{$delivery->waybill}}" width="200"  /></td>
+                                    <td>Approval Status</td>
+                                    <td>{{$delivery->approvalStatus->name}}</td>
                                 </tr>
+                                <tr>
+                                    <td>Waybill</td>
+                                    <td><img src="data:image/jpeg;base64,{{$delivery->waybill}}" width="300" /></td>
+                                </tr>
+                                <input type="hidden" id="deliveryId" name="deliveryId" value="{{$delivery->id }}">
 
                             </tbody>
                         </table>
                         <form>
                             <div class="btn-group pull-right">
-                                <button class="btn btn-danger" style="margin:2px" type="submit">Decline</button>
-                                <button class="btn btn-success" style="margin:2px" type="submit">Approve</button>
+                                @if($delivery->status_id == 8 && $delivery->approval_status_id == 6)
+                                <button class="btn btn-success" style="margin:2px" type="submit" id="approve">Approve</button>
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -89,4 +95,24 @@ Delivery details | Agriarche
     </div>
 
 </div>
+@endsection
+@section('script')
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        $("#approve").click(function() {
+            document.getElementById("approve").disabled = true;
+            var deliveryId = $("#deliveryId").val();
+            $.ajax({
+                url: "{{ url('/delivery/approve/') }}" + '/' + deliveryId,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    $("#loading").css("display", "none");
+                }
+            });
+            document.getElementById("approve").disabled = false;
+        });
+    });
+</script>
 @endsection

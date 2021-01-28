@@ -35,7 +35,7 @@ Processor | Agriarche
                         </form>
                         <div class="col-md-2">
                             <a href="{{ route('processor.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> CLear Filter</button>
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
                             </a>
                         </div>
                     </div>

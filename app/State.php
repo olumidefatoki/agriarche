@@ -20,4 +20,8 @@ class State extends Model
     {
         return $this->hasMany('App\LogisticsCompany');
     }
+    public function logistics()
+    {
+        return $this->hasMany('App\Logistics');
+    }
 }

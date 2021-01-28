@@ -13,7 +13,6 @@ Farmer Influencer index | Agriarche
 
     <div class="row">
         <div class="col-md-12">
-
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -45,7 +44,11 @@ Farmer Influencer index | Agriarche
                             <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
                             <!--<div class="col-md-3"><button class="btn btn-default btn-sm form-control input-sm" id="download"><i class="fa fa-download"></i> Download Activated Cards</button></div> -->
                         </form>
-
+                        <div class="col-md-2">
+                            <a href="{{ route('aggregator.index') }}">
+                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> CLear Filter</button>
+                            </a>
+                        </div>
                     </div>
 
                     <br />

@@ -216,13 +216,11 @@ class DeliveryController extends Controller
         return $delivery;
     }
 
-    private function validateWaybillImage(Request $request)
+    public function approve($id)
     {
-        if ($request->status == 8) {
-            return;
-        }
-        $request->validate([
-            'waybill' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048',
-        ]);
+        $delivery = Delivery::find($id);
+        $delivery->approval_status_id = 7;
+        $delivery->save();
+        return json_encode(array('id' => $id));
     }
 }

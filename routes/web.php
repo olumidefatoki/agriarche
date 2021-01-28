@@ -28,6 +28,7 @@ Route::get('/dashboard', function () {
 
 Route::resource('/processor', 'ProcessorController');
 Route::resource('/farmer_influencer', 'AggregatorController')->names('aggregator');
+Route::get('/delivery/approve/{id}', 'DeliveryController@approve');
 Route::resource('/delivery', 'DeliveryController');
 Route::resource('/pricing', 'PricingController');
 Route::resource('/logisticsCompany', 'LogisticsCompanyController');

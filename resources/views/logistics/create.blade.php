@@ -85,15 +85,6 @@ Create Pickup | Agriarche
                                     <input type="text" name="number_of_bags" class="form-control" value="{{ old('number_of_bags') }}" required />
                                 </div>
                             </div>
-                            <div class="form-group @error('quantity') has-error @enderror">
-                                <label class="col-md-3 control-label">Qty:</label>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">KG</span>
-                                        <input type="text" name="quantity" class="form-control" value="{{ old('quantity')}}" />
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group @error('truck_number') has-error @enderror">
                                 <label class="col-md-3 control-label">Truck Number:</label>
                                 <div class="col-md-6">

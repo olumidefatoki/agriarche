@@ -24,9 +24,10 @@ Pickup | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <form action="{{ route('logistics.index') }}">
-                            @csrf
+
+                    <form action="{{ route('logistics.index') }}">
+                        @csrf
+                        <div class="row">
                             <div class="col-md-3">
                                 <select id="aggregator" name="aggregator" class="form-control select">
                                     <option selected disabled>Select a Farmer Influencer</option>
@@ -46,79 +47,89 @@ Pickup | Agriarche
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        </form>
-                        <div class="col-md-2">
-                            <a href="{{ route('logistics.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
-                            </a>
+                            <div class="col-md-2">
+                                <input type="text" name="start_date" class="form-control datepicker" placeholder="Start Date" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="end_date" class="form-control datepicker" placeholder="End Date" />
+                            </div>
                         </div>
-                    </div>
-
-                    <br />
-                    <div style="overflow-x:auto;">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th nowrap>Code</th>
-                                    <th nowrap>Farmer Influencer</th>
-                                    <th nowrap>Delivery state</th>
-                                    <th nowrap>Aggregator</th>
-                                    <th>Commodity</th>
-                                    <th nowrap>Logisitics Company</th>
-                                    <th nowrap>Truck No</th>
-                                    <th nowrap>Status</th>
-                                    <th>Creaton Date</th>
-                                    <th nowrap style="text-align:center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($Logistics) > 0)
-                                @foreach($Logistics as $logistics)
-                                <tr>
-                                    <td>{{ $logistics->code}}</td>
-                                    <td>{{$logistics->processorOrder->processor->name}} </td>
-                                    <td>{{$logistics->processorOrder->state->name}} </td>
-                                    <td>{{ $logistics->aggregator->name}}</td>
-                                    <td>{{ $logistics->processorOrder->commodity->name}}</td>
-                                    <td>{{ $logistics->logisticsCompany->name}}</td>
-                                    <td>{{ $logistics->truck_number}}</td>
-                                    <td>{{$logistics->status->name}}</td>
-                                    <td>{{$logistics->created_at}}</td>
-                                    <td nowrap>
-                                        <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('logistics.show',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td colspan="10" style="text-align: center;">
-                                        No Records Found
-                                    </td>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        {{$Logistics->appends($data)->links()}}
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                    </form>
+                    <div class="col-md-2">
+                        <a href="{{ route('logistics.index') }}">
+                            <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                        </a>
                     </div>
                 </div>
+                <br />
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th nowrap>Code</th>
+                                <th nowrap>Farmer Influencer</th>
+                                <th nowrap>Delivery state</th>
+                                <th nowrap>Aggregator</th>
+                                <th>Commodity</th>
+                                <th nowrap>Logisitics Company</th>
+                                <th nowrap>Truck No</th>
+                                <th nowrap>Status</th>
+                                <th>Creaton Date</th>
+                                <th nowrap style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($Logistics) > 0)
+                            @foreach($Logistics as $logistics)
+                            <tr>
+                                <td>{{ $logistics->code}}</td>
+                                <td>{{$logistics->processorOrder->processor->name}} </td>
+                                <td>{{$logistics->processorOrder->state->name}} </td>
+                                <td>{{ $logistics->aggregator->name}}</td>
+                                <td>{{ $logistics->processorOrder->commodity->name}}</td>
+                                <td>{{ $logistics->logisticsCompany->name}}</td>
+                                <td>{{ $logistics->truck_number}}</td>
+                                <td>{{$logistics->status->name}}</td>
+                                <td>{{$logistics->created_at}}</td>
+                                <td nowrap>
+                                    <a href="{{ route('logistics.edit',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('logistics.show',$logistics) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="10" style="text-align: center;">
+                                    No Records Found
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    {{$Logistics->appends($data)->links()}}
+                </div>
             </div>
-            <!-- END DEFAULT DATATABLE -->
-
-
         </div>
+        <!-- END DEFAULT DATATABLE -->
+
+
     </div>
+</div>
 
 </div>
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
 @endsection

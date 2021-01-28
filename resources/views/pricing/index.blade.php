@@ -25,9 +25,9 @@ Farmer Influencer Pricing | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <form action="{{ route('pricing.index') }}">
-                            @csrf
+                    <form action="{{ route('pricing.index') }}">
+                        @csrf
+                        <div class="row">
                             <div class="col-md-3">
                                 <select id="processor" name="processor" class="form-control select">
                                     <option selected disabled>Select a processor</option>
@@ -55,70 +55,81 @@ Farmer Influencer Pricing | Agriarche
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        </form>
-                        <div class="col-md-2">
-                            <a href="{{ route('pricing.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
-                            </a>
+                            <div class="col-md-2">
+                                <input type="text" name="start_date" class="form-control datepicker" placeholder="Start Date" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="end_date" class="form-control datepicker" placeholder="End Date" />
+                            </div>
                         </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                    </form>
+                    <div class="col-md-2">
+                        <a href="{{ route('pricing.index') }}">
+                            <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                        </a>
                     </div>
-                    <br />
-                    <div style="overflow-x:auto;">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Processor</th>
-                                    <th>Delivery State</th>
-                                    <th>Commodity</th>
-                                    <th>Farmer Influencer</th>
-                                    <th>Price</th>
-                                    <th>Commission</th>
-                                    <th>Creation Date</th>
-                                    <th nowrap>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($pricingList as $pricing)
-                                <tr>
-                                    <td>{{$pricing->processorOrder->processor->name }}</td>
-                                    <td>{{$pricing->processorOrder->state->name }}</td>
-                                    <td>{{$pricing->processorOrder->commodity->name }}</td>
-                                    <td>{{$pricing->aggregator->name}} </td>
-                                    <td>&#8358;{{$pricing->price}}</td>
-                                    <td>&#8358;{{$pricing->commission}}</td>
-                                    <td>{{$pricing->created_at}}</td>
-                                    <td nowrap>
-                                        <a href="{{ route('pricing.edit',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit pricing">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('pricing.show',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open pricing">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="10" style="text-align: center;">
-                                        No Records Found
-                                    </td>
-                                </tr>
-                                @endforelse
-
-                            </tbody>
-                        </table>
-                    </div>
-                    {{$pricingList->appends($data)->links()}}
                 </div>
+                <br />
+                <div style="overflow-x:auto;">
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>Processor</th>
+                                <th>Delivery State</th>
+                                <th>Commodity</th>
+                                <th>Farmer Influencer</th>
+                                <th>Price</th>
+                                <th>Commission</th>
+                                <th>Creation Date</th>
+                                <th nowrap>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($pricingList as $pricing)
+                            <tr>
+                                <td>{{$pricing->processorOrder->processor->name }}</td>
+                                <td>{{$pricing->processorOrder->state->name }}</td>
+                                <td>{{$pricing->processorOrder->commodity->name }}</td>
+                                <td>{{$pricing->aggregator->name}} </td>
+                                <td>&#8358;{{$pricing->price}}</td>
+                                <td>&#8358;{{$pricing->commission}}</td>
+                                <td>{{$pricing->created_at}}</td>
+                                <td nowrap>
+                                    <a href="{{ route('pricing.edit',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit pricing">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('pricing.show',$pricing) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open pricing">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="10" style="text-align: center;">
+                                    No Records Found
+                                </td>
+                            </tr>
+                            @endforelse
+
+                        </tbody>
+                    </table>
+                </div>
+                {{$pricingList->appends($data)->links()}}
             </div>
-            <!-- END DEFAULT DATATABLE -->
-
-
         </div>
+        <!-- END DEFAULT DATATABLE -->
+
+
     </div>
+</div>
 
 </div>
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
 @endsection

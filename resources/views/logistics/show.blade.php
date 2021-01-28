@@ -39,7 +39,11 @@ logistics details | Agriarche
                                 </tr>
                                 <tr>
                                     <td>Pickup State</td>
-                                    <td>{{$logistics->processorOrder->state->name}}</td>
+                                    <td>{{$logistics->pickupState->name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pickup Location</td>
+                                    <td>{{$logistics->pickup_location}}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery state</td>

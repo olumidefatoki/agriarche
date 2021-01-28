@@ -25,9 +25,9 @@ Delivery | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <form action="{{ route('delivery.index') }}">
-                            @csrf
+                    <form action="{{ route('delivery.index') }}">
+                        @csrf
+                        <div class="row">
                             <div class="col-md-2">
                                 <select id="processor" name="processor" class="form-control select">
                                     <option selected disabled>Select a processor</option>
@@ -46,6 +46,7 @@ Delivery | Agriarche
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="col-md-2">
                                 <select id="aggregator" name="aggregator" class="form-control select">
                                     <?php $aggregatorId = (isset($data['commodity']) ? $data['commodity'] : ""); ?>
@@ -55,75 +56,87 @@ Delivery | Agriarche
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        </form>
-                        <div class="col-md-2">
-                            <a href="{{ route('delivery.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
-                            </a>
+                            <div class="col-md-2">
+                                <input type="text" name="start_date" class="form-control datepicker" placeholder="Start Date" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="end_date" class="form-control datepicker" placeholder="End Date" />
+                            </div>
                         </div>
-                    </div>
-                    <br />
-                    <div style="overflow-x:auto;">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th nowrap>Logistics Code</th>
-                                    <th nowrap>Processor</th>
-                                    <th nowrap>Farmer Influencer</th>
-                                    <th nowrap>Delivery Point</th>
-                                    <th nowrap>Commodity</th>
-                                    <th nowrap>Payable Amount</th>
-                                    <th nowrap>Quantity Delivered(KG)</th>
-                                    <th nowrap>Status</th>
-                                    <th nowrap>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($deliveries) > 0)
-                                @foreach($deliveries as $delivery)
-                                <tr>
-                                    <td>{{$delivery->logistics->code}}</td>
-                                    <td>{{$delivery->logistics->processorOrder->processor->name}}</td>
-                                    <td>{{$delivery->logistics->aggregator->name}}</td>
-                                    <td>{{$delivery->logistics->processorOrder->state->name}}</td>
-                                    <td>{{$delivery->logistics->processorOrder->commodity->name}}</td>
-                                    <td nowrap>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
-                                    <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
+                        <br />
 
-                                    <td>{{$delivery->status->name}}</td>
-                                    <td nowrap><a href="{{ route('delivery.edit',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Delivery">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('delivery.show',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Delivery">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td colspan="9" style="text-align: center;">
-                                        No Records Found
-                                    </td>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        {{$deliveries->links()}}
+                        <div class="row">
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                    </form>
+                    <div class="col-md-2">
+                        <a href="{{ route('delivery.index') }}">
+                            <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                        </a>
                     </div>
                 </div>
+                <br />
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th nowrap>Logistics Code</th>
+                                <th nowrap>Processor</th>
+                                <th nowrap>Farmer Influencer</th>
+                                <th nowrap>Delivery Point</th>
+                                <th nowrap>Commodity</th>
+                                <th nowrap>Payable Amount</th>
+                                <th nowrap>Quantity Delivered(KG)</th>
+                                <th nowrap>Status</th>
+                                <th nowrap>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($deliveries) > 0)
+                            @foreach($deliveries as $delivery)
+                            <tr>
+                                <td>{{$delivery->logistics->code}}</td>
+                                <td>{{$delivery->logistics->processorOrder->processor->name}}</td>
+                                <td>{{$delivery->logistics->aggregator->name}}</td>
+                                <td>{{$delivery->logistics->processorOrder->state->name}}</td>
+                                <td>{{$delivery->logistics->processorOrder->commodity->name}}</td>
+                                <td nowrap>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
+                                <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
+
+                                <td>{{$delivery->status->name}}</td>
+                                <td nowrap><a href="{{ route('delivery.edit',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Delivery">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('delivery.show',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Delivery">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="9" style="text-align: center;">
+                                    No Records Found
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    {{$deliveries->links()}}
+                </div>
             </div>
-            <!-- END DEFAULT DATATABLE -->
-
-
         </div>
+        <!-- END DEFAULT DATATABLE -->
+
+
     </div>
+</div>
 
 </div>
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
 @endsection

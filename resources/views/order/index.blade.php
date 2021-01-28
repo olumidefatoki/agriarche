@@ -23,10 +23,10 @@ Order | Agriarche
                     </ul>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <form action="{{ route('order.index') }}">
-                            @csrf
-                            <div class="col-md-3">
+                    <form action="{{ route('order.index') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-2">
                                 <select id="processor" name="processor" class="form-control select">
                                     <?php $processorId = (isset($data['processor']) ? $data['processor'] : ""); ?>
                                     <option selected disabled>Select a processor</option>
@@ -53,73 +53,84 @@ Order | Agriarche
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
-                        </form>
-                        <div class="col-md-2">
-                            <a href="{{ route('order.index') }}">
-                                <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
-                            </a>
+                            <div class="col-md-2">
+                                <input type="text" name="start_date" class="form-control datepicker" placeholder="Start Date" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="end_date" class="form-control datepicker" placeholder="End Date" />
+                            </div>
                         </div>
-                    </div>
-                    <br />
-                    <div style="overflow-x:auto;">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th nowrap>Code</th>
-                                    <th nowrap>Processor</th>
-                                    <th nowrap>Commodity</th>
-                                    <th nowrap>Coupon Price </th>
-                                    <th nowrap>Order Qty(MT)</th>
-                                    <th nowrap>State</th>
-                                    <th nowrap>Delivery Location</th>
-                                    <th nowrap>Creation Date</th>
-                                    <th nowrap>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($processorOrders) > 0)
-                                @foreach($processorOrders as $processorOrder)
-                                <tr>
-                                    <td nowrap>{{ strtoupper($processorOrder->code)}} </td>
-                                    <td nowrap>{{strtoupper($processorOrder->processor->name)}} </td>
-                                    <td nowrap>{{strtoupper($processorOrder->commodity->name)}}</td>
-                                    <td nowrap>&#8358;{{number_format($processorOrder->price)}}</td>
-                                    <td nowrap>{{number_format($processorOrder->quantity,2)}}</td>
-                                    <td nowrap>{{$processorOrder->state->name}}</td>
-                                    <td>{{$processorOrder->delivery_location}}</td>
-                                    <td>{{$processorOrder->created_at}}</td>
-                                    <td nowrap>
-                                        <a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Order">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('order.show',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Order">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td colspan="9" style="text-align: center;">
-                                        No Records Found
-                                    </td>
-                                </tr>
-                                @endif
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        {{$processorOrders->appends($data)->links()}}
+                        <br />
+                        <div class="row">
+                            <div class="col-md-2"><button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Filter Search</button></div>
+                    </form>
+                    <div class="col-md-2">
+                        <a href="{{ route('order.index') }}">
+                            <button class="btn btn-sm btn-success" id="searchfilter"><i class="fa fa-filter"></i> Clear Filter</button>
+                        </a>
                     </div>
                 </div>
+                <br />
+                <div style="overflow-x:auto;">
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th nowrap>Code</th>
+                                <th nowrap>Processor</th>
+                                <th nowrap>Commodity</th>
+                                <th nowrap>Coupon Price </th>
+                                <th nowrap>Order Qty(MT)</th>
+                                <th nowrap>State</th>
+                                <th nowrap>Delivery Location</th>
+                                <th nowrap>Creation Date</th>
+                                <th nowrap>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($processorOrders) > 0)
+                            @foreach($processorOrders as $processorOrder)
+                            <tr>
+                                <td nowrap>{{ strtoupper($processorOrder->code)}} </td>
+                                <td nowrap>{{strtoupper($processorOrder->processor->name)}} </td>
+                                <td nowrap>{{strtoupper($processorOrder->commodity->name)}}</td>
+                                <td nowrap>&#8358;{{number_format($processorOrder->price)}}</td>
+                                <td nowrap>{{number_format($processorOrder->quantity,2)}}</td>
+                                <td nowrap>{{$processorOrder->state->name}}</td>
+                                <td>{{$processorOrder->delivery_location}}</td>
+                                <td>{{$processorOrder->created_at}}</td>
+                                <td nowrap>
+                                    <a href="{{ route('order.edit',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Order">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('order.show',$processorOrder) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Open Order">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="9" style="text-align: center;">
+                                    No Records Found
+                                </td>
+                            </tr>
+                            @endif
+
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    {{$processorOrders->appends($data)->links()}}
+                </div>
             </div>
-            <!-- END DEFAULT DATATABLE -->
         </div>
+        <!-- END DEFAULT DATATABLE -->
     </div>
+</div>
 </div>
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
 @endsection

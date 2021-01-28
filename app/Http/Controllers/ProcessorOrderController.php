@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\ProcessorOrderHistory;
+use Illuminate\Support\Facades\DB;
+
 
 use Exception;
 
@@ -46,8 +48,14 @@ class ProcessorOrderController extends Controller
         if (!is_null($request['state'])) {
             $processorOrdersQuery->where('state_id', '=', $request['state']);
         }
+        if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+            $startDate = $request['start_date'] . ' 00:00:00';
+            $endDate   = $request['end_date'] . ' 23:59:59';
+            $processorOrdersQuery->whereBetween('created_at', array($startDate, $endDate));
+        }
+        DB::enableQueryLog();
         $processorOrders = $processorOrdersQuery->paginate(20);
-
+        //dd(DB::getQueryLog()); // Show results of log
         return view(
             'order.index',
             [
