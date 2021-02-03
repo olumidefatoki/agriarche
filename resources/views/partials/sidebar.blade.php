@@ -34,8 +34,8 @@
             <a href="#"><span class="fa fa-shopping-cart"></span> <span class="xn-text">Payment</span></a>
             <ul>
                 <li><a href="{{ route('aggregatorPayment.index') }}"><span class="fa fa-shopping-cart"></span>Influencer Payment</a></li>
-                <li><a href="{{ route('aggregatorPayment.index') }}"><span class="fa fa-sitemap"></span>Buyer Payment</a></li>
-                <li><a href="{{ route('aggregatorPayment.index') }}"><span class="fa fa-sitemap"></span>Other Payment</a></li>
+                <!-- <li><a href="{{ route('aggregatorPayment.index') }}"><span class="fa fa-sitemap"></span>Buyer Payment</a></li>
+                <li><a href="{{ route('aggregatorPayment.index') }}"><span class="fa fa-sitemap"></span>Other Payment</a></li> -->
             </ul>
         </li>
         <li class="xn-openable">
@@ -50,9 +50,8 @@
         <li class="xn-openable">
             <a href="#"><span class="fa fa-bar-chart-o"></span><span class="xn-text">Settings</span></a>
             <ul>
-                <li><a href="#"><span class="fa fa-bar-chart-o"></span>Commodity</a></li>
-                <li><a href="{{ url('/report') }}"><span class="fa fa-bar-chart-o"></span>Users</a></li>
-                <li><a href="#"><span class="fa fa-bar-chart-o"></span>State</a></li>
+                <li><a href="{{ url('/commodity') }}"><span class="fa fa-bar-chart-o"></span>Commodity</a></li>
+                <li><a href="{{ url('/user') }}"><span class="fa fa-bar-chart-o"></span>Users</a></li>
             </ul>
         </li>
     </ul>

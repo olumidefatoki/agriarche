@@ -47,6 +47,11 @@ class LogisticsController extends Controller
         if (!is_null($request['aggregator'])) {
             $logisticsQuery->where('aggregator_id', '=', $request['aggregator']);
         }
+        if (!is_null($request['start_date']) && !is_null($request['end_date'])) {
+            $startDate = $request['start_date'] . ' 00:00:00';
+            $endDate   = $request['end_date'] . ' 23:59:59';
+            $logisticsQuery->whereBetween('created_at', array($startDate, $endDate));
+        }
 
         $logistics = $logisticsQuery->paginate(20);
         return view('logistics.index', [

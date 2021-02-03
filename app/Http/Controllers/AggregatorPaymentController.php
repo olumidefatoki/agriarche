@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\AggregatorPayment;
 use App\Delivery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class AggregatorPaymentController extends Controller
 {
@@ -25,8 +27,11 @@ class AggregatorPaymentController extends Controller
      */
     public function create()
     {
-        $deliveries = Delivery::all();
-        return view('influencer_payment.create',['deliveries'=>$deliveries]);
+        $deliveries =  DB::select('SELECT d.id, l.code, l.truck_number , ag.name from delivery d 
+                                    INNER JOIN logistics l on l.id = d.logistics_id 
+                                    INNER JOIN aggregator ag on ag.id = d.aggregator_id 
+                                    WHERE d.approval_status_id = 7');
+        return view('influencer_payment.create', ['deliveries' => $deliveries]);
     }
 
     /**

@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\commodity;
+use App\Http\Requests\CommodityRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+use Exception;
+
 
 class CommodityController extends Controller
 {
     public function __construct()
     {
-      //  $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -18,7 +23,8 @@ class CommodityController extends Controller
      */
     public function index()
     {
-        //
+        $commodities = Commodity::all();
+        return view('commodity.index', array('commodities' => $commodities));
     }
 
     /**
@@ -28,7 +34,7 @@ class CommodityController extends Controller
      */
     public function create()
     {
-        //
+        return view('commodity.create');
     }
 
     /**
@@ -37,9 +43,18 @@ class CommodityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommodityRequest $request)
     {
-        //
+        try {
+            $commodity = new Commodity();
+            $commodity->name = $request->name;
+            $commodity->save();
+            return redirect(route('commodity.index'));
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+
+            return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
+        }
     }
 
     /**
@@ -50,7 +65,7 @@ class CommodityController extends Controller
      */
     public function show(commodity $commodity)
     {
-        //
+        return view('commodity.update');
     }
 
     /**
@@ -61,7 +76,7 @@ class CommodityController extends Controller
      */
     public function edit(commodity $commodity)
     {
-        //
+        return view('commodity.edit', array('commodity' => $commodity));
     }
 
     /**
@@ -73,7 +88,7 @@ class CommodityController extends Controller
      */
     public function update(Request $request, commodity $commodity)
     {
-        //
+        return redirect(route('commodity.index'));
     }
 
     /**

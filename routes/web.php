@@ -18,14 +18,12 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 Auth::routes();
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/dashboardReport', 'DashboardController@getReport');
 Route::resource('/processor', 'ProcessorController');
 Route::resource('/farmer_influencer', 'AggregatorController')->names('aggregator');
 Route::get('/delivery/approve/{id}', 'DeliveryController@approve');
@@ -39,4 +37,6 @@ Route::get('/logistics/order/{id}', 'LogisticsController@getLogisticsDetail');
 Route::resource('/farmer', 'FarmerController');
 Route::resource('/aggregatorPayment', 'AggregatorPaymentController');
 Route::get('/report', 'ReportController@getFarmerInfluencerPricingReport');
+Route::resource('/commodity', 'CommodityController');
+Route::resource('/user', 'UserController');
 Route::get('/home', 'HomeController@index')->name('home');

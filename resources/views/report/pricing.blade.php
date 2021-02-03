@@ -25,12 +25,30 @@ Report | Agriarche
                             <thead>
                                 <tr>
                                     <th>S/N</th>
+                                    <th>Commodity</th>
                                     <th>Processor</th>
-                                    <th>Farmer Influencer</th>
-                                    <th>Farmer Influencer Price</th>
+                                    <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @if(count($pricingReports) > 0)
+                                <?php $sn = 0; ?>
+                                @foreach($pricingReports as $pricingReport)
+                                <tr>
+                                    <td><?php $sn++;
+                                        echo $sn ?></td>
+                                    <td nowrap>{{$pricingReport->commodity}} </td>
+                                    <td nowrap>{{$pricingReport->processor}} </td>
+                                    <td nowrap>&#8358;{{$pricingReport->price}} </td>
+                                </tr>
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">
+                                        No Records Found
+                                    </td>
+                                </tr>
+                                @endif
 
 
                             </tbody>

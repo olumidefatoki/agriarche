@@ -22,16 +22,20 @@ Create Infuencer Payment | Agriarche
 
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="post" action="{{ route('delivery.store')}}" enctype="multipart/form-data">
+                        <form class="form-horizontal" method="post" action="{{ route('aggregatorPayment.store')}}" enctype="multipart/form-data">
                             @csrf
                             @include('partials.error')
                             <div class="form-group @error('logistics') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Farmer Influencer</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="logistics">
-                                        <option> Select an Truck No</option>
+                                        <option> Select an Delivery </option>
                                         @foreach ($deliveries as $delivery)
-                                        <option value="{{ $delivery->id }}"> {{$delivery->logistics->truck_number}}</option>
+                                        <option value="{{ $delivery->id }}">
+                                            {{$delivery->name}} >>
+                                            {{$delivery->code}} >>
+                                            {{$delivery->truck_number}}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>

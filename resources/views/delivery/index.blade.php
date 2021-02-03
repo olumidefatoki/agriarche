@@ -85,8 +85,9 @@ Delivery | Agriarche
                                 <th nowrap>Delivery Point</th>
                                 <th nowrap>Commodity</th>
                                 <th nowrap>Payable Amount</th>
-                                <th nowrap>Quantity Delivered(KG)</th>
+                                <th nowrap>Quantity (KG)</th>
                                 <th nowrap>Status</th>
+                                <th nowrap>Creation Date</th>
                                 <th nowrap>Action</th>
                             </tr>
                         </thead>
@@ -101,8 +102,9 @@ Delivery | Agriarche
                                 <td>{{$delivery->logistics->processorOrder->commodity->name}}</td>
                                 <td nowrap>&#8358; {{number_format($delivery->quantity_of_bags_accepted * ($delivery->discounted_price),2)}}</td>
                                 <td>{{number_format($delivery->quantity_of_bags_accepted,2)}}</td>
-
                                 <td>{{$delivery->status->name}}</td>
+                                <td>{{$delivery->created_at}}</td>
+
                                 <td nowrap><a href="{{ route('delivery.edit',$delivery) }}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Edit Delivery">
                                         <i class="fa fa-edit"></i>
                                     </a>

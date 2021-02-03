@@ -149,8 +149,6 @@ Create Delivery | Agriarche
                         dataType: "json",
                         success: function(data) {
                             $('select[name="aggregator_id"]').empty();
-                            console.log(data);
-                            console.log(data.buyer);
                             $('input[name="processor"]').val(data.processor);
                             $('input[name="commodity"]').val(data.commodity);
                             $('input[name="aggregator"]').val(data.aggregator);

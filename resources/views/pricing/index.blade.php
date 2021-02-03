@@ -88,6 +88,7 @@ Farmer Influencer Pricing | Agriarche
                             </tr>
                         </thead>
                         <tbody>
+
                             @forelse($pricingList as $pricing)
                             <tr>
                                 <td>{{$pricing->processorOrder->processor->name }}</td>
