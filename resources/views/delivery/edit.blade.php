@@ -22,26 +22,26 @@ Update Delivery | Agriarche
 
                     </div>
                     <div class="panel-body">
-                        <form  class="form-horizontal" method="post" action="{{ route('delivery.update',$delivery)}}" enctype="multipart/form-data">
-                        @method('PATCH')      
-                        @csrf
+                        <form class="form-horizontal" method="post" action="{{ route('delivery.update',$delivery)}}" enctype="multipart/form-data">
+                            @method('PATCH')
+                            @csrf
                             @include('partials.error')
                             <div class="form-group @error('logistics') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Code</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="logistics">
-                                    <option> Select an Code</option>
+                                        <option> Select an Code</option>
                                         @foreach ($logistics as $logistic)
-                                        <option  @if($logistic->id ==$delivery->logistics_id) selected="selected" @endif value="{{ $logistic->id }}">{{ $logistic->code }}</option>
+                                        <option @if($logistic->id ==$delivery->logistics_id) selected="selected" @endif value="{{ $logistic->id }}">{{ $logistic->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt=""/> Loading </div>
+                                <div id="loading" style="display:none"> <img src="{{ URL::to('img/loaders/ajax-loader.gif') }}" alt="" /> Loading </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Buyer:</label>
                                 <div class="col-md-6 ">
-                                    <input type="text" name="buyer" class="form-control" id="buyer" disabled/>
+                                    <input type="text" name="buyer" class="form-control" id="buyer" disabled />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,7 +110,7 @@ Update Delivery | Agriarche
                                     <input type="text" name="quantity_of_bags_rejected" class="form-control" value="{{ $delivery->quantity_of_bags_rejected }}" />
                                 </div>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">status</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="status">
@@ -120,13 +120,23 @@ Update Delivery | Agriarche
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group @error('waybill') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Waybill:</label>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">status</label>
                                 <div class="col-md-6">
-                                <input name = 'waybill' type="file" multiple id="file-simple" class="form-control"/>
+                                    <select class="form-control select" name="status">
+                                        @foreach ($status as $sta)
+                                        <option value="{{ $sta->id }}">{{ $sta->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
+                            <div class="form-group @error('waybill') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Waybill:</label>
+                                <div class="col-md-6">
+                                    <input name='waybill' type="file" multiple id="file-simple" class="form-control" />
+                                </div>
+                            </div>
                             <div class="btn-group pull-right">
                                 <button class="btn btn-success" type="submit">Update</button>
                             </div>
@@ -139,29 +149,29 @@ Update Delivery | Agriarche
 
     </div>
     @endsection
-    
+
     @section('script')
     <script type="text/javascript" src="{{URL::to('js/plugins/bootstrap/bootstrap-select.js')}}"></script>
-    <script type="text/javascript" src="{{ URL::to('js/plugins/fileinput/fileinput.min.js')}}"></script>        
+    <script type="text/javascript" src="{{ URL::to('js/plugins/fileinput/fileinput.min.js')}}"></script>
 
     <script>
-            $(function(){
-                $("#file-simple").fileinput({
-                        showUpload: false,
-                        showCaption: false,
-                        browseClass: "btn btn-danger",
-                        fileType: "any"
-                });                
-            });            
-        </script>
-        <script type="text/javascript">
+        $(function() {
+            $("#file-simple").fileinput({
+                showUpload: false,
+                showCaption: false,
+                browseClass: "btn btn-danger",
+                fileType: "any"
+            });
+        });
+    </script>
+    <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="logistics"]').on('change', function() {
-                $("#loading").css("display","inline-block");
+                $("#loading").css("display", "inline-block");
                 var logisticsId = $(this).val();
                 if (logisticsId) {
                     $.ajax({
-                        url: '{{ url('/logistics/order/') }}' + '/' + logisticsId,
+                        url: '{{ url(' / logistics / order / ') }}' + '/' + logisticsId,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
@@ -175,11 +185,11 @@ Update Delivery | Agriarche
                             $('input[name="truck_quantity"]').val(data.truck_quantity);
                             $('input[name="delivery_state"]').val(data.state);
                             $('input[name="logistics_company"]').val(data.logistics_company);
-                            $("#loading").css("display","none");
+                            $("#loading").css("display", "none");
                         }
                     });
-                } 
-                
+                }
+
             });
         });
     </script>

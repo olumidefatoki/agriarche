@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function getFarmerInfluencerPricingReport()
     {
         $pricingReport = DB::select('SELECT c.name commodity, pro.name processor,p.price, count(p.id)  FROM pricing p 

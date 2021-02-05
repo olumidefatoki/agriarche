@@ -22,7 +22,7 @@ class DeliveryController extends Controller
 {
     public function __construct()
     {
-        //  $this->middleware('auth');
+          $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -72,9 +72,14 @@ class DeliveryController extends Controller
      */
     public function create()
     {
+        $processors = Processor::all();
         $logistics = Logistics::where('status_id', 3)->get();
         $status = Status::find([8, 9, 10, 11]);
-        return view('delivery.create', ['logistics' => $logistics, 'status' => $status]);
+        return view('delivery.create', [
+            'logistics' => $logistics,
+            'status' => $status,
+            'processors' => $processors
+        ]);
     }
 
     /**

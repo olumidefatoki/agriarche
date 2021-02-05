@@ -102,6 +102,25 @@ Create Delivery | Agriarche
                                     </select>
                                 </div>
                             </div>
+                            <div id="hidden" style="display">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">status</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select" name="logistics">
+                                            <option> Select an Code</option>
+                                            @foreach ($processors as $processor)
+                                            <option value="{{ $processor->id }}">{{ $processor->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Price</label>
+                                    <div class="col-md-6 ">
+                                        <input type="text" name="price" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group @error('waybill') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Waybill:</label>
@@ -162,6 +181,13 @@ Create Delivery | Agriarche
                 }
 
             });
+            $('select[name="status"]').on('change', function() {
+                var status = $(this).val();
+                if (status == 10) {
+                    $("#hidden").css("display", "block");
+                }
+            });
+
         });
     </script>
     @endsection

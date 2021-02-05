@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LogisticsCompany;
 use App\State;
-use App\Http\Requests\{CreateLogisiticsCompanyRequest,UpdateLogisiticsCompanyRequest};
+use App\Http\Requests\{CreateLogisiticsCompanyRequest, UpdateLogisiticsCompanyRequest};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -14,7 +14,7 @@ class LogisticsCompanyController extends Controller
 {
     public function __construct()
     {
-       // $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -99,20 +99,23 @@ class LogisticsCompanyController extends Controller
      */
     public function update(UpdateLogisiticsCompanyRequest $request, $id)
     {
-     
-        try{
+
+        try {
             $logisticsCompany = $this->getLogisticsById($id);
-            LogisticsCompany::updateOrCreate(array('id'=>$logisticsCompany->id),
-            array('name'=> $request->name,'address'=> $request->address,
-            'contact_person_name'=> $request->contact_person_name,
-            'contact_person_phone_number'=> $request->contact_person_phone_number,
-            'state_id'=> $request->state,'updated_by' => Auth::id(), 'created_by' => $logisticsCompany->created_by,));
+            LogisticsCompany::updateOrCreate(
+                array('id' => $logisticsCompany->id),
+                array(
+                    'name' => $request->name, 'address' => $request->address,
+                    'contact_person_name' => $request->contact_person_name,
+                    'contact_person_phone_number' => $request->contact_person_phone_number,
+                    'state_id' => $request->state, 'updated_by' => Auth::id(), 'created_by' => $logisticsCompany->created_by,
+                )
+            );
             return redirect(route('logisticsCompany.index'));
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             Log::error($ex->getMessage());
             return redirect()->back()->withInput()->withErrors('An error Occured.Try Again');
-        }        
+        }
     }
 
     /**

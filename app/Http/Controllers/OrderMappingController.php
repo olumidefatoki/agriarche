@@ -16,7 +16,7 @@ class OrderMappingController extends Controller
 {
     public function __construct()
     {
-      //  $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -59,7 +59,7 @@ class OrderMappingController extends Controller
                 'buyer_order_id' => $request->order,
                 'strike_price' => $request->strike_price,
                 'aggregator_id' => $request->aggregator,
-                'logistics_price'=>$request->logistics_price,
+                'logistics_price' => $request->logistics_price,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id()
             ));
@@ -104,7 +104,7 @@ class OrderMappingController extends Controller
     {
         try {
             $orderMapping = $this->getOrderMappingById($id);
-          
+
             if (!$this->isPriceValid($request))
                 return redirect()->back()->withInput()->withErrors(array('strike_price' => 'Strike price can not be greater than coupon price.'));
 
@@ -115,7 +115,7 @@ class OrderMappingController extends Controller
                     'buyer_order_id' => $request->order,
                     'strike_price' => $request->strike_price,
                     'aggregator_id' => $request->aggregator,
-                    'logistics_price'=>$request->logistics_price,
+                    'logistics_price' => $request->logistics_price,
                     'updated_by' => Auth::id()
                 )
             );
