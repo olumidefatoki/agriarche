@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\ProcessorOrder;
-
+use App\ProcessorOrderHistory;
 
 class PricingController extends Controller
 {
     public function __construct()
     {
-          $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -30,9 +30,9 @@ class PricingController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $processors = Processor::all();
-        $commodities = Commodity::all();
-        $aggregators = Aggregator::all();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
+        $commodities = Commodity::select('id', 'name')->orderBy('name', 'asc')->get();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
         $pricingQuery = Pricing::query();
         $pricingQuery->orderBy('created_at', 'desc');
         if (!is_null($request['processor'])) {
@@ -88,8 +88,8 @@ class PricingController extends Controller
      */
     public function create()
     {
-        $orders = Pricing::all();
-        $aggregators = Aggregator::all();
+        $orders = ProcessorOrder::all();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
         return view('pricing.create', ['aggregators' => $aggregators, 'orders' => $orders]);
     }
 
@@ -104,11 +104,11 @@ class PricingController extends Controller
     {
         try {
 
-            $processorPrice = $this->getProcesorOrderPrice($request->order);
-
             if ($this->isAggregatorOrderExist($request)) {
                 return redirect()->back()->withInput()->withErrors(['aggregator' => 'Farmer Influencer has already be mapped to this Order for this commodity.']);
             }
+            $processorPrice = $this->getProcesorOrderPrice($request->order);
+
             if (!$this->isPriceValid($processorPrice, $request->price)) {
                 return redirect()->back()->withInput()->withErrors(['price' => 'Farmer Influencer price can not be greater than Order price.']);
             }
@@ -218,8 +218,8 @@ class PricingController extends Controller
     }
     private function getProcesorOrderPrice($orderId)
     {
-        $Pricing = Pricing::find($orderId);
-        return $Pricing->price;
+        $pricing = ProcessorOrder::find($orderId);
+        return $pricing->price;
     }
 
     public function getAggregatorByOrder($id)

@@ -45,7 +45,7 @@ Aggregator index | Agriarche
                             <div class="form-group @error('contact_person_email') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Contact Person Email:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_email" class="form-control" value="{{ old('contact_person_email') }}" required autocomplete="contact_person_email" autofocus />
+                                    <input type="text" name="contact_person_email" class="form-control" value="{{ old('contact_person_email') }}" />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">
@@ -83,7 +83,7 @@ Aggregator index | Agriarche
                                     <input name='kyc_agreement' type="file" multiple id="file-simple" class="form-control" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group @error('bank') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Bank:</label>
                                 <div class="col-md-6">
                                     <select class="form-control select" name="bank" id="formGender">

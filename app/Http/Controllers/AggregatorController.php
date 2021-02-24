@@ -107,11 +107,11 @@ class AggregatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Aggregator $aggregator)
+    public function edit($id)
     {
         $states = State::all();
         $banks = Bank::all();
-
+        $aggregator = $this->findAggregatorById($id);
         return view('aggregator.edit', [
             'states' => $states,
             'banks' => $banks,
@@ -126,7 +126,7 @@ class AggregatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAggregatorRequest $request, Aggregator $aggregator)
+    public function update(Request $request, Aggregator $aggregator)
     {
         try {
             Aggregator::updateOrCreate(['id' => $aggregator->id], [
@@ -157,5 +157,10 @@ class AggregatorController extends Controller
      */
     public function destroy(Aggregator $aggregator)
     {
+    }
+
+    public function findAggregatorById($id)
+    {
+        return  Aggregator::findOrFail($id);
     }
 }

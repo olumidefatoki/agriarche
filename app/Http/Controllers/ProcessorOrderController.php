@@ -35,8 +35,8 @@ class ProcessorOrderController extends Controller
     {
         $data = $request->all();
         $states = State::all();
-        $processors = Processor::all();
-        $commodities = Commodity::all();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
+        $commodities = Commodity::select('id', 'name')->orderBy('name', 'asc')->get();
         $processorOrdersQuery = ProcessorOrder::query();
         $processorOrdersQuery->orderBy('created_at', 'desc');
         if (!is_null($request['processor'])) {
@@ -76,8 +76,8 @@ class ProcessorOrderController extends Controller
     public function create()
     {
         $states = State::all();
-        $processors = Processor::all();
-        $commodities = Commodity::all();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
+        $commodities = Commodity::select('id', 'name')->orderBy('name', 'asc')->get();
         $paymentTerms = PaymentTerm::all();
 
         return view('order.create', ['states' => $states, 'processors' => $processors, 'paymentTerms' => $paymentTerms, 'commodities' => $commodities]);
@@ -132,8 +132,8 @@ class ProcessorOrderController extends Controller
     {
         $processorOrder = $this->getProcessorOrderById($processorOrderId);
         $states = State::all();
-        $commodities = Commodity::all();
-        $processors = Processor::all();
+        $commodities = Commodity::select('id', 'name')->orderBy('name', 'asc')->get();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
 
         return view('order.edit', [
             'states' => $states,

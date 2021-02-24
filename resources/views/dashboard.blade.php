@@ -160,7 +160,48 @@ Agriarche Dashboard
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class='col-lg-12'>
+            <div class='panel panel-yellow'>
+                <div class='panel-heading'>
+                    <h3 class='panel-title'> Value of Commodity Delivered</h3>
+                </div>
+                <div class='panel-body'>
+                    <div class="col-md-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Yesterday</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class='huge' id='value-delivered-yesterday'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">This Week</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class='huge' id='value-delivered-this-week'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">This Month</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class='widget-int num-count' id='value-delivered-this-month'></div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- END WIDGETS -->
     <!-- START DASHBOARD CHART -->
     <div class="chart-holder" id="dashboard-area-1" style="height: 200px;"></div>
@@ -203,6 +244,9 @@ Agriarche Dashboard
                     $('#volume-delivered-yesterday').html(dat.delivered_volume_yesterday);
                     $('#volume-delivered-this-week').html(dat.delivered_volume_week);
                     $('#volume-delivered-this-month').html(dat.delivered_volume_month);
+                    $('#value-delivered-yesterday').html(dat.delivered_value_yesterday);
+                    $('#value-delivered-this-week').html(dat.delivered_value_week);
+                    $('#value-delivered-this-month').html(dat.delivered_value_month);
                 });
             }
         });

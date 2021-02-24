@@ -32,7 +32,7 @@ class LogisticsController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $aggregators = Aggregator::all();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
         $status = Status::find([3, 5]);
         $logisticsQuery = Logistics::query();
         $logisticsQuery->orderBy('created_at', 'desc');
@@ -69,7 +69,7 @@ class LogisticsController extends Controller
      */
     public function create()
     {
-        $aggregators = Aggregator::all();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
         $logisticsCompanies = LogisticsCompany::all();
         $processorOrders = ProcessorOrder::all();
         $states = State::all();
@@ -121,14 +121,15 @@ class LogisticsController extends Controller
     {
 
         $logistics = $this->getLogisticsById($id);
-        $aggregators = Aggregator::all();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
         $logisticsCompanies = LogisticsCompany::all();
         $processorOrders = ProcessorOrder::all();
-
+        $states = State::all();
         return view('logistics.edit', [
             'aggregators' => $aggregators,
             'logisticsCompanies' => $logisticsCompanies, 'logistics' => $logistics,
-            'processorOrders' => $processorOrders
+            'processorOrders' => $processorOrders,
+            'states' => $states
         ]);
     }
 

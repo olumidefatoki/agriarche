@@ -22,7 +22,7 @@ class DeliveryController extends Controller
 {
     public function __construct()
     {
-          $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -32,9 +32,9 @@ class DeliveryController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $processors = Processor::all();
-        $commodities = Commodity::all();
-        $aggregators = Aggregator::all();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
+        $commodities = Commodity::select('id', 'name')->orderBy('name', 'asc')->get();
+        $aggregators = Aggregator::select('id', 'name')->orderBy('name', 'asc')->get();
 
         $deliveryQuery = Delivery::query();
         $deliveryQuery->orderBy('created_at', 'desc');
@@ -72,7 +72,7 @@ class DeliveryController extends Controller
      */
     public function create()
     {
-        $processors = Processor::all();
+        $processors = Processor::select('id', 'name')->orderBy('name', 'asc')->get();
         $logistics = Logistics::where('status_id', 3)->get();
         $status = Status::find([8, 9, 10, 11]);
         return view('delivery.create', [

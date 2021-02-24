@@ -26,7 +26,7 @@ class DeliveryRequest extends FormRequest
     public function rules()
     {
         return [
-            'logistics' => 'required|numeric',
+            'logistics' => 'required|integer',
             'discounted_price' => ['required', new AmountValidator()],
             'truck_number' => 'required!max:255',
             'quantity_of_bags_accepted' => ['required', new DecimalValidator()],

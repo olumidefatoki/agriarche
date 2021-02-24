@@ -20,7 +20,7 @@ class ProcessorOrder extends Model
     }
     public function commodity()
     {
-        return $this->belongsTo('App\commodity');
+        return $this->belongsTo('App\Commodity');
     }
     public function status()
     {

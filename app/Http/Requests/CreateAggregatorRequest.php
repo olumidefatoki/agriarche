@@ -32,7 +32,7 @@ class CreateAggregatorRequest extends FormRequest
             'state' => 'required|max:255',
             'bank' => 'required|max:255',
             'account_name' => 'required|max:255',
-            'account_number' => 'required|digits:11|unique:aggregator',
+            'account_number' => 'required|digits:10|unique:aggregator',
         ];
     }
 }

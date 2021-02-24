@@ -19,7 +19,6 @@ Create Processor | Agriarche
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Processor</strong></h3>
-
                     </div>
                     <div class="panel-body">
                         <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('processor.update',$processor->id)}}">
@@ -42,8 +41,8 @@ Create Processor | Agriarche
                                 <label class="col-md-3 control-label">Category:</label>
                                 <div class="col-md-6">
                                     <select id="formGender" name="category" class="form-control select">
-                                       <option value="Industrial Processor">Industrial Processor</option>  
-                                       <option value="Coperate Buyer">Coperate Buyer</option>                                      
+                                        <option value="Industrial Processor">Industrial Processor</option>
+                                        <option value="Coperate Buyer">Coperate Buyer</option>
                                     </select>
                                 </div>
                             </div>
@@ -56,7 +55,7 @@ Create Processor | Agriarche
                             <div class="form-group @error('contact_person_last_name') has-error @enderror">
                                 <label class="col-md-3 control-label">Contact Person Last Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ $processor->contact_person_last_name }}"  />
+                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ $processor->contact_person_last_name }}" />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_email') has-error @enderror">

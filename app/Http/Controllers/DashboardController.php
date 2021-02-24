@@ -31,17 +31,22 @@ class DashboardController extends Controller
                                            WHERE status_id = 8 AND MONTH(created_at) = MONTH(NOW()) ) delivered_truck_month,
                                         (SELECT FORMAT(IFNULL(COUNT(id) , 0), 0) FROM delivery 
                                            WHERE status_id = 8 AND  DATE(created_at) = DATE_ADD(date(now()),INTERVAL -1 DAY)) delivered_truck_yesterday,  
-                                           (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted) , 0), 0) FROM delivery 
+                                        (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted) , 0), 0) FROM delivery 
                                             WHERE status_id = 8 AND WEEK(created_at) = WEEK(NOW()) ) delivered_volume_week, 
                                         (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted) , 0), 0) FROM delivery 
                                            WHERE status_id = 8 AND MONTH(created_at) = MONTH(NOW()) ) delivered_volume_month,
                                         (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted) , 0), 0) FROM delivery 
-                                           WHERE status_id = 8 AND  DATE(created_at) = DATE_ADD(date(now()),INTERVAL -1 DAY)) delivered_volume_yesterday                      
+                                           WHERE status_id = 8 AND  DATE(created_at) = DATE_ADD(date(now()),INTERVAL -1 DAY)) delivered_volume_yesterday,  
+                                        (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted * order_price) , 0), 0) FROM delivery 
+                                            WHERE status_id = 8 AND WEEK(created_at) = WEEK(NOW()) ) delivered_value_week, 
+                                        (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted * order_price) , 0), 0) FROM delivery 
+                                           WHERE status_id = 8 AND MONTH(created_at) = MONTH(NOW()) ) delivered_value_month,
+                                        (SELECT FORMAT(IFNULL(SUM(quantity_of_bags_accepted * order_price) , 0), 0) FROM delivery 
+                                           WHERE status_id = 8 AND  DATE(created_at) = DATE_ADD(date(now()),INTERVAL -1 DAY)) delivered_value_yesterday                       
                                     ');
 
         $dashboardReport = array('generic' => $genericReport);
         echo json_encode($dashboardReport);
-
 
         // (SELECT st.name, COUNT(st.id) num FROM logistics log 
         // inner join status st on st.id = log.status_id  
