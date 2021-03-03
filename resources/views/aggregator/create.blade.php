@@ -36,7 +36,7 @@ Aggregator index | Agriarche
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_name') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Contact Person First Name:</label>
+                                <label class="col-md-3 control-label">Contact Person Name:</label>
                                 <div class="col-md-6">
                                     <input type="text" name="contact_person_name" class="form-control" value="{{ old('contact_person_name') }}" required autocomplete="contact_person_first_name" autofocus />
                                 </div>

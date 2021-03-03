@@ -126,8 +126,15 @@ class AggregatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Aggregator $aggregator)
+    public function update(UpdateAggregatorRequest $request, $id)
     {
+        $aggregator = $this->findAggregatorById($id);
+        if ($this->isAccountNumberExist($aggregator->id, $request->account_number))
+            return redirect()->back()->withInput()->withErrors('Account Number already exist');
+
+        if ($this->isPhoneNumberExist($aggregator->id, $request->contact_person_phone_number))
+            return redirect()->back()->withInput()->withErrors('Phone Number already exist');
+
         try {
             Aggregator::updateOrCreate(['id' => $aggregator->id], [
                 'name' => $request->name, 'address' => $request->address,
@@ -162,5 +169,30 @@ class AggregatorController extends Controller
     public function findAggregatorById($id)
     {
         return  Aggregator::findOrFail($id);
+    }
+
+    public function isAccountNumberExist($id, $accountNumber)
+    {
+        $aggregator =  Aggregator::where('account_number', $accountNumber)->first();
+        if (!$aggregator) {
+            return false;
+        }
+        if ($aggregator->id == $id) {
+            return  false;
+        }
+
+        return true;
+    }
+    public function isPhoneNumberExist($id, $phoneNumber)
+    {
+        $aggregator =  Aggregator::where('contact_person_phone_number', $phoneNumber)->first();
+        if (!$aggregator) {
+            return false;
+        }
+        if ($aggregator->id == $id) {
+            return  false;
+        }
+
+        return true;
     }
 }

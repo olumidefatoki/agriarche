@@ -20,7 +20,7 @@ Aggregator index | Agriarche
                         <h3 class="panel-title"><strong>Farmer Influencer</strong></h3>
                     </div>
                     <div class="panel-body">
-                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('aggregator.edit',$aggregator)}}">
+                        <form id="validate" role="form" class="form-horizontal" method="post" action="{{ route('aggregator.update',$aggregator)}}">
                             @method('PATCH')
                             @csrf
                             @include('partials.error')
@@ -36,22 +36,17 @@ Aggregator index | Agriarche
                                     <input type="text" name="address" class="form-control" value="{{ $aggregator->address }}" required />
                                 </div>
                             </div>
-                            <div class="form-group @error('contact_person_first_name') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Contact Person First Name:</label>
+                            <div class="form-group @error('contact_person_name') has-error has-feedback @enderror">
+                                <label class="col-md-3 control-label">Contact Person Name:</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="contact_person_first_name" class="form-control" value="{{ $aggregator->contact_person_first_name }}" required />
+                                    <input type="text" name="contact_person_name" class="form-control" value="{{ $aggregator->contact_person_name }}" required />
                                 </div>
                             </div>
-                            <div class="form-group @error('contact_person_last_name') has-error has-feedback @enderror">
-                                <label class="col-md-3 control-label">Contact Person Last Name:</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="contact_person_last_name" class="form-control" value="{{ $aggregator->contact_person_last_name }}" />
-                                </div>
-                            </div>
+
                             <div class="form-group @error('contact_person_email') has-error has-feedback @enderror">
                                 <label class="col-md-3 control-label">Contact Person Email:</label>
                                 <div class="col-md-6">
-                                    <input type="email" name="contact_person_email" class="form-control" value="{{ $aggregator->contact_person_email }}" required />
+                                    <input type="email" name="contact_person_email" class="form-control" value="{{ $aggregator->contact_person_email }}" />
                                 </div>
                             </div>
                             <div class="form-group @error('contact_person_phone_number') has-error has-feedback @enderror">

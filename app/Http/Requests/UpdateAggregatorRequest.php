@@ -26,13 +26,13 @@ class UpdateAggregatorRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'address' => 'required|max:255',
-            'contact_person_first_name' => 'required|max:255',
-            'contact_person_email' => 'required|email|max:255',
+            'contact_person_name' => 'required|max:255',
+            'contact_person_email' => 'nullable|email|max:255',
             'contact_person_phone_number' => 'required|digits:11',
             'state' => 'required|numeric',
             'bank' => 'required|numeric',
             'account_name' => 'required|max:255',
-            'account_number' => 'required|digits:11',
+            'account_number' => 'required|digits:10',
         ];
     }
 }
